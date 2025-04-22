@@ -4,7 +4,7 @@ ctk.set_appearance_mode("dark")
 
 app = ctk.CTk()
 app.geometry("800x600")
-app.title("Reinicios")
+app.title("Eliminar")
 
 for i in range(3):
     app.grid_columnconfigure(i, weight=1)

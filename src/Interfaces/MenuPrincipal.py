@@ -36,19 +36,19 @@ boton_finanzas.grid(row=1, column=2, padx=20, pady=10)
 boton_consultas = ctk.CTkButton(app, text="Consultas", width=btn_width, height=btn_height, corner_radius=btn_radius)
 boton_consultas.grid(row=2, column=0, padx=20, pady=10)
 
-boton_esquemas = ctk.CTkButton(app, text="Esquemas", width=btn_width, height=btn_height, corner_radius=btn_radius)
-boton_esquemas.grid(row=2, column=2, padx=20, pady=10)
+boton_productos = ctk.CTkButton(app, text="Productos", width=btn_width, height=btn_height, corner_radius=btn_radius)
+boton_productos.grid(row=2, column=2, padx=20, pady=10)
 
-boton_reiniciar = ctk.CTkButton(
+boton_eliminar = ctk.CTkButton(
     app,
-    text="Reiniciar Listas",
+    text="Eliminar Elementos",
     width=btn_width,
     height=btn_height,
     corner_radius=btn_radius,
     fg_color="#FF4C4C",
     hover_color="#CC3C3C"
 )
-boton_reiniciar.grid(row=3, column=0, padx=20, pady=10)
+boton_eliminar.grid(row=3, column=0, padx=20, pady=10)
 
 boton_venta = ctk.CTkButton(
     app,
