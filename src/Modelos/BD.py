@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS Usuarios(
     Nombre TEXT NOT NULL,
     ApellidoPaterno TEXT NOT NULL,
     ApellidoMaterno TEXT
+    Correo TEXT NOT NULL
 );
 """)
 
