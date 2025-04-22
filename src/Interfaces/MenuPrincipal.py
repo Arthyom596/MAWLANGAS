@@ -28,8 +28,11 @@ boton_ventas.grid(row=1, column=2, padx=20, pady=15)
 boton_productos = crear_boton("🧾 Productos")
 boton_productos.grid(row=2, column=0, padx=20, pady=15)
 
+boton_modificar = crear_boton("✏️ Modificar")
+boton_modificar.grid(row=2, column=1, padx=20, pady=15)
+
 boton_consultas = crear_boton("🔍 Consultas")
-boton_consultas.grid(row=2, column=1, padx=20, pady=15)
+boton_consultas.grid(row=3, column=1, padx=20, pady=15)  # Botón debajo de 'Modificar'
 
 boton_eliminar = crear_boton("🗑️ Eliminar Elementos", color="#FF4C4C", hover="#CC3C3C")
 boton_eliminar.grid(row=2, column=2, padx=20, pady=15)
