@@ -12,14 +12,14 @@ CREATE TABLE IF NOT EXISTS Usuarios(
     Contrasena TEXT NOT NULL,
     Nombre TEXT NOT NULL,
     ApellidoPaterno TEXT NOT NULL,
-    ApellidoMaterno TEXT
+    ApellidoMaterno TEXT,
     Correo TEXT NOT NULL
 );
 """)
 
 # Tabla productos
 cursor.execute("""
-CREATE TABLE Productos (
+CREATE TABLE IF NOT EXISTS Productos (
     IDProducto INTEGER PRIMARY KEY AUTOINCREMENT,
     Nombre TEXT NOT NULL,
     PrecioCompra REAL NOT NULL,
