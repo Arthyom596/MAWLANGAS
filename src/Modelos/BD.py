@@ -18,10 +18,11 @@ CREATE TABLE IF NOT EXISTS Usuarios(
 
 # Tabla productos
 cursor.execute("""
-CREATE TABLE IF NOT EXISTS Productos (
+CREATE TABLE Productos (
     IDProducto INTEGER PRIMARY KEY AUTOINCREMENT,
     Nombre TEXT NOT NULL,
-    PrecioBase REAL NOT NULL
+    PrecioCompra REAL NOT NULL,
+    PrecioVenta REAL NOT NULL
 );
 """)
 
