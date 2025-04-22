@@ -36,17 +36,17 @@ def buscar_usuario_por_nombre(nombre_usuario):
     conexion.close()
     return usuario
 
-def actualizar_usuario(id_usuario, usuario, contrasena, nombre, apellido_p, apellido_m):
+def actualizar_usuario(id_usuario, usuario, contrasena, nombre, apellido_p, apellido_m,correo):
     conexion = conectar()
     cursor = conexion.cursor()
     cursor.execute("""
         UPDATE Usuarios
-        SET Usuario = ?, Contrasena = ?, Nombre = ?, ApellidoPaterno = ?, ApellidoMaterno = ?
+        SET Usuario = ?, Contrasena = ?, Nombre = ?, ApellidoPaterno = ?, ApellidoMaterno = ?, Correo = ?
         WHERE IDUsuario = ?
-    """, (usuario, contrasena, nombre, apellido_p, apellido_m, id_usuario))
+    """, (usuario, contrasena, nombre, apellido_p, apellido_m, id_usuario,correo))
     conexion.commit()
     conexion.close()
-    print("Usuario actualizado correctamente.")
+
 
 def eliminar_usuario(id_usuario):
     conexion = conectar()
@@ -54,4 +54,3 @@ def eliminar_usuario(id_usuario):
     cursor.execute("DELETE FROM Usuarios WHERE IDUsuario = ?", (id_usuario,))
     conexion.commit()
     conexion.close()
-    print("Usuario eliminado correctamente.")
