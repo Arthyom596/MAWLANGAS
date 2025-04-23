@@ -3,7 +3,9 @@ import sqlite3
 nombre_bd = "Mawlangas.db"
 
 def conectar():
-    return sqlite3.connect(nombre_bd)
+    conexion = sqlite3.connect(nombre_bd)
+    conexion.execute("PRAGMA foreign_keys = ON")
+    return conexion
 
 # Crear sabor
 def crear_sabor(id_producto, nombre_sabor):
