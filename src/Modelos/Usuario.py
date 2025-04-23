@@ -45,5 +45,3 @@ def eliminar_usuario(id_usuario):
     conexion.commit()
     conexion.close()
 
-# Prueba
-crear_usuario("Luis596", "contrasena123", "Luis", "Ramirez", "Sanchez", "Luiseduardo@gmail.com")
