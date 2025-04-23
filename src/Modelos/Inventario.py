@@ -4,7 +4,7 @@ nombre_bd = "Mawlangas.db"
 
 def conectar():
     conexion = sqlite3.connect(nombre_bd)
-    cursor = conexion.cursor()
+    conexion.execute("PRAGMA foreign_keys = ON")
     return conexion
 
 # Crear inventario
