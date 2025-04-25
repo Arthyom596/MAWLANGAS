@@ -59,4 +59,3 @@ def verificar_otp(destinatario, otp_ingresado):
         print("otp incorrecto")
         return False
 
-enviar_otp(destinatario="luiseduardo596596@gmail.com>")

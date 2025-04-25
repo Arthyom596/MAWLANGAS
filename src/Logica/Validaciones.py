@@ -98,20 +98,12 @@ def validar_nombre(nombre):
     return True, nombre
 
 
-# Validar correo electrónico
 def validar_correo(correo):
     if not correo or len(correo.strip()) == 0:
         return False, "El correo no puede estar vacío."
     try:
         validado = email_validator.validate_email(correo)
-        return True, validado.email
+        return True, validado.normalized
     except email_validator.EmailNotValidError as e:
         return False, str(e)
 
-
-# Ejemplo de uso
-if __name__ == "__main__":
-    print(validar_usuario("usuario123"))
-    print(validar_contraseña("clave123!"))
-    print(validar_nombre("Juan"))
-    print(validar_correo("ejemplo@dominio.com"))
