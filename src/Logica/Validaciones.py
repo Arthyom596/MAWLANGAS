@@ -93,7 +93,7 @@ def validar_nombre(nombre):
         return False, "El nombre no puede estar vacío."
     if len(nombre) > 50:
         return False, "El nombre no puede tener más de 50 caracteres."
-    if not re.fullmatch(r'^[A-Za-zÑñáéíóúÁÉÍÓÚ ]+$', nombre):
+    if not re.fullmatch(r'^[A-Za-zÑñ ]+$', nombre):
         return False, "El nombre solo puede contener letras y espacios."
     return True, nombre
 
