@@ -1,4 +1,6 @@
 import re
+import bcrypt
+import email_validator
 
 
 def validar_texto(texto):
@@ -13,7 +15,6 @@ def validar_texto(texto):
         return False
 
 
-import re
 
 def validar_numero(numero):
     numero = str(numero).strip()
@@ -36,3 +37,81 @@ def validar_numero(numero):
 
     return True, round(numero_convertido, 2)
 
+def validar_descripcion(texto):
+    texto = str(texto).strip()
+
+    if len(texto) == 0:
+        print("Error: Texto vacío")
+        return False, None
+    if len(texto) < 10:
+        print("Error: El texto debe tener al menos 10 caracteres")
+        return False, None
+    if len(texto) > 255:
+        print("Error: El texto no debe superar los 255 caracteres")
+        return False, None
+    return True, texto
+
+from datetime import datetime
+
+def obtener_fecha_exacta_actual():
+    ahora = datetime.now()
+    return ahora.strftime('%Y-%m-%d %H:%M')
+
+
+
+
+# Validar usuario
+def validar_usuario(usuario):
+    if not usuario or len(usuario.strip()) == 0:
+        return False, "El nombre de usuario no puede estar vacío."
+    if len(usuario) < 5 or len(usuario) > 50:
+        return False, "El nombre de usuario debe tener entre 5 y 50 caracteres."
+    if not re.fullmatch(r'^[A-Za-z0-9]+$', usuario):
+        return False, "El nombre de usuario solo puede contener letras y números, sin caracteres especiales."
+    return True, usuario
+
+
+# Validar contraseña
+def validar_contraseña(contraseña):
+    if not contraseña or len(contraseña.strip()) == 0:
+        return False, "La contraseña no puede estar vacía."
+    if len(contraseña) < 8 or len(contraseña) > 50:
+        return False, "La contraseña debe tener entre 8 y 50 caracteres."
+    if not re.search(r'[0-9]', contraseña):
+        return False, "La contraseña debe contener al menos un número."
+    if not re.search(r'[!@#$%^&*(),.?":{}|<>]', contraseña):
+        return False, "La contraseña debe contener al menos un carácter especial."
+
+    # Hashear la contraseña
+    contraseña_hash = bcrypt.hashpw(contraseña.encode(), bcrypt.gensalt())
+    return True, contraseña_hash
+
+
+# Validar nombre o apellidos
+def validar_nombre(nombre):
+    if not nombre or len(nombre.strip()) == 0:
+        return False, "El nombre no puede estar vacío."
+    if len(nombre) > 50:
+        return False, "El nombre no puede tener más de 50 caracteres."
+    if not re.fullmatch(r'^[A-Za-zÑñáéíóúÁÉÍÓÚ ]+$', nombre):
+        return False, "El nombre solo puede contener letras y espacios."
+    return True, nombre
+
+
+# Validar correo electrónico
+def validar_correo(correo):
+    if not correo or len(correo.strip()) == 0:
+        return False, "El correo no puede estar vacío."
+    try:
+        validado = email_validator.validate_email(correo)
+        return True, validado.email
+    except email_validator.EmailNotValidError as e:
+        return False, str(e)
+
+
+# Ejemplo de uso
+if __name__ == "__main__":
+    print(validar_usuario("usuario123"))
+    print(validar_contraseña("clave123!"))
+    print(validar_nombre("Juan"))
+    print(validar_correo("ejemplo@dominio.com"))
