@@ -60,12 +60,13 @@ def verificar_otp(destinatario, otp_ingresado):
         return False
 
 
-def manejar_otp(correo,otp_ingresado=None):
+def manejar_otp(correo, otp_ingresado=None):
+    print(f"Correo recibido: {correo}")  # Verifica el valor de correo
     if correo not in otp_almacen:
         enviar_otp(correo)
     else:
         if otp_ingresado:
-            if verificar_otp(correo,otp_ingresado):
+            if verificar_otp(correo, otp_ingresado):
                 print("Exito")
             else:
                 print("Error")

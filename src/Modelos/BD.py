@@ -8,7 +8,7 @@ cursor = conexion.cursor()
 
 # Tabla de usuarios
 cursor.execute("""
-CREATE TABLE Usuarios(
+CREATE TABLE IF NOT EXISTS Usuarios(
     IDUsuario INTEGER PRIMARY KEY AUTOINCREMENT,
     Usuario TEXT UNIQUE NOT NULL,
     Contrasena TEXT NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE Usuarios(
 
 # Tabla productos
 cursor.execute("""
-CREATE TABLE Productos (
+CREATE TABLE IF NOT EXISTS Productos (
     IDProducto INTEGER PRIMARY KEY AUTOINCREMENT,
     Nombre TEXT NOT NULL,
     PrecioCompra REAL NOT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE Productos (
 
 # Tabla Sabores
 cursor.execute("""
-CREATE TABLE Sabores (
+CREATE TABLE IF NOT EXISTS Sabores (
     IDSabor INTEGER PRIMARY KEY AUTOINCREMENT,
     IDProducto INTEGER NOT NULL,
     NombreSabor TEXT NOT NULL,
@@ -41,7 +41,7 @@ CREATE TABLE Sabores (
 
 # Tabla Inventario
 cursor.execute("""
-CREATE TABLE Inventario(
+CREATE TABLE IF NOT EXISTS Inventario(
     IDInventario INTEGER PRIMARY KEY AUTOINCREMENT,
     IDProducto INTEGER NOT NULL,
     IDSabor INTEGER NOT NULL,
@@ -54,7 +54,7 @@ CREATE TABLE Inventario(
 
 # Tabla Ventas
 cursor.execute("""
-CREATE TABLE Ventas(
+CREATE TABLE IF NOT EXISTS Ventas(
     IDVenta INTEGER PRIMARY KEY AUTOINCREMENT,
     Fecha TEXT NOT NULL,
     IDProducto INTEGER NOT NULL,
@@ -69,7 +69,7 @@ CREATE TABLE Ventas(
 
 # Tabla Finanzas
 cursor.execute("""
-CREATE TABLE Finanzas(
+CREATE TABLE IF NOT EXISTS Finanzas(
     IDFinanza INTEGER PRIMARY KEY AUTOINCREMENT,
     Fecha TEXT NOT NULL,
     Tipo TEXT NOT NULL,
@@ -81,4 +81,5 @@ CREATE TABLE Finanzas(
 # Guardar cambios y cerrar conexión
 conexion.commit()
 conexion.close()
+
 
