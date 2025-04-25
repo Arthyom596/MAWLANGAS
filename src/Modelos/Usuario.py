@@ -78,3 +78,4 @@ def eliminar_usuario(id_usuario):
         conexion.commit()
     finally:
         conexion.close()
+
