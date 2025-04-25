@@ -24,58 +24,50 @@ contenedor.grid(row=0, column=0, columnspan=3, rowspan=10, padx=100, pady=40, st
 # Configura el grid del contenedor
 for i in range(10):
     contenedor.grid_rowconfigure(i, weight=1)
-contenedor.grid_columnconfigure(0, weight=0)
-contenedor.grid_columnconfigure(1, weight=1)
-contenedor.grid_columnconfigure(2, weight=0)
+
+for i in range(3):
+    contenedor.grid_columnconfigure(i, weight=1)
+
 def registrar_usuario():
-    # Obtiene los datos ingresados por el usuario
-    usuario = entrada_usuario.get()
-    contrasena = entrada_contrasena.get()
-    nombre = entrada_nombre.get()
-    apellido_p = entrada_apellido_paterno.get()
-    apellido_m = entrada_apellido_materno.get()
-    correo = entrada_correo.get()
+    # Obtener entradas
+    datos = {
+        "usuario": entrada_usuario.get(),
+        "contrasena": entrada_contrasena.get(),
+        "nombre": entrada_nombre.get(),
+        "apellido_p": entrada_apellido_paterno.get(),
+        "apellido_m": entrada_apellido_materno.get(),
+        "correo": entrada_correo.get()
+    }
 
-    # Ejecuta validaciones individuales y guarda valores procesados
-    valido_usuario, valor_usuario = validar_usuario(usuario)
-    if not valido_usuario:
-        etiqueta_dinamica.configure(text=valor_usuario, text_color="red")
-        messagebox.showerror("Error", valor_usuario)
-        return
+    # Lista de validaciones (clave, función)
+    validaciones = [
+        ("usuario", validar_usuario),
+        ("contrasena", validar_contraseña),
+        ("nombre", validar_nombre),
+        ("apellido_p", validar_nombre),
+        ("apellido_m", validar_nombre),
+        ("correo", validar_correo)
+    ]
 
-    valido_contra, hash_contra = validar_contraseña(contrasena)
-    if not valido_contra:
-        etiqueta_dinamica.configure(text=hash_contra, text_color="red")
-        messagebox.showerror("Error", hash_contra)
-        return
+    resultados = {}
 
-    valido_nombre, valor_nombre = validar_nombre(nombre)
-    if not valido_nombre:
-        etiqueta_dinamica.configure(text=valor_nombre, text_color="red")
-        messagebox.showerror("Error", valor_nombre)
-        return
-
-    valido_apellido_p, valor_apellido_p = validar_nombre(apellido_p)
-    if not valido_apellido_p:
-        etiqueta_dinamica.configure(text=valor_apellido_p, text_color="red")
-        messagebox.showerror("Error", valor_apellido_p)
-        return
-
-    valido_apellido_m, valor_apellido_m = validar_nombre(apellido_m)
-    if not valido_apellido_m:
-        etiqueta_dinamica.configure(text=valor_apellido_m, text_color="red")
-        messagebox.showerror("Error", valor_apellido_m)
-        return
-
-    valido_correo, valor_correo = validar_correo(correo)
-    if not valido_correo:
-        etiqueta_dinamica.configure(text=valor_correo, text_color="red")
-        messagebox.showerror("Error", valor_correo)
-        return
+    for clave, funcion in validaciones:
+        valido, valor = funcion(datos[clave])
+        if not valido:
+            etiqueta_dinamica.configure(text=valor, text_color="red")
+            messagebox.showerror("Error", valor)
+            return
+        resultados[clave] = valor  # Guarda el valor procesado (ej: contraseña hasheada)
 
     try:
-        # Ahora usamos el hash de la contraseña correctamente
-        crear_usuario(valor_usuario, hash_contra, valor_nombre, valor_apellido_p, valor_apellido_m, valor_correo)
+        crear_usuario(
+            resultados["usuario"],
+            resultados["contrasena"],  # aquí ya es el hash
+            resultados["nombre"],
+            resultados["apellido_p"],
+            resultados["apellido_m"],
+            resultados["correo"]
+        )
 
         etiqueta_dinamica.configure(text="Registro exitoso ✅", text_color="green")
         messagebox.showinfo("Registro", "¡Usuario registrado correctamente!")
@@ -87,6 +79,7 @@ def registrar_usuario():
     except Exception as e:
         etiqueta_dinamica.configure(text=f"Error: {e}", text_color="red")
         messagebox.showerror("Error", f"Hubo un problema al registrar al usuario: {e}")
+
 
 # Agrega etiquetas y campos de entrada
 etiqueta_registro = ctk.CTkLabel(contenedor, text="REGISTRO", text_color="#1E1E1E", font=("Arial", 20, "bold"))
