@@ -4,138 +4,149 @@ from src.Logica.Validaciones import *
 from src.Logica.Otp import *
 from src.Modelos.Usuario import crear_usuario
 
-ctk.set_appearance_mode("dark")
 
-# Configura la ventana principal
-app = ctk.CTk()
-app.geometry("800x600")
-app.title("Registro")
+class Registro:
+    def __init__(self, master):
+        self.master = master
+        self.master.geometry("800x600")
+        self.master.title("Registro")
 
-# Define la estructura de columnas y filas
-for i in range(3):
-    app.grid_columnconfigure(i, weight=1)
-for i in range(11):
-    app.grid_rowconfigure(i, weight=1)
+        ctk.set_appearance_mode("dark")
 
-# Crea el contenedor principal
-contenedor = ctk.CTkFrame(app, fg_color="white", corner_radius=10)
-contenedor.grid(row=0, column=0, columnspan=3, rowspan=10, padx=100, pady=40, sticky="nsew")
+        # Configura la ventana principal
+        for i in range(3):
+            self.master.grid_columnconfigure(i, weight=1)
+        for i in range(11):
+            self.master.grid_rowconfigure(i, weight=1)
 
-# Configura el grid del contenedor
-for i in range(10):
-    contenedor.grid_rowconfigure(i, weight=1)
+        # Crea el contenedor principal
+        self.contenedor = ctk.CTkFrame(self.master, fg_color="white", corner_radius=10)
+        self.contenedor.grid(row=0, column=0, columnspan=3, rowspan=10, padx=100, pady=40, sticky="nsew")
 
-for i in range(3):
-    contenedor.grid_columnconfigure(i, weight=1)
+        # Configura el grid del contenedor
+        for i in range(10):
+            self.contenedor.grid_rowconfigure(i, weight=1)
+        for i in range(3):
+            self.contenedor.grid_columnconfigure(i, weight=1)
 
-def registrar_usuario():
-    # Obtener entradas
-    datos = {
-        "usuario": entrada_usuario.get(),
-        "contrasena": entrada_contrasena.get(),
-        "nombre": entrada_nombre.get(),
-        "apellido_p": entrada_apellido_paterno.get(),
-        "apellido_m": entrada_apellido_materno.get(),
-        "correo": entrada_correo.get()
-    }
+        # Elementos de la interfaz
+        self.etiqueta_registro = ctk.CTkLabel(self.contenedor, text="REGISTRO", text_color="#1E1E1E",
+                                              font=("Arial", 20, "bold"))
+        self.etiqueta_registro.grid(row=0, column=0, columnspan=3, pady=20, padx=20, sticky="nsew")
 
-    # Lista de validaciones (clave, función)
-    validaciones = [
-        ("usuario", validar_usuario),
-        ("contrasena", validar_contraseña),
-        ("nombre", validar_nombre),
-        ("apellido_p", validar_nombre),
-        ("apellido_m", validar_nombre),
-        ("correo", validar_correo)
-    ]
+        self.etiqueta_nombre = ctk.CTkLabel(self.contenedor, text="Nombre(s)", text_color="#1E1E1E", font=("Arial", 14))
+        self.etiqueta_nombre.grid(row=1, column=0, padx=20, pady=5, sticky="w")
+        self.entrada_nombre = ctk.CTkEntry(self.contenedor, border_width=1, corner_radius=10)
+        self.entrada_nombre.grid(row=1, column=1, padx=20, pady=5, sticky="ew")
 
-    resultados = {}
+        self.etiqueta_apellido_paterno = ctk.CTkLabel(self.contenedor, text="Apellido Paterno", text_color="#1E1E1E",
+                                                      font=("Arial", 14))
+        self.etiqueta_apellido_paterno.grid(row=2, column=0, padx=20, pady=5, sticky="w")
+        self.entrada_apellido_paterno = ctk.CTkEntry(self.contenedor, border_width=1, corner_radius=10)
+        self.entrada_apellido_paterno.grid(row=2, column=1, padx=20, pady=5, sticky="ew")
 
-    for clave, funcion in validaciones:
-        valido, valor = funcion(datos[clave])
-        if not valido:
-            etiqueta_dinamica.configure(text=valor, text_color="red")
-            messagebox.showerror("Error", valor)
-            return
-        resultados[clave] = valor  # Guarda el valor procesado (ej: contraseña hasheada)
+        self.etiqueta_apellido_materno = ctk.CTkLabel(self.contenedor, text="Apellido Materno", text_color="#1E1E1E",
+                                                      font=("Arial", 14))
+        self.etiqueta_apellido_materno.grid(row=3, column=0, padx=20, pady=5, sticky="w")
+        self.entrada_apellido_materno = ctk.CTkEntry(self.contenedor, border_width=1, corner_radius=10)
+        self.entrada_apellido_materno.grid(row=3, column=1, padx=20, pady=5, sticky="ew")
 
-    try:
-        crear_usuario(
-            resultados["usuario"],
-            resultados["contrasena"],  # aquí ya es el hash
-            resultados["nombre"],
-            resultados["apellido_p"],
-            resultados["apellido_m"],
-            resultados["correo"]
-        )
+        self.etiqueta_usuario = ctk.CTkLabel(self.contenedor, text="Usuario", text_color="#1E1E1E", font=("Arial", 14))
+        self.etiqueta_usuario.grid(row=4, column=0, padx=20, pady=5, sticky="w")
+        self.entrada_usuario = ctk.CTkEntry(self.contenedor, border_width=1, corner_radius=10)
+        self.entrada_usuario.grid(row=4, column=1, padx=20, pady=5, sticky="ew")
 
-        etiqueta_dinamica.configure(text="Registro exitoso ✅", text_color="green")
-        messagebox.showinfo("Registro", "¡Usuario registrado correctamente!")
+        self.etiqueta_contrasena = ctk.CTkLabel(self.contenedor, text="Contraseña", text_color="#1E1E1E",
+                                                font=("Arial", 14))
+        self.etiqueta_contrasena.grid(row=5, column=0, padx=20, pady=5, sticky="w")
+        self.entrada_contrasena = ctk.CTkEntry(self.contenedor, border_width=1, corner_radius=10, show="*")
+        self.entrada_contrasena.grid(row=5, column=1, padx=20, pady=5, sticky="ew")
 
-        for entrada in (entrada_usuario, entrada_contrasena, entrada_nombre,
-                        entrada_apellido_paterno, entrada_apellido_materno,
-                        entrada_correo):
-            entrada.delete(0, "end")
-    except Exception as e:
-        etiqueta_dinamica.configure(text=f"Error: {e}", text_color="red")
-        messagebox.showerror("Error", f"Hubo un problema al registrar al usuario: {e}")
+        self.etiqueta_correo = ctk.CTkLabel(self.contenedor, text="Correo Electrónico", text_color="#1E1E1E",
+                                            font=("Arial", 14))
+        self.etiqueta_correo.grid(row=6, column=0, padx=20, pady=5, sticky="w")
+        self.entrada_correo = ctk.CTkEntry(self.contenedor, border_width=1, corner_radius=10)
+        self.entrada_correo.grid(row=6, column=1, padx=20, pady=5, sticky="ew")
+
+        # Botón para enviar el código OTP al correo
+        self.boton_enviar_codigo = ctk.CTkButton(self.contenedor, text="Enviar código", corner_radius=10,
+                                                 command=lambda: manejar_otp(self.entrada_correo.get()))
+        self.boton_enviar_codigo.grid(row=7, column=1, pady=10, padx=20, sticky="nsew")
+
+        # Campo para ingresar el código OTP
+        self.etiqueta_otp = ctk.CTkLabel(self.contenedor, text="Código OTP", text_color="#1E1E1E", font=("Arial", 14))
+        self.etiqueta_otp.grid(row=8, column=0, padx=20, pady=5, sticky="w")
+        self.entrada_otp = ctk.CTkEntry(self.contenedor, border_width=1, corner_radius=10)
+        self.entrada_otp.grid(row=8, column=1, padx=20, pady=5, sticky="ew")
+
+        # Muestra mensajes dinámicos (error o éxito)
+        self.etiqueta_dinamica = ctk.CTkLabel(self.contenedor, text="", text_color="#1E1E1E", font=("Arial", 14))
+        self.etiqueta_dinamica.grid(row=9, column=1, padx=20, pady=5, sticky="ew")
+
+        # Botón para registrar al usuario
+        self.boton_registrar = ctk.CTkButton(self.contenedor, text="Registrar", corner_radius=10,
+                                             command=self.registrar_usuario)
+        self.boton_registrar.grid(row=10, column=0, padx=20, pady=10)
+
+        # Botón para cancelar el registro
+        self.boton_cancelar = ctk.CTkButton(self.contenedor, text="Cancelar", corner_radius=10)
+        self.boton_cancelar.grid(row=10, column=1, padx=20, pady=10, sticky="e")
+
+    def registrar_usuario(self):
+        # Obtener entradas
+        datos = {
+            "usuario": self.entrada_usuario.get(),
+            "contrasena": self.entrada_contrasena.get(),
+            "nombre": self.entrada_nombre.get(),
+            "apellido_p": self.entrada_apellido_paterno.get(),
+            "apellido_m": self.entrada_apellido_materno.get(),
+            "correo": self.entrada_correo.get()
+        }
+
+        # Lista de validaciones (clave, función)
+        validaciones = [
+            ("usuario", validar_usuario),
+            ("contrasena", validar_contraseña),
+            ("nombre", validar_nombre),
+            ("apellido_p", validar_nombre),
+            ("apellido_m", validar_nombre),
+            ("correo", validar_correo)
+        ]
+
+        resultados = {}
+
+        for clave, funcion in validaciones:
+            valido, valor = funcion(datos[clave])
+            if not valido:
+                self.etiqueta_dinamica.configure(text=valor, text_color="red")
+                messagebox.showerror("Error", valor)
+                return
+            resultados[clave] = valor  # Guarda el valor procesado (ej: contraseña hasheada)
+
+        try:
+            crear_usuario(
+                resultados["usuario"],
+                resultados["contrasena"],  # aquí ya es el hash
+                resultados["nombre"],
+                resultados["apellido_p"],
+                resultados["apellido_m"],
+                resultados["correo"]
+            )
+
+            self.etiqueta_dinamica.configure(text="Registro exitoso ✅", text_color="green")
+            messagebox.showinfo("Registro", "¡Usuario registrado correctamente!")
+
+            for entrada in (self.entrada_usuario, self.entrada_contrasena, self.entrada_nombre,
+                            self.entrada_apellido_paterno, self.entrada_apellido_materno,
+                            self.entrada_correo):
+                entrada.delete(0, "end")
+        except Exception as e:
+            self.etiqueta_dinamica.configure(text=f"Error: {e}", text_color="red")
+            messagebox.showerror("Error", f"Hubo un problema al registrar al usuario: {e}")
 
 
-# Agrega etiquetas y campos de entrada
-etiqueta_registro = ctk.CTkLabel(contenedor, text="REGISTRO", text_color="#1E1E1E", font=("Arial", 20, "bold"))
-etiqueta_registro.grid(row=0, column=0, columnspan=3, pady=20, padx=20, sticky="nsew")
-
-etiqueta_nombre = ctk.CTkLabel(contenedor, text="Nombre(s)", text_color="#1E1E1E", font=("Arial", 14))
-etiqueta_nombre.grid(row=1, column=0, padx=20, pady=5, sticky="w")
-entrada_nombre = ctk.CTkEntry(contenedor, border_width=1, corner_radius=10)
-entrada_nombre.grid(row=1, column=1, padx=20, pady=5, sticky="ew")
-
-etiqueta_apellido_paterno = ctk.CTkLabel(contenedor, text="Apellido Paterno", text_color="#1E1E1E", font=("Arial", 14))
-etiqueta_apellido_paterno.grid(row=2, column=0, padx=20, pady=5, sticky="w")
-entrada_apellido_paterno = ctk.CTkEntry(contenedor, border_width=1, corner_radius=10)
-entrada_apellido_paterno.grid(row=2, column=1, padx=20, pady=5, sticky="ew")
-
-etiqueta_apellido_materno = ctk.CTkLabel(contenedor, text="Apellido Materno", text_color="#1E1E1E", font=("Arial", 14))
-etiqueta_apellido_materno.grid(row=3, column=0, padx=20, pady=5, sticky="w")
-entrada_apellido_materno = ctk.CTkEntry(contenedor, border_width=1, corner_radius=10)
-entrada_apellido_materno.grid(row=3, column=1, padx=20, pady=5, sticky="ew")
-
-etiqueta_usuario = ctk.CTkLabel(contenedor, text="Usuario", text_color="#1E1E1E", font=("Arial", 14))
-etiqueta_usuario.grid(row=4, column=0, padx=20, pady=5, sticky="w")
-entrada_usuario = ctk.CTkEntry(contenedor, border_width=1, corner_radius=10)
-entrada_usuario.grid(row=4, column=1, padx=20, pady=5, sticky="ew")
-
-etiqueta_contrasena = ctk.CTkLabel(contenedor, text="Contraseña", text_color="#1E1E1E", font=("Arial", 14))
-etiqueta_contrasena.grid(row=5, column=0, padx=20, pady=5, sticky="w")
-entrada_contrasena = ctk.CTkEntry(contenedor, border_width=1, corner_radius=10, show="*")
-entrada_contrasena.grid(row=5, column=1, padx=20, pady=5, sticky="ew")
-
-etiqueta_correo = ctk.CTkLabel(contenedor, text="Correo Electrónico", text_color="#1E1E1E", font=("Arial", 14))
-etiqueta_correo.grid(row=6, column=0, padx=20, pady=5, sticky="w")
-entrada_correo = ctk.CTkEntry(contenedor, border_width=1, corner_radius=10)
-entrada_correo.grid(row=6, column=1, padx=20, pady=5, sticky="ew")
-
-# Botón para enviar el código OTP al correo
-boton_enviar_codigo = ctk.CTkButton(contenedor, text="Enviar código", corner_radius=10,
-                                    command=lambda: manejar_otp(entrada_correo.get()))
-boton_enviar_codigo.grid(row=7, column=1, pady=10, padx=20, sticky="nsew")
-
-# Campo para ingresar el código OTP
-etiqueta_otp = ctk.CTkLabel(contenedor, text="Código OTP", text_color="#1E1E1E", font=("Arial", 14))
-etiqueta_otp.grid(row=8, column=0, padx=20, pady=5, sticky="w")
-entrada_otp = ctk.CTkEntry(contenedor, border_width=1, corner_radius=10)
-entrada_otp.grid(row=8, column=1, padx=20, pady=5, sticky="ew")
-
-# Muestra mensajes dinámicos (error o éxito)
-etiqueta_dinamica = ctk.CTkLabel(contenedor, text="", text_color="#1E1E1E", font=("Arial", 14))
-etiqueta_dinamica.grid(row=9, column=1, padx=20, pady=5, sticky="ew")
-
-# Botón para registrar al usuario
-boton_registrar = ctk.CTkButton(contenedor, text="Registrar", corner_radius=10, command=registrar_usuario)
-boton_registrar.grid(row=10, column=0, padx=20, pady=10)
-
-# Botón para cancelar el registro
-boton_cancelar = ctk.CTkButton(contenedor, text="Cancelar", corner_radius=10)
-boton_cancelar.grid(row=10, column=1, padx=20, pady=10, sticky="e")
-
-app.mainloop()
+# Inicialización de la ventana
+if __name__ == "__main__":
+    root = ctk.CTk()
+    app = Registro(root)
+    root.mainloop()
