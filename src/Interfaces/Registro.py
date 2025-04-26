@@ -1,7 +1,7 @@
 from tkinter import messagebox
 import customtkinter as ctk
 from src.Logica.Validaciones import *
-from src.Logica.Otp import *
+from src.Logica.Otp import manejar_otp
 from src.Modelos.Usuario import crear_usuario
 
 
@@ -13,82 +13,92 @@ class Registro:
 
         ctk.set_appearance_mode("dark")
 
-        # Configura la ventana principal
+        # Se configura la ventana principal
         for i in range(3):
             self.master.grid_columnconfigure(i, weight=1)
-        for i in range(11):
+        for i in range(1):
             self.master.grid_rowconfigure(i, weight=1)
 
-        # Crea el contenedor principal
+        # Se crea el contenedor principal
         self.contenedor = ctk.CTkFrame(self.master, fg_color="white", corner_radius=10)
         self.contenedor.grid(row=0, column=0, columnspan=3, rowspan=10, padx=100, pady=40, sticky="nsew")
 
-        # Configura el grid del contenedor
+        # Se configura el grid del formulario
         for i in range(10):
             self.contenedor.grid_rowconfigure(i, weight=1)
         for i in range(3):
             self.contenedor.grid_columnconfigure(i, weight=1)
 
-        # Elementos de la interfaz
-        self.etiqueta_registro = ctk.CTkLabel(self.contenedor, text="REGISTRO", text_color="#1E1E1E",
+        # Etiqueta de registro
+        self.etiqueta_registro = ctk.CTkLabel(self.contenedor, text="REGISTRO", text_color="black",
                                               font=("Arial", 20, "bold"))
         self.etiqueta_registro.grid(row=0, column=0, columnspan=3, pady=20, padx=20, sticky="nsew")
 
-        self.etiqueta_nombre = ctk.CTkLabel(self.contenedor, text="Nombre(s)", text_color="#1E1E1E", font=("Arial", 14))
-        self.etiqueta_nombre.grid(row=1, column=0, padx=20, pady=5, sticky="w")
-        self.entrada_nombre = ctk.CTkEntry(self.contenedor, border_width=1, corner_radius=10)
-        self.entrada_nombre.grid(row=1, column=1, padx=20, pady=5, sticky="ew")
+        # Etiqueta de usuario
+        self.etiqueta_usuario = ctk.CTkLabel(self.contenedor, text="Usuario", text_color="black", font=("Arial", 14))
+        self.etiqueta_usuario.grid(row=1, column=0, padx=20, pady=5, sticky="w")
 
-        self.etiqueta_apellido_paterno = ctk.CTkLabel(self.contenedor, text="Apellido Paterno", text_color="#1E1E1E",
-                                                      font=("Arial", 14))
-        self.etiqueta_apellido_paterno.grid(row=2, column=0, padx=20, pady=5, sticky="w")
-        self.entrada_apellido_paterno = ctk.CTkEntry(self.contenedor, border_width=1, corner_radius=10)
-        self.entrada_apellido_paterno.grid(row=2, column=1, padx=20, pady=5, sticky="ew")
-
-        self.etiqueta_apellido_materno = ctk.CTkLabel(self.contenedor, text="Apellido Materno", text_color="#1E1E1E",
-                                                      font=("Arial", 14))
-        self.etiqueta_apellido_materno.grid(row=3, column=0, padx=20, pady=5, sticky="w")
-        self.entrada_apellido_materno = ctk.CTkEntry(self.contenedor, border_width=1, corner_radius=10)
-        self.entrada_apellido_materno.grid(row=3, column=1, padx=20, pady=5, sticky="ew")
-
-        self.etiqueta_usuario = ctk.CTkLabel(self.contenedor, text="Usuario", text_color="#1E1E1E", font=("Arial", 14))
-        self.etiqueta_usuario.grid(row=4, column=0, padx=20, pady=5, sticky="w")
+        # Entry para el usuario
         self.entrada_usuario = ctk.CTkEntry(self.contenedor, border_width=1, corner_radius=10)
-        self.entrada_usuario.grid(row=4, column=1, padx=20, pady=5, sticky="ew")
+        self.entrada_usuario.grid(row=1, column=1, padx=20, pady=5, sticky="ew")
 
-        self.etiqueta_contrasena = ctk.CTkLabel(self.contenedor, text="Contraseña", text_color="#1E1E1E",
+        # Etiqueta contrasena
+        self.etiqueta_contrasena = ctk.CTkLabel(self.contenedor, text="Contrasena", text_color="black",
                                                 font=("Arial", 14))
-        self.etiqueta_contrasena.grid(row=5, column=0, padx=20, pady=5, sticky="w")
-        self.entrada_contrasena = ctk.CTkEntry(self.contenedor, border_width=1, corner_radius=10, show="*")
-        self.entrada_contrasena.grid(row=5, column=1, padx=20, pady=5, sticky="ew")
+        self.etiqueta_contrasena.grid(row=2, column=0, padx=20, pady=5, sticky="w")
 
-        self.etiqueta_correo = ctk.CTkLabel(self.contenedor, text="Correo Electrónico", text_color="#1E1E1E",
+        # Entry para la contrasena
+        self.entrada_contrasena = ctk.CTkEntry(self.contenedor, border_width=1, corner_radius=10, show="*")
+        self.entrada_contrasena.grid(row=2, column=1, padx=20, pady=5, sticky="ew")
+
+        # Etiqueta para el nombre
+        self.etiqueta_nombre = ctk.CTkLabel(self.contenedor, text="Nombres", text_color="black", font=("Arial", 14))
+        self.etiqueta_nombre.grid(row=3, column=0, padx=20, pady=5, sticky="w")
+        self.entrada_nombre = ctk.CTkEntry(self.contenedor, border_width=1, corner_radius=10)
+        self.entrada_nombre.grid(row=3, column=1, padx=20, pady=5, sticky="ew")
+
+        # Etiqueta apellido paterno
+        self.etiqueta_apellido_paterno = ctk.CTkLabel(self.contenedor, text="Apellido Paterno", text_color="black",
+                                                      font=("Arial", 14))
+        self.etiqueta_apellido_paterno.grid(row=4, column=0, padx=20, pady=5, sticky="w")
+        self.entrada_apellido_paterno = ctk.CTkEntry(self.contenedor, border_width=1, corner_radius=10)
+        self.entrada_apellido_paterno.grid(row=4, column=1, padx=20, pady=5, sticky="ew")
+
+        # Etiqueta apellido materno
+        self.etiqueta_apellido_materno = ctk.CTkLabel(self.contenedor, text="Apellido Materno", text_color="black",
+                                                      font=("Arial", 14))
+        self.etiqueta_apellido_materno.grid(row=5, column=0, padx=20, pady=5, sticky="w")
+        self.entrada_apellido_materno = ctk.CTkEntry(self.contenedor, border_width=1, corner_radius=10)
+        self.entrada_apellido_materno.grid(row=5, column=1, padx=20, pady=5, sticky="ew")
+
+        # Etiqueta correo electronico
+        self.etiqueta_correo = ctk.CTkLabel(self.contenedor, text="Correo Electronico", text_color="black",
                                             font=("Arial", 14))
         self.etiqueta_correo.grid(row=6, column=0, padx=20, pady=5, sticky="w")
         self.entrada_correo = ctk.CTkEntry(self.contenedor, border_width=1, corner_radius=10)
         self.entrada_correo.grid(row=6, column=1, padx=20, pady=5, sticky="ew")
 
-        # Botón para enviar el código OTP al correo
-        self.boton_enviar_codigo = ctk.CTkButton(self.contenedor, text="Enviar código", corner_radius=10,
+        # Boton para enviar el codigo OTP al correo
+        self.boton_enviar_codigo = ctk.CTkButton(self.contenedor, text="Enviar codigo", corner_radius=10,
                                                  command=lambda: manejar_otp(self.entrada_correo.get()))
         self.boton_enviar_codigo.grid(row=7, column=1, pady=10, padx=20, sticky="nsew")
 
-        # Campo para ingresar el código OTP
-        self.etiqueta_otp = ctk.CTkLabel(self.contenedor, text="Código OTP", text_color="#1E1E1E", font=("Arial", 14))
+        # Campo para ingresar el codigo OTP
+        self.etiqueta_otp = ctk.CTkLabel(self.contenedor, text="Codigo OTP", text_color="black", font=("Arial", 14))
         self.etiqueta_otp.grid(row=8, column=0, padx=20, pady=5, sticky="w")
         self.entrada_otp = ctk.CTkEntry(self.contenedor, border_width=1, corner_radius=10)
         self.entrada_otp.grid(row=8, column=1, padx=20, pady=5, sticky="ew")
 
-        # Muestra mensajes dinámicos (error o éxito)
-        self.etiqueta_dinamica = ctk.CTkLabel(self.contenedor, text="", text_color="#1E1E1E", font=("Arial", 14))
+        # Muestra mensajes dinamicos
+        self.etiqueta_dinamica = ctk.CTkLabel(self.contenedor, text="", text_color="black", font=("Arial", 14))
         self.etiqueta_dinamica.grid(row=9, column=1, padx=20, pady=5, sticky="ew")
 
-        # Botón para registrar al usuario
+        # Boton para registrar al usuario
         self.boton_registrar = ctk.CTkButton(self.contenedor, text="Registrar", corner_radius=10,
                                              command=self.registrar_usuario)
         self.boton_registrar.grid(row=10, column=0, padx=20, pady=10)
 
-        # Botón para cancelar el registro
+        # Boton para cancelar el registro
         self.boton_cancelar = ctk.CTkButton(self.contenedor, text="Cancelar", corner_radius=10)
         self.boton_cancelar.grid(row=10, column=1, padx=20, pady=10, sticky="e")
 
@@ -103,7 +113,7 @@ class Registro:
             "correo": self.entrada_correo.get()
         }
 
-        # Lista de validaciones (clave, función)
+        # Lista de validaciones
         validaciones = [
             ("usuario", validar_usuario),
             ("contrasena", validar_contraseña),
@@ -121,12 +131,12 @@ class Registro:
                 self.etiqueta_dinamica.configure(text=valor, text_color="red")
                 messagebox.showerror("Error", valor)
                 return
-            resultados[clave] = valor  # Guarda el valor procesado (ej: contraseña hasheada)
+            resultados[clave] = valor
 
         try:
             crear_usuario(
                 resultados["usuario"],
-                resultados["contrasena"],  # aquí ya es el hash
+                resultados["contrasena"],
                 resultados["nombre"],
                 resultados["apellido_p"],
                 resultados["apellido_m"],
@@ -134,7 +144,7 @@ class Registro:
             )
 
             self.etiqueta_dinamica.configure(text="Registro exitoso ✅", text_color="green")
-            messagebox.showinfo("Registro", "¡Usuario registrado correctamente!")
+            messagebox.showinfo("Registro", "Usuario registrado correctamente")
 
             for entrada in (self.entrada_usuario, self.entrada_contrasena, self.entrada_nombre,
                             self.entrada_apellido_paterno, self.entrada_apellido_materno,
@@ -145,7 +155,7 @@ class Registro:
             messagebox.showerror("Error", f"Hubo un problema al registrar al usuario: {e}")
 
 
-# Inicialización de la ventana
+# Inicializacion de la ventana
 if __name__ == "__main__":
     root = ctk.CTk()
     app = Registro(root)

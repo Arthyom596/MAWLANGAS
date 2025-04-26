@@ -79,3 +79,15 @@ def eliminar_usuario(id_usuario):
     finally:
         conexion.close()
 
+
+# NUEVA FUNCION PARA BUSCAR EL USUARIO POR NOMBRE O USUARIO
+def buscar_usuario(usuario):
+    conexion = conectar()
+    if not conexion:
+        return None
+    try:
+        # Buscamos si existe un usuario con el nombre de usuario proporcionado
+        result = conexion.execute("SELECT * FROM Usuarios WHERE Usuario = ?", (usuario,)).fetchone()
+        return result  # Devuelve el usuario si lo encuentra o None si no existe
+    finally:
+        conexion.close()
