@@ -1,6 +1,6 @@
 from tkinter import messagebox
 import customtkinter as ctk
-from src.Logica.Validaciones import *
+from src.Logica.Registro import *
 from src.Logica.Otp import manejar_otp
 from src.Modelos.Usuario import crear_usuario
 
