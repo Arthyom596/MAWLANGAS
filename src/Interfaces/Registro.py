@@ -5,22 +5,22 @@ from src.Logica.Otp import manejar_otp
 from src.Modelos.Usuario import crear_usuario
 
 
-class Registro:
-    def __init__(self, master):
-        self.master = master
-        self.master.geometry("800x600")
-        self.master.title("Registro")
+class Registro(ctk.CTk):
+    def __init__(self):
+        super().__init__()
+        self.geometry("800x600")
+        self.title("Registro")
 
         ctk.set_appearance_mode("dark")
 
         # Se configura la ventana principal
         for i in range(3):
-            self.master.grid_columnconfigure(i, weight=1)
+            self.grid_columnconfigure(i, weight=1)
         for i in range(1):
-            self.master.grid_rowconfigure(i, weight=1)
+            self.grid_rowconfigure(i, weight=1)
 
         # Se crea el contenedor principal
-        self.contenedor = ctk.CTkFrame(self.master, fg_color="white", corner_radius=10)
+        self.contenedor = ctk.CTkFrame(self, fg_color="white", corner_radius=10)
         self.contenedor.grid(row=0, column=0, columnspan=3, rowspan=10, padx=100, pady=40, sticky="nsew")
 
         # Se configura el grid del formulario
@@ -157,6 +157,5 @@ class Registro:
 
 # Inicializacion de la ventana
 if __name__ == "__main__":
-    root = ctk.CTk()
-    app = Registro(root)
-    root.mainloop()
+    app = Registro()
+    app.mainloop()
