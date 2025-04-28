@@ -4,19 +4,12 @@ from pathlib import Path
 from src.Logica.Login import verificar_usuario
 from src.Modelos.Usuario import buscar_usuario
 
-class Login(ctk.CTk):
-    def __init__(self, abrir_registro_callback):
-        super().__init__()
+class Login(ctk.CTkFrame):
+    def __init__(self, parent, controller):
+        super().__init__(parent)
+        self.controller = controller
 
-        # Guardamos el callback que se pasa desde Main
-        self.abrir_registro_callback = abrir_registro_callback
-
-        # Configuración de la ventana
-        ctk.set_appearance_mode("dark")
-        self.geometry("800x500")
-        self.title("Mawlangas Login")
-
-        # Configuración de la grilla de la ventana
+        # Configuración de la grilla del Frame (NO ventana)
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=1)
         self.grid_rowconfigure(0, weight=1)
@@ -63,11 +56,31 @@ class Login(ctk.CTk):
         self.password_entry.grid(row=2, column=0, padx=20, sticky="ew")
 
         # Botón de login
-        self.login_button = ctk.CTkButton(self.contenedor_datos2, text="LOGIN", fg_color="white", text_color="black", hover_color="#e6e6e6", border_width=1, border_color="grey", corner_radius=10, command=self.login_usuario)
+        self.login_button = ctk.CTkButton(
+            self.contenedor_datos2,
+            text="LOGIN",
+            fg_color="white",
+            text_color="black",
+            hover_color="#e6e6e6",
+            border_width=1,
+            border_color="grey",
+            corner_radius=10,
+            command=self.login_usuario
+        )
         self.login_button.grid(row=3, column=0, pady=(10, 0), padx=60)
 
         # Botón de registro
-        self.register_button = ctk.CTkButton(self.contenedor_datos2, text="REGISTER", fg_color="white", text_color="black", hover_color="#e6e6e6", border_width=1, border_color="grey", corner_radius=10, command=self.abrir_registro_callback)
+        self.register_button = ctk.CTkButton(
+            self.contenedor_datos2,
+            text="REGISTER",
+            fg_color="white",
+            text_color="black",
+            hover_color="#e6e6e6",
+            border_width=1,
+            border_color="grey",
+            corner_radius=10,
+            command=controller.abrir_registro
+        )
         self.register_button.grid(row=4, column=0, pady=10, padx=60)
 
         # Etiqueta para mostrar mensajes dinámicos
@@ -86,10 +99,10 @@ class Login(ctk.CTk):
             if verificar_usuario(usuario, contrasena):
                 print("Login exitoso")
                 self.etiqueta_dinamica.configure(text="Login exitoso", text_color="green")
+                self.controller.login_exitoso()
             else:
                 print("Contraseña incorrecta")
                 self.etiqueta_dinamica.configure(text="Contraseña incorrecta", text_color="red")
         else:
             print("Usuario no encontrado")
             self.etiqueta_dinamica.configure(text="Usuario no encontrado", text_color="red")
-
