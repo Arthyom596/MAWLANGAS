@@ -1,50 +1,89 @@
+import os
 import sqlite3
 
-nombre_bd = "Mawlangas.db"
+# Ruta del proyecto y base de datos
+proyecto_base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ruta_db = os.path.join(proyecto_base, 'BaseDatos')
+os.makedirs(ruta_db, exist_ok=True)
+nombre_bd = os.path.join(ruta_db, 'Mawlangas.db')
+
 
 def conectar():
-    conexion = sqlite3.connect(nombre_bd)
-    conexion.execute("PRAGMA foreign_keys = ON")
-    return conexion
-
-
-def crear_producto(nombre, preciocompra, precioventa):
-    conexion = conectar()
-    cursor = conexion.cursor()
     try:
-        cursor.execute("""
-        INSERT INTO productos (Nombre, PrecioCompra, PrecioVenta) VALUES (?, ?, ?)
-        """, (nombre, preciocompra, precioventa))
+        conexion = sqlite3.connect(nombre_bd)
+        conexion.execute("PRAGMA foreign_keys = ON")
+        conexion.execute("""
+            CREATE TABLE IF NOT EXISTS Productos(
+                IDProducto INTEGER PRIMARY KEY AUTOINCREMENT,
+                Nombre TEXT NOT NULL,
+                PrecioCompra REAL NOT NULL,
+                PrecioVenta REAL NOT NULL
+            );
+        """)
         conexion.commit()
-    except sqlite3.IntegrityError:
-        print("Error: Integridad de datos violada (posible clave duplicada u otro conflicto).")
+        return conexion
+    except sqlite3.Error as e:
+        print(f"Error al conectar a la base de datos: {e}")
+        return None
+
+
+def crear_producto(nombre, precio_compra, precio_venta):
+    conexion = conectar()
+    if not conexion:
+        return
+    try:
+        conexion.execute("""
+            INSERT INTO Productos (Nombre, PrecioCompra, PrecioVenta)
+            VALUES (?, ?, ?)
+        """, (nombre, precio_compra, precio_venta))
+        conexion.commit()
     finally:
         conexion.close()
 
+
 def obtener_productos():
     conexion = conectar()
-    cursor = conexion.cursor()
-    cursor.execute("SELECT * FROM productos")
-    productos = cursor.fetchall()
-    return productos
+    if not conexion:
+        return []
+    try:
+        return conexion.execute("SELECT * FROM Productos").fetchall()
+    finally:
+        conexion.close()
 
-def actualizar_producto(id_producto,nombre, preciocompra, precioventa):
+
+def actualizar_producto(id_producto, nombre, precio_compra, precio_venta):
     conexion = conectar()
-    cursor = conexion.cursor()
-    cursor.execute("""
-    UPDATE productos
-    SET Nombre = ?,PrecioCompra = ?,PrecioVenta = ?
-    WHERE IDProducto = ?
-    """,(nombre, preciocompra, precioventa, id_producto))
-    conexion.commit()
-    conexion.close()
+    if not conexion:
+        return
+    try:
+        conexion.execute("""
+            UPDATE Productos
+            SET Nombre = ?, PrecioCompra = ?, PrecioVenta = ?
+            WHERE IDProducto = ?
+        """, (nombre, precio_compra, precio_venta, id_producto))
+        conexion.commit()
+    finally:
+        conexion.close()
 
 
 def eliminar_producto(id_producto):
     conexion = conectar()
-    cursor = conexion.cursor()
-    cursor.execute("DELETE FROM productos WHERE IDProducto = ?", (id_producto,))
-    conexion.commit()
-    conexion.close()
+    if not conexion:
+        return
+    try:
+        conexion.execute("DELETE FROM Productos WHERE IDProducto = ?", (id_producto,))
+        conexion.commit()
+    finally:
+        conexion.close()
 
 
+# buscar producto por nombre
+def buscar_producto(nombre_producto):
+    conexion = conectar()
+    if not conexion:
+        return None
+    try:
+        result = conexion.execute("SELECT * FROM Productos WHERE Nombre = ?", (nombre_producto,)).fetchone()
+        return result
+    finally:
+        conexion.close()
