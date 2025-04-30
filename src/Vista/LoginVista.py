@@ -1,8 +1,8 @@
 import customtkinter as ctk
 from PIL import Image
 from pathlib import Path
-from src.Logica.Login import verificar_usuario
-from src.Modelos.Usuario import buscar_usuario
+from src.Modelo.Login import verificar_usuario
+from src.DAO.UsuariosDAO import buscar_usuario
 
 class Login:
     def __init__(self, parent):
@@ -10,7 +10,7 @@ class Login:
         self.frame = ctk.CTkFrame(parent)
         self.frame.pack(fill="both", expand=True)
 
-        # Configuración de la grilla
+        # Configuración del grid
         self.frame.grid_columnconfigure(0, weight=1)
         self.frame.grid_columnconfigure(1, weight=1)
         self.frame.grid_rowconfigure(0, weight=1)
@@ -22,7 +22,7 @@ class Login:
         self.contenedor_visual.grid_rowconfigure((0, 1), weight=1)
 
         # Imagen
-        ruta_imagen = Path(__file__).resolve().parent.parent.parent / "assets" / "Cat.png"
+        ruta_imagen = Path(__file__).resolve().parent.parent.parent / "assets" / "gato_pistola.jpg"
         imagen_gato = ctk.CTkImage(Image.open(ruta_imagen), size=(300, 300))
         self.imagen_label = ctk.CTkLabel(self.contenedor_visual, image=imagen_gato, text="")
         self.imagen_label.grid(row=0, column=0, pady=(60, 10))

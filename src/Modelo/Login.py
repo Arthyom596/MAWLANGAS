@@ -1,5 +1,5 @@
 import bcrypt
-from src.Modelos.Usuario import buscar_usuario
+from src.DAO.UsuariosDAO import buscar_usuario
 
 
 

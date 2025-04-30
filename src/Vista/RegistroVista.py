@@ -1,8 +1,8 @@
 from tkinter import messagebox
 import customtkinter as ctk
-from src.Logica.Registro import *
-from src.Logica.Otp import manejar_otp
-from src.Modelos.Usuario import crear_usuario
+from src.Modelo.Registro import *
+from src.Modelo.Otp import manejar_otp
+from src.DAO.UsuariosDAO import crear_usuario
 
 class Registro:
     def __init__(self, parent):
