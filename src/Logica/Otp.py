@@ -4,6 +4,12 @@ import time
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
+""""
+El proposito de esta clase es manejar toda la logica de la creacion,manejo y envio de los codigos OTP
+para verificar correos electronicos validos y hacer un registro exitoso, se puede usar enviar otp para 
+enviar otro tipo de correos automatizados si es necesario
+"""
+
 otp_almacen = {}
 
 def generar_otp():

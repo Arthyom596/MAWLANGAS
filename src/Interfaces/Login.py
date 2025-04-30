@@ -4,18 +4,19 @@ from pathlib import Path
 from src.Logica.Login import verificar_usuario
 from src.Modelos.Usuario import buscar_usuario
 
-class Login(ctk.CTkFrame):
-    def __init__(self, parent, controller):
-        super().__init__(parent)
-        self.controller = controller
+class Login:
+    def __init__(self, parent):
+        # Creamos manualmente el frame principal
+        self.frame = ctk.CTkFrame(parent)
+        self.frame.pack(fill="both", expand=True)
 
-        # Configuración de la grilla del Frame (NO ventana)
-        self.grid_columnconfigure(0, weight=1)
-        self.grid_columnconfigure(1, weight=1)
-        self.grid_rowconfigure(0, weight=1)
+        # Configuración de la grilla
+        self.frame.grid_columnconfigure(0, weight=1)
+        self.frame.grid_columnconfigure(1, weight=1)
+        self.frame.grid_rowconfigure(0, weight=1)
 
         # Contenedor visual
-        self.contenedor_visual = ctk.CTkFrame(self, fg_color="#1E1E1E", corner_radius=0)
+        self.contenedor_visual = ctk.CTkFrame(self.frame, fg_color="#1E1E1E", corner_radius=0)
         self.contenedor_visual.grid(row=0, column=0, sticky="nsew")
         self.contenedor_visual.grid_columnconfigure(0, weight=1)
         self.contenedor_visual.grid_rowconfigure((0, 1), weight=1)
@@ -31,7 +32,7 @@ class Login(ctk.CTkFrame):
         self.texto_mawlangas.grid(row=1, column=0)
 
         # Contenedor de datos
-        self.contenedor_datos1 = ctk.CTkFrame(self, fg_color="#1E1E1E", corner_radius=0)
+        self.contenedor_datos1 = ctk.CTkFrame(self.frame, fg_color="#1E1E1E", corner_radius=0)
         self.contenedor_datos1.grid(row=0, column=1, sticky="nsew")
         self.contenedor_datos1.grid_rowconfigure(0, weight=1)
         self.contenedor_datos1.grid_columnconfigure(0, weight=1)
@@ -69,7 +70,7 @@ class Login(ctk.CTkFrame):
         )
         self.login_button.grid(row=3, column=0, pady=(10, 0), padx=60)
 
-        # Botón de registro
+        # Botón de registro (ahora ya NO navega a otra ventana)
         self.register_button = ctk.CTkButton(
             self.contenedor_datos2,
             text="REGISTER",
@@ -78,8 +79,7 @@ class Login(ctk.CTkFrame):
             hover_color="#e6e6e6",
             border_width=1,
             border_color="grey",
-            corner_radius=10,
-            command=controller.abrir_registro
+            corner_radius=10
         )
         self.register_button.grid(row=4, column=0, pady=10, padx=60)
 
@@ -99,10 +99,20 @@ class Login(ctk.CTkFrame):
             if verificar_usuario(usuario, contrasena):
                 print("Login exitoso")
                 self.etiqueta_dinamica.configure(text="Login exitoso", text_color="green")
-                self.controller.login_exitoso()
             else:
                 print("Contraseña incorrecta")
                 self.etiqueta_dinamica.configure(text="Contraseña incorrecta", text_color="red")
         else:
             print("Usuario no encontrado")
             self.etiqueta_dinamica.configure(text="Usuario no encontrado", text_color="red")
+
+
+# Inicialización para prueba
+if __name__ == "__main__":
+    app = ctk.CTk()
+    app.geometry("950x600")
+    app.title("Login")
+
+    login = Login(app)
+
+    app.mainloop()

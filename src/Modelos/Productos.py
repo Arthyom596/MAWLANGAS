@@ -87,3 +87,14 @@ def buscar_producto(nombre_producto):
         return result
     finally:
         conexion.close()
+
+def obtener_ultimo_producto():
+    conexion = conectar()
+    try:
+        resultado = conexion.execute("SELECT IDProducto FROM Productos ORDER BY IDProducto DESC LIMIT 1").fetchone()
+        if resultado:
+            return resultado[0]
+        else:
+            return None
+    finally:
+        conexion.close()

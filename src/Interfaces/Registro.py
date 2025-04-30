@@ -4,24 +4,16 @@ from src.Logica.Registro import *
 from src.Logica.Otp import manejar_otp
 from src.Modelos.Usuario import crear_usuario
 
-class Registro(ctk.CTkFrame):
-    def __init__(self, parent, controller):
-        super().__init__(parent)
-        self.controller = controller
+class Registro:
+    def __init__(self, parent):
+        self.parent = parent
 
         ctk.set_appearance_mode("dark")
 
-        # Se configura el grid del frame
-        for i in range(3):
-            self.grid_columnconfigure(i, weight=1)
-        for i in range(1):
-            self.grid_rowconfigure(i, weight=1)
-
         # Se crea el contenedor principal
-        self.contenedor = ctk.CTkFrame(self, fg_color="white", corner_radius=10)
-        self.contenedor.grid(row=0, column=0, columnspan=3, rowspan=10, padx=100, pady=40, sticky="nsew")
+        self.contenedor = ctk.CTkFrame(self.parent, fg_color="white", corner_radius=10)
+        self.contenedor.pack(expand=True, fill="both", padx=100, pady=40)
 
-        # Configuración del contenedor
         for i in range(10):
             self.contenedor.grid_rowconfigure(i, weight=1)
         for i in range(3):
@@ -92,11 +84,6 @@ class Registro(ctk.CTkFrame):
                                              command=self.registrar_usuario)
         self.boton_registrar.grid(row=10, column=0, padx=20, pady=10)
 
-        # Botón cancelar
-        self.boton_cancelar = ctk.CTkButton(self.contenedor, text="Cancelar", corner_radius=10,
-                                            command=self.cancelar_registro)
-        self.boton_cancelar.grid(row=10, column=1, padx=20, pady=10, sticky="e")
-
     def registrar_usuario(self):
         datos = {
             "usuario": self.entrada_usuario.get(),
@@ -145,12 +132,16 @@ class Registro(ctk.CTkFrame):
                             self.entrada_correo):
                 entrada.delete(0, "end")
 
-            # Volver al login
-            self.controller.mostrar_login()
-
         except Exception as e:
             self.etiqueta_dinamica.configure(text=f"Error: {e}", text_color="red")
             messagebox.showerror("Error", f"Hubo un problema al registrar al usuario: {e}")
 
-    def cancelar_registro(self):
-        self.controller.mostrar_login()
+
+if __name__ == "__main__":
+    root = ctk.CTk()
+    root.title("Registro de Usuario")
+    root.geometry("800x600")  # Tamaño de la ventana
+
+    app = Registro(root)
+
+    root.mainloop()
