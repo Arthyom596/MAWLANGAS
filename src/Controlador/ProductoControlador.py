@@ -1,4 +1,3 @@
-# src/Controlador/ControladorProducto.py
 
 from src.Modelo.Producto import agregar_sabor, eliminar_ultimo_sabor, guardar_producto
 

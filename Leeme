@@ -1,0 +1,87 @@
+
+# Proyecto con arquitectura MVC y patrón DAO
+
+Este proyecto está desarrollado en Python, utilizando el paquete
+gráfico CustomTkinter para la interfaz de usuario y SQLite como
+sistema de gestión de base de datos. La arquitectura del proyecto
+sigue el patrón MVC (Modelo-Vista-Controlador), en conjunto con el
+patrón DAO (Data Access Object) para la manipulación estructurada
+de la base de datos.
+
+## 📁 Estructura del proyecto
+
+El proyecto se encuentra organizado en las siguientes carpetas
+principales:
+
+- **Vista/**
+  Contiene todas las interfaces gráficas (pantallas o formularios)
+  del sistema.
+
+  **Principios clave**:
+
+  - Cada clase visual tiene su propia vista.
+  - Se debe evitar incluir lógica de negocio en esta capa.
+  - Las vistas utilizan métodos pequeños y simples, preferentemente
+    definidos con `command` (sin parámetros) o `lambda` (con
+    parámetros), según se necesite.
+  - Toda la lógica se delega al modelo mediante el controlador.
+
+- **Modelos/**
+  Encargada de la lógica de negocio y la funcionalidad principal de
+  cada clase del sistema.
+
+  **Incluye**:
+
+  - Validaciones.
+  - Envío de correos electrónicos.
+  - Coordinación de funciones relacionadas con la aplicación.
+
+  ⚠ **Importante**: No se realizan consultas ni modificaciones
+  directas a la base de datos en esta capa. Si se necesita trabajar
+  con SQL, debe hacerse a través del DAO correspondiente.
+
+- **DAO/**
+  Contiene el acceso a la base de datos. Cada clase tiene su propio
+  archivo DAO, el cual contiene su respectivo CRUD (Create, Read,
+  Update, Delete).
+
+  **Normas para esta carpeta**:
+
+  - Todo el código SQL (sentencias "INSERT"`, "SELECT", "UPDATE", `DELETE`, etc.)
+    debe implementarse únicamente aquí.
+  - Si se necesitan métodos adicionales con SQL, deben
+    implementarse dentro del archivo DAO correspondiente.
+
+##  Principios de desarrollo
+
+- Se sigue el estilo `snake_case` para el nombrado de variables y
+  funciones, según las normas de estilo de Python (PEP 8).
+- Se busca mantener el principio de responsabilidad única,
+  dividiendo la lógica, la vista y el acceso a datos en capas
+  separadas.
+- Se prioriza la reutilización y la legibilidad del código.
+- Cada metodo o funcion tiene una unica responsabilidad especifica lo cual
+  facilita pruebas y mantenibilidad.
+
+##  Requisitos
+
+- Python 3.8 o superior.
+- `customtkinter`.
+- `sqlite3` (incluido en Python estándar).
+
+Este proyecto utiliza SQLite como motor de base de datos  
+Los archivos .db y su inicialización están controlados desde los módulos DAO.
+La estructura de la base de datos está normalizada por clases, 
+y cada clase tiene su propio DAO encargado de manejarla.
+
+#Buenas prácticas recomendadas
+Evitar lógica en las vistas, limitarla a llamadas al controlador.
+
+Mantener los métodos pequeños y concisos.
+
+Utilizar lambda y command apropiadamente en los botones/interacciones.
+
+No realizar accesos directos a la base de datos fuera de los DAO.
+
+Documentar las funciones y mantener comentarios claros donde sea necesario.
+
