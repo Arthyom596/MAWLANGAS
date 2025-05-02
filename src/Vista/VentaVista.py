@@ -20,23 +20,20 @@ class Venta:
         self.combo_productos = ctk.CTkComboBox(self.app, values=["Malangas", "Maicitos"], width=200)
         self.combo_productos.grid(row=2, column=1, pady=(0, 20), sticky="n")
 
-        self.check_preparado = ctk.CTkCheckBox(self.app, text="Preparada", font=("Arial", 14))
-        self.check_preparado.grid(row=3, column=1, pady=10, sticky="n")
-
         self.etiqueta_cantidad = ctk.CTkLabel(self.app, text="Cantidad", font=("Arial", 16, "bold"))
-        self.etiqueta_cantidad.grid(row=4, column=1, pady=(10, 5), sticky="n")
+        self.etiqueta_cantidad.grid(row=3, column=1, pady=(10, 5), sticky="n")
 
         self.entrada_cantidad = ctk.CTkEntry(self.app, placeholder_text="Ingrese la cantidad", width=200)
-        self.entrada_cantidad.grid(row=5, column=1, pady=(0, 20), sticky="n")
+        self.entrada_cantidad.grid(row=4, column=1, pady=(0, 20), sticky="n")
 
         self.etiqueta_sabor = ctk.CTkLabel(self.app, text="Seleccione el sabor", font=("Arial", 16, "bold"))
-        self.etiqueta_sabor.grid(row=6, column=1, pady=(10, 5), sticky="n")
+        self.etiqueta_sabor.grid(row=5, column=1, pady=(10, 5), sticky="n")
 
         self.combo_sabor = ctk.CTkComboBox(self.app, values=["Queso", "Picante", "Natural", "Tocineta"], width=200)
-        self.combo_sabor.grid(row=7, column=1, pady=(0, 20), sticky="n")
+        self.combo_sabor.grid(row=6, column=1, pady=(0, 20), sticky="n")
 
-        self.boton_reiniciar = ctk.CTkButton(self.app, text="Reiniciar", font=("Arial", 18, "bold"), fg_color="red", text_color="white", width=150)
-        self.boton_reiniciar.grid(row=8, column=1, pady=30, sticky="n")
+        self.boton_venta = ctk.CTkButton(self.app, text="Vender", font=("Arial", 18, "bold"), fg_color="green", text_color="white", width=150)
+        self.boton_venta.grid(row=7, column=1, pady=30, sticky="n")
 
 if __name__ == "__main__":
     ctk.set_appearance_mode("dark")

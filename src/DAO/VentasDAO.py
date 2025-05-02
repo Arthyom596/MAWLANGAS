@@ -15,12 +15,10 @@ def conectar():
         conexion.execute("""
         CREATE TABLE IF NOT EXISTS Ventas(
             IDVenta INTEGER PRIMARY KEY AUTOINCREMENT,
-            Fecha TEXT NOT NULL,
             IDProducto INTEGER NOT NULL,
             IDSabor INTEGER NOT NULL,
             CantidadVendida INTEGER NOT NULL,
-            Preparado BOOLEAN NOT NULL,
-            PrecioVenta INTEGER NOT NULL,
+            Fecha TEXT NOT NULL,
             FOREIGN KEY (IDProducto) REFERENCES Productos(IDProducto) ON DELETE CASCADE,
             FOREIGN KEY (IDSabor) REFERENCES Sabores(IDSabor) ON DELETE CASCADE
         );
@@ -32,14 +30,14 @@ def conectar():
         return None
 
 # Crear una venta
-def crear_venta(fecha, id_producto, id_sabor, cantidad_vendida, preparado, precio_venta):
+def crear_venta(id_producto, id_sabor, cantidad_vendida, fecha):
     conexion = conectar()
     cursor = conexion.cursor()
     try:
         cursor.execute("""
-            INSERT INTO Ventas(Fecha, IDProducto, IDSabor, CantidadVendida, Preparado, PrecioVenta)
-            VALUES (?, ?, ?, ?, ?, ?)
-        """, (fecha, id_producto, id_sabor, cantidad_vendida, preparado, precio_venta))
+            INSERT INTO Ventas(IDProducto, IDSabor, CantidadVendida, Fecha)
+            VALUES (?, ?, ?, ?)
+        """, (id_producto, id_sabor, cantidad_vendida, fecha))
         conexion.commit()
         print("Venta registrada correctamente.")
     except sqlite3.IntegrityError:

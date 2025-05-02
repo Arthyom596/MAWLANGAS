@@ -52,4 +52,6 @@ def consultar_finanzas():
     conexion.close()
     return finanzas
 
+
+
 # No se pueden modificar ni eliminar finanzas por integridad
