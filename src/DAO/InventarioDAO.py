@@ -81,3 +81,21 @@ def eliminar_inventario(id_inventario):
     finally:
         conexion.close()
 
+
+# Obtener cantidad existente y IDInventario para un producto y sabor
+def obtener_cantidad_existente(id_producto, id_sabor):
+    conexion = conectar()
+    if not conexion:
+        return 0, None
+    try:
+        resultado = conexion.execute("""
+            SELECT Cantidad, IDInventario FROM Inventario
+            WHERE IDProducto = ? AND IDSabor = ?
+        """, (id_producto, id_sabor)).fetchone()
+        if resultado:
+            return resultado[0], resultado[1]
+        else:
+            return 0, None
+    finally:
+        conexion.close()
+

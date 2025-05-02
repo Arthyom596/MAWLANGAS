@@ -1,7 +1,7 @@
 import customtkinter as ctk
 
 
-class Eliminar:
+class EliminarVista:
     def __init__(self, root):
         self.root = root
         self.root.geometry("800x600")
@@ -27,5 +27,5 @@ class Eliminar:
 
 if __name__ == "__main__":
     root = ctk.CTk()
-    app = Eliminar(root)
+    app = EliminarVista(root)
     root.mainloop()

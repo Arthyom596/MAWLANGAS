@@ -1,7 +1,7 @@
 import customtkinter as ctk
 
 
-class DatosInventario:
+class DatosInventarioVista:
     def __init__(self, root):
         self.root = root
         self.root.geometry("800x600")
@@ -62,5 +62,5 @@ class DatosInventario:
 
 if __name__ == "__main__":
     root = ctk.CTk()
-    app = DatosInventario(root)
+    app = DatosInventarioVista(root)
     root.mainloop()

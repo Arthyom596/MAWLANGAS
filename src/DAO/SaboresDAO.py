@@ -77,4 +77,30 @@ def eliminar_sabor(id_sabor):
     finally:
         conexion.close()
 
+def obtener_sabores_por_producto(id_producto):
+    conexion = conectar()
+    if not conexion:
+        return []
+    try:
+        return conexion.execute("""
+            SELECT IDSabor, NombreSabor FROM Sabores
+            WHERE IDProducto = ?
+        """, (id_producto,)).fetchall()
+    finally:
+        conexion.close()
+
+def obtener_sabores_por_producto(id_producto):
+    conexion = conectar()
+    if not conexion:
+        return []
+    try:
+        return conexion.execute("""
+            SELECT IDSabor, NombreSabor FROM Sabores
+            WHERE IDProducto = ?
+        """, (id_producto,)).fetchall()
+    finally:
+        conexion.close()
+
+
+
 

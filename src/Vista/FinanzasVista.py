@@ -1,7 +1,7 @@
 import customtkinter as ctk
 
 
-class FinanzasApp:
+class FinanzasVista:
     def __init__(self, root):
         self.root = root
         self.root.geometry("800x600")
@@ -60,5 +60,5 @@ class FinanzasApp:
 
 if __name__ == "__main__":
     root = ctk.CTk()
-    app = FinanzasApp(root)
+    app = FinanzasVista(root)
     root.mainloop()

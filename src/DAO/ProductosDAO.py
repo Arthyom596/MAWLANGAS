@@ -88,6 +88,7 @@ def buscar_producto(nombre_producto):
     finally:
         conexion.close()
 
+
 def obtener_ultimo_producto():
     conexion = conectar()
     try:
@@ -98,3 +99,13 @@ def obtener_ultimo_producto():
             return None
     finally:
         conexion.close()
+
+def obtener_productos_id_nombre():
+    conexion = conectar()
+    if not conexion:
+        return []
+    try:
+        return conexion.execute("SELECT IDProducto, Nombre FROM Productos").fetchall()
+    finally:
+        conexion.close()
+

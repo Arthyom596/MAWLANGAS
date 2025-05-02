@@ -1,6 +1,6 @@
 import customtkinter as ctk
 
-class MenuConsulta:
+class MenuConsultaVista:
     def __init__(self, root):
         self.app = root
         self.app.geometry("800x600")
@@ -24,5 +24,5 @@ class MenuConsulta:
 if __name__ == "__main__":
     ctk.set_appearance_mode("dark")
     app = ctk.CTk()
-    app_instance = MenuConsulta(app)
+    app_instance = MenuConsultaVista(app)
     app.mainloop()

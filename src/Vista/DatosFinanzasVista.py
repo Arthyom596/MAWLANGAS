@@ -1,7 +1,7 @@
 import customtkinter as ctk
 
 
-class DatosFinanzas:
+class DatosFinanzasVista:
     def __init__(self, root):
         self.root = root
         self.root.geometry("800x600")

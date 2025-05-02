@@ -4,7 +4,7 @@ from pathlib import Path
 from src.Modelo.Login import verificar_usuario
 from src.DAO.UsuariosDAO import buscar_usuario
 
-class Login:
+class LoginVista:
     def __init__(self, parent):
         # Creamos manualmente el frame principal
         self.frame = ctk.CTkFrame(parent)
@@ -113,6 +113,6 @@ if __name__ == "__main__":
     app.geometry("950x600")
     app.title("Login")
 
-    login = Login(app)
+    login = LoginVista(app)
 
     app.mainloop()
