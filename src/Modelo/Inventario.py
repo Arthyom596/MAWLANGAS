@@ -2,14 +2,14 @@ from datetime import datetime
 from src.DAO.InventarioDAO import crear_inventario, actualizar_inventario, obtener_cantidad_existente
 from src.DAO.ProductosDAO import obtener_productos_id_nombre
 from src.DAO.SaboresDAO import obtener_sabores_por_producto
-from src.Modelo.Validaciones import validar_numero
+from src.Modelo.Validaciones import validar_numero,obtener_fecha_exacta_actual
 
-class InventarioModelo:
+class Inventario:
     def __init__(self, id_producto, id_sabor, cantidad):
         self.id_producto = id_producto
         self.id_sabor = id_sabor
         self.cantidad = cantidad
-        self.fecha = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        self.fecha = obtener_fecha_exacta_actual()
 
     def guardar(self):
         valido, mensaje = validar_numero(self.cantidad)

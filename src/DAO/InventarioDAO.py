@@ -99,3 +99,40 @@ def obtener_cantidad_existente(id_producto, id_sabor):
     finally:
         conexion.close()
 
+
+def descontar_producto(id_producto, id_sabor, cantidad_a_descontar, fecha_actualizacion):
+    conexion = conectar()
+    if not conexion:
+        return False
+    try:
+        # Verifica la cantidad existente
+        cantidad_actual, id_inventario = obtener_cantidad_existente(id_producto, id_sabor)
+
+        if id_inventario is None:
+            print("No existe inventario para este producto y sabor.")
+            return False
+
+        if cantidad_actual < cantidad_a_descontar:
+            print("No hay suficiente inventario para realizar la venta.")
+            return False
+
+        nueva_cantidad = cantidad_actual - cantidad_a_descontar
+
+        conexion.execute("""
+            UPDATE Inventario
+            SET Cantidad = ?, FechaActualizacion = ?
+            WHERE IDInventario = ?
+        """, (nueva_cantidad, fecha_actualizacion, id_inventario))
+        conexion.commit()
+        print("Inventario actualizado correctamente.")
+        return True
+    except sqlite3.Error as e:
+        print(f"Error al descontar producto del inventario: {e}")
+        return False
+    finally:
+        conexion.close()
+
+
+
+
+

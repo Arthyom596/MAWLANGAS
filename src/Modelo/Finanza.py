@@ -1,6 +1,7 @@
 import datetime
 from src.DAO.FinanzaDAO import agregar_finanza
-from src.Modelo.Validaciones import validar_numero, validar_descripcion
+from src.Modelo.Validaciones import validar_numero, validar_descripcion, obtener_fecha_exacta_actual
+
 
 class Finanza:
     def __init__(self):
@@ -15,7 +16,7 @@ class Finanza:
         if not descripcion_valida:
             return False, resultado_descripcion
 
-        fecha = datetime.datetime.today().isoformat()
+        fecha = obtener_fecha_exacta_actual()
         tipo = "Ingreso"
         agregar_finanza(fecha, tipo, float(monto), descripcion)
         return True, "Ingreso registrado correctamente"
@@ -29,7 +30,7 @@ class Finanza:
         if not descripcion_valida:
             return False, resultado_descripcion
 
-        fecha = datetime.datetime.today().isoformat()
+        fecha = obtener_fecha_exacta_actual()
         tipo = "Gasto"
         agregar_finanza(fecha, tipo, float(monto), descripcion)
         return True, "Gasto registrado correctamente"

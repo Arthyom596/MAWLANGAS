@@ -89,18 +89,21 @@ def obtener_sabores_por_producto(id_producto):
     finally:
         conexion.close()
 
-def obtener_sabores_por_producto(id_producto):
+
+
+# Obtener el ID de un sabor por nombre
+def obtener_id_sabor(nombre_sabor, id_producto):
     conexion = conectar()
     if not conexion:
-        return []
+        return None
     try:
-        return conexion.execute("""
-            SELECT IDSabor, NombreSabor FROM Sabores
-            WHERE IDProducto = ?
-        """, (id_producto,)).fetchall()
+        result = conexion.execute("""
+            SELECT IDSabor FROM Sabores
+            WHERE NombreSabor = ? AND IDProducto = ?
+        """, (nombre_sabor, id_producto)).fetchone()
+        return result[0] if result else None
     finally:
         conexion.close()
-
 
 
 

@@ -1,6 +1,6 @@
 import customtkinter as ctk
 from src.Controlador.InventarioControlador import InventarioControlador
-from src.Modelo.Inventario import InventarioModelo
+from src.Modelo.Inventario import Inventario
 
 
 class InventarioVista:

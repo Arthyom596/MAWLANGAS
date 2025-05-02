@@ -1,10 +1,10 @@
-from src.Modelo.Inventario import InventarioModelo
+from src.Modelo.Inventario import Inventario
 
 class InventarioControlador:
     def __init__(self, vista):
         self.vista = vista
         self.vista.set_controlador(self)
-        self.productos = InventarioModelo.obtener_productos()
+        self.productos = Inventario.obtener_productos()
         self.vista.set_productos(self.productos)
 
     def obtener_id_producto(self):
@@ -14,7 +14,7 @@ class InventarioControlador:
     def actualizar_sabores(self, _=None):
         id_producto = self.obtener_id_producto()
         if id_producto is not None:
-            sabores = InventarioModelo.obtener_sabores(id_producto)
+            sabores = Inventario.obtener_sabores(id_producto)
             self.vista.set_sabores(sabores)
 
     def agregar_producto(self):
@@ -27,7 +27,7 @@ class InventarioControlador:
             self.vista.mostrar_mensaje("Faltan datos", "red")
             return
 
-        modelo = InventarioModelo(id_producto, id_sabor, cantidad)
+        modelo = Inventario(id_producto, id_sabor, cantidad)
         if modelo.actualizar():
             self.vista.mostrar_mensaje("Producto agregado correctamente")
         else:
@@ -46,7 +46,7 @@ class InventarioControlador:
             self.vista.mostrar_mensaje("Faltan datos", "red")
             return
 
-        modelo = InventarioModelo(id_producto, id_sabor, cantidad)
+        modelo = Inventario(id_producto, id_sabor, cantidad)
         if modelo.mermar_cantidad():
             self.vista.mostrar_mensaje("Producto mermado correctamente")
         else:
