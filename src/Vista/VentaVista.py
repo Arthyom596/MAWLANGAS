@@ -57,7 +57,16 @@ class Venta:
         # Esta es la función que se ejecutará cuando el usuario seleccione un producto
         producto_seleccionado = self.combo_productos.get()
         print(f"[DEBUG] Producto seleccionado: {producto_seleccionado}")
-        self.controlador.cargar_sabores(None)  # Llama al controlador para cargar los sabores del producto seleccionado
+
+        # Obtener ID del producto basado en su nombre
+        id_producto = self.controlador.obtener_id_producto()
+
+        if id_producto:
+            # Llamamos al controlador para cargar los sabores del producto seleccionado
+            self.controlador.actualizar_sabores(
+                id_producto)  # Llama al controlador para cargar los sabores del producto seleccionado
+        else:
+            print("[DEBUG] Producto seleccionado no válido.")
 
 
 if __name__ == "__main__":

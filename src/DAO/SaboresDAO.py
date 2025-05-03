@@ -15,7 +15,7 @@ def conectar():
         CREATE TABLE IF NOT EXISTS Sabores (
             IDSabor INTEGER PRIMARY KEY AUTOINCREMENT,
             IDProducto INTEGER NOT NULL,
-            NombreSabor TEXT NOT NULL,
+            NombreSabor TEXT,
             FOREIGN KEY (IDProducto) REFERENCES Productos(IDProducto) ON DELETE CASCADE
         );
         """)
@@ -31,6 +31,10 @@ def crear_sabor(id_producto, nombre_sabor):
     if not conexion:
         return
     try:
+        # Si el nombre del sabor es vacío, "Sin sabor" o None, lo dejamos como NULL
+        if nombre_sabor == "Sin sabor" or nombre_sabor is None:
+            nombre_sabor = None  # Permitimos NULL para 'Sin sabor'
+
         conexion.execute("""
             INSERT INTO Sabores (IDProducto, NombreSabor) VALUES (?, ?)
         """, (id_producto, nombre_sabor))
@@ -40,6 +44,7 @@ def crear_sabor(id_producto, nombre_sabor):
         print("Error: El sabor no se pudo crear")
     finally:
         conexion.close()
+
 
 # Obtener todos los sabores
 def obtener_sabores():

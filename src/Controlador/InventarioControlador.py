@@ -19,11 +19,19 @@ class InventarioControlador:
 
     def agregar_producto(self):
         id_producto = self.obtener_id_producto()
-        nombre_sabor = self.vista.combo_sabores_agregar.get()
-        id_sabor = self.vista.sabores_dict.get(nombre_sabor)
         cantidad = self.obtener_cantidad(self.vista.entrada_cantidad_agregar.get())
 
-        if None in (id_producto, id_sabor, cantidad):
+        # Validación del sabor solo si el switch está activado
+        id_sabor = None
+        if self.vista.switch_usar_sabor.get():
+            nombre_sabor = self.vista.combo_sabores_agregar.get()
+            if nombre_sabor == "Sabor":
+                id_sabor = None
+
+            else:
+                id_sabor = self.vista.sabores_dict.get(nombre_sabor)
+
+        if id_producto is None or cantidad is None:
             self.vista.mostrar_mensaje("Faltan datos", "red")
             return
 
@@ -38,11 +46,18 @@ class InventarioControlador:
 
     def mermar_producto(self):
         id_producto = self.obtener_id_producto()
-        nombre_sabor = self.vista.combo_sabores_mermar.get()
-        id_sabor = self.vista.sabores_dict.get(nombre_sabor)
         cantidad = self.obtener_cantidad(self.vista.entrada_cantidad_mermar.get())
 
-        if None in (id_producto, id_sabor, cantidad):
+        # Validación del sabor solo si el switch está activado
+        id_sabor = None
+        if self.vista.switch_usar_sabor.get():
+            nombre_sabor = self.vista.combo_sabores_mermar.get()
+            if nombre_sabor == "Sabor":
+                id_sabor = None
+            else:
+                id_sabor = self.vista.sabores_dict.get(nombre_sabor)
+
+        if id_producto is None or cantidad is None:
             self.vista.mostrar_mensaje("Faltan datos", "red")
             return
 

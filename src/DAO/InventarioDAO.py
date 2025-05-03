@@ -15,7 +15,7 @@ def conectar():
         CREATE TABLE IF NOT EXISTS Inventario(
             IDInventario INTEGER PRIMARY KEY AUTOINCREMENT,
             IDProducto INTEGER NOT NULL,
-            IDSabor INTEGER NOT NULL,
+            IDSabor INTEGER,  -- PERMITE NULL
             Cantidad INTEGER NOT NULL,
             FechaActualizacion TEXT NOT NULL,
             FOREIGN KEY(IDProducto) REFERENCES Productos(IDProducto) ON DELETE CASCADE,
@@ -82,16 +82,23 @@ def eliminar_inventario(id_inventario):
         conexion.close()
 
 
+
 # Obtener cantidad existente y IDInventario para un producto y sabor
 def obtener_cantidad_existente(id_producto, id_sabor):
     conexion = conectar()
     if not conexion:
         return 0, None
     try:
-        resultado = conexion.execute("""
-            SELECT Cantidad, IDInventario FROM Inventario
-            WHERE IDProducto = ? AND IDSabor = ?
-        """, (id_producto, id_sabor)).fetchone()
+        if id_sabor is None:
+            resultado = conexion.execute("""
+                SELECT Cantidad, IDInventario FROM Inventario
+                WHERE IDProducto = ? AND IDSabor IS NULL
+            """, (id_producto,)).fetchone()
+        else:
+            resultado = conexion.execute("""
+                SELECT Cantidad, IDInventario FROM Inventario
+                WHERE IDProducto = ? AND IDSabor = ?
+            """, (id_producto, id_sabor)).fetchone()
         if resultado:
             return resultado[0], resultado[1]
         else:
@@ -99,13 +106,12 @@ def obtener_cantidad_existente(id_producto, id_sabor):
     finally:
         conexion.close()
 
-
+# Descontar producto del inventario
 def descontar_producto(id_producto, id_sabor, cantidad_a_descontar, fecha_actualizacion):
     conexion = conectar()
     if not conexion:
         return False
     try:
-        # Verifica la cantidad existente
         cantidad_actual, id_inventario = obtener_cantidad_existente(id_producto, id_sabor)
 
         if id_inventario is None:
@@ -131,8 +137,4 @@ def descontar_producto(id_producto, id_sabor, cantidad_a_descontar, fecha_actual
         return False
     finally:
         conexion.close()
-
-
-
-
 

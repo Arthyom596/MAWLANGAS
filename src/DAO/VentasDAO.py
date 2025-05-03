@@ -11,12 +11,12 @@ def conectar():
     try:
         conexion = sqlite3.connect(nombre_bd)
         conexion.execute("PRAGMA foreign_keys = ON")
-        # Tabla Ventas
+        # Tabla Ventas (IDSabor ahora permite NULL)
         conexion.execute("""
         CREATE TABLE IF NOT EXISTS Ventas(
             IDVenta INTEGER PRIMARY KEY AUTOINCREMENT,
             IDProducto INTEGER NOT NULL,
-            IDSabor INTEGER NOT NULL,
+            IDSabor INTEGER,  -- Aquí se eliminó NOT NULL
             CantidadVendida INTEGER NOT NULL,
             Fecha TEXT NOT NULL,
             FOREIGN KEY (IDProducto) REFERENCES Productos(IDProducto) ON DELETE CASCADE,
@@ -37,7 +37,7 @@ def crear_venta(id_producto, id_sabor, cantidad_vendida, fecha):
         cursor.execute("""
             INSERT INTO Ventas(IDProducto, IDSabor, CantidadVendida, Fecha)
             VALUES (?, ?, ?, ?)
-        """, (id_producto, id_sabor, cantidad_vendida, fecha))
+        """, (id_producto, id_sabor if id_sabor is not None else None, cantidad_vendida, fecha))
         conexion.commit()
         print("Venta registrada correctamente.")
     except sqlite3.IntegrityError:
@@ -53,7 +53,3 @@ def obtener_ventas():
     ventas = cursor.fetchall()
     conexion.close()
     return ventas
-
-# No se pueden modificar las ventas por integridad
-
-# No se pueden eliminar ventas por integridad

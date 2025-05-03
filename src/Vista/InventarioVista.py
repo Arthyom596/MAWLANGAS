@@ -9,33 +9,38 @@ class InventarioVista:
         self.app.geometry("800x600")
         self.app.title("Administración del Inventario")
 
-        # Diccionarios auxiliares para mapear nombres a IDs
+        # Diccionarios auxiliares
         self.productos_dict = {}
         self.sabores_dict = {}
 
         for i in range(3):
             self.app.grid_columnconfigure(i, weight=1)
-        for i in range(9):
+        for i in range(10):
             self.app.grid_rowconfigure(i, weight=1)
 
-        # Etiqueta principal
-        self.etiqueta_titulo = ctk.CTkLabel(self.app, text="Administración del Inventario", font=("Arial", 36, "bold"))
+        # Título
+        self.etiqueta_titulo = ctk.CTkLabel(self.app, text="Administración del Inventario", font=("Arial", 32, "bold"))
         self.etiqueta_titulo.grid(row=0, column=1, pady=10, sticky="n")
 
-        # Sección de selección de producto
-        self.etiqueta_producto = ctk.CTkLabel(self.app, text="Escoja el producto:", font=("Arial", 16))
-        self.etiqueta_producto.grid(row=1, column=1, sticky="n", pady=5)
+        # Producto
+        self.etiqueta_producto = ctk.CTkLabel(self.app, text="Seleccione producto:", font=("Arial", 16))
+        self.etiqueta_producto.grid(row=1, column=1, sticky="s", pady=5)
 
         self.combo_producto = ctk.CTkComboBox(self.app, values=[], width=200, font=("Arial", 14))
         self.combo_producto.grid(row=2, column=1, pady=5)
         self.combo_producto.set("Producto")
 
-        # Sección para agregar productos
+        # Switch de sabor
+        self.switch_usar_sabor = ctk.CTkSwitch(self.app, text="¿Usa sabor?", font=("Arial", 14), command=self.toggle_sabor)
+        self.switch_usar_sabor.grid(row=3, column=1, pady=5)
+        self.switch_usar_sabor.select()
+
+        # Agregar producto
         self.etiqueta_agregar = ctk.CTkLabel(self.app, text="Agregar Productos", font=("Arial", 18, "bold"))
-        self.etiqueta_agregar.grid(row=3, column=1, pady=10, sticky="n")
+        self.etiqueta_agregar.grid(row=4, column=1, pady=5)
 
         self.frame_agregar = ctk.CTkFrame(self.app, fg_color="transparent")
-        self.frame_agregar.grid(row=4, column=1, pady=5)
+        self.frame_agregar.grid(row=5, column=1, pady=5)
 
         self.combo_sabores_agregar = ctk.CTkComboBox(self.frame_agregar, values=[], width=140, font=("Arial", 14))
         self.combo_sabores_agregar.grid(row=0, column=0, padx=5)
@@ -47,12 +52,12 @@ class InventarioVista:
         self.boton_agregar = ctk.CTkButton(self.frame_agregar, text="Agregar", width=100, font=("Arial", 14, "bold"))
         self.boton_agregar.grid(row=0, column=2, padx=5)
 
-        # Sección para mermar productos
+        # Mermar producto
         self.etiqueta_mermar = ctk.CTkLabel(self.app, text="Mermar Productos", font=("Arial", 18, "bold"))
-        self.etiqueta_mermar.grid(row=5, column=1, pady=10, sticky="n")
+        self.etiqueta_mermar.grid(row=6, column=1, pady=5)
 
         self.frame_mermar = ctk.CTkFrame(self.app, fg_color="transparent")
-        self.frame_mermar.grid(row=6, column=1, pady=5)
+        self.frame_mermar.grid(row=7, column=1, pady=5)
 
         self.combo_sabores_mermar = ctk.CTkComboBox(self.frame_mermar, values=[], width=140, font=("Arial", 14))
         self.combo_sabores_mermar.grid(row=0, column=0, padx=5)
@@ -64,11 +69,19 @@ class InventarioVista:
         self.boton_mermar = ctk.CTkButton(self.frame_mermar, text="Mermar", width=100, font=("Arial", 14, "bold"))
         self.boton_mermar.grid(row=0, column=2, padx=5)
 
-        # Etiqueta para mensajes
+        # Mensajes
         self.etiqueta_mensaje = ctk.CTkLabel(self.app, text="", font=("Arial", 14))
-        self.etiqueta_mensaje.grid(row=8, column=1, pady=10, sticky="n")
+        self.etiqueta_mensaje.grid(row=9, column=1, pady=10, sticky="n")
 
-    # Métodos para enlazar funciones externas
+    def toggle_sabor(self):
+        estado = self.switch_usar_sabor.get()
+        if estado:
+            self.combo_sabores_agregar.grid()
+            self.combo_sabores_mermar.grid()
+        else:
+            self.combo_sabores_agregar.grid_remove()
+            self.combo_sabores_mermar.grid_remove()
+
     def set_controlador(self, controlador):
         self.controlador = controlador
         self.combo_producto.configure(command=self.controlador.actualizar_sabores)
@@ -76,14 +89,12 @@ class InventarioVista:
         self.boton_mermar.configure(command=self.controlador.mermar_producto)
 
     def set_productos(self, productos: list):
-        # productos = [(id, nombre), ...]
         self.productos_dict = {nombre: id_ for id_, nombre in productos}
         nombres = list(self.productos_dict.keys())
         self.combo_producto.configure(values=nombres)
         self.combo_producto.set("Producto")
 
     def set_sabores(self, sabores: list):
-        # sabores = [(id, nombre), ...]
         self.sabores_dict = {nombre: id_ for id_, nombre in sabores}
         nombres = list(self.sabores_dict.keys())
         self.combo_sabores_agregar.configure(values=nombres)
@@ -99,5 +110,5 @@ if __name__ == "__main__":
     ctk.set_appearance_mode("dark")
     root = ctk.CTk()
     app = InventarioVista(root)
-    controlador = InventarioControlador(app)  # Conecta vista y lógica
+    controlador = InventarioControlador(app)
     root.mainloop()
