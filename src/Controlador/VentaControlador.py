@@ -3,6 +3,7 @@ from src.DAO.ProductosDAO import obtener_productos_id_nombre, obtener_productos_
 from src.DAO.SaboresDAO import obtener_sabores_por_producto, obtener_id_sabor
 from src.DAO.InventarioDAO import obtener_cantidad_existente
 
+
 class ControladorVenta:
     def __init__(self, vista):
         self.vista = vista
@@ -24,94 +25,90 @@ class ControladorVenta:
         self.vista.combo_productos.configure(values=nombres)
 
         # Limpiar la lista de sabores al cargar productos
-        self.vista.combo_sabor.configure(values=[])
+        self.vista.combo_sabor.configure(values=[], state="disabled")
         self.vista.sabores_dict = {}
 
     def actualizar_sabores(self, event=None):
-        # Esta es la función que se ejecutará cuando el usuario seleccione un producto
         producto_seleccionado = self.vista.combo_productos.get()
         print(f"[DEBUG] Producto seleccionado: {producto_seleccionado}")
 
-        # Obtener ID del producto basado en su nombre
         id_producto = self.obtener_id_producto()
         print(f"[DEBUG] ID del producto seleccionado: {id_producto}")
 
         if id_producto:
-            # Llamamos al controlador para obtener los sabores del producto seleccionado
             sabores = obtener_sabores_por_producto(id_producto)
             print(f"[DEBUG] Sabores obtenidos desde la base de datos: {sabores}")
 
-            self.vista.sabores_dict = {sabor[1]: sabor[0] for sabor in sabores}
-            nombres = [sabor[1] for sabor in sabores]
-            self.vista.combo_sabor.configure(values=nombres)
+            if sabores:
+                self.vista.combo_sabor.configure(state="readonly")
+                self.vista.sabores_dict = {sabor[1]: sabor[0] for sabor in sabores}
+                nombres = [sabor[1] for sabor in sabores]
+                self.vista.combo_sabor.configure(values=nombres)
+                self.vista.combo_sabor.set("Sabor")
+            else:
+                self.vista.combo_sabor.configure(state="disabled")
+                self.vista.combo_sabor.set("Sin sabor")
+                self.vista.sabores_dict = {}
         else:
             print("[DEBUG] No se seleccionó un producto válido.")
 
     def obtener_id_producto(self):
-        # Obtener ID del producto seleccionado desde la vista
         seleccionado = self.vista.combo_productos.get()
         return self.vista.productos_dict.get(seleccionado)
 
     def obtener_id_sabor(self):
-        # Obtener ID del sabor seleccionado
         nombre_sabor = self.vista.combo_sabor.get()
+        if nombre_sabor in ["", "Sabor", None, "Sin sabor"]:
+            return None
         id_producto = self.obtener_id_producto()
         return obtener_id_sabor(nombre_sabor, id_producto)
 
     def crear_venta(self):
-        # Obtener datos de la vista
         nombre_producto = self.vista.combo_productos.get()
-        nombre_sabor = self.vista.combo_sabor.get()
+        nombre_sabor = self.vista.combo_sabor.get() if self.vista.combo_sabor.cget("state") != "disabled" else "Sin sabor"
         cantidad_str = self.vista.entrada_cantidad.get()
 
-        # Verificar que se haya ingresado una cantidad válida
         if not cantidad_str.isdigit() or int(cantidad_str) <= 0:
             self.vista.etiqueta_dinamica.configure(text="Ingrese una cantidad válida", text_color="red")
             return
 
         cantidad = int(cantidad_str)
 
-        # Verificar que se haya seleccionado un producto y un sabor
-        if nombre_producto == "Producto" or nombre_sabor == "Sabor":
-            self.vista.etiqueta_dinamica.configure(text="Seleccione producto y sabor", text_color="red")
+        if nombre_producto == "Producto":
+            self.vista.etiqueta_dinamica.configure(text="Seleccione un producto", text_color="red")
             return
 
-        # Obtener ID del producto y sabor
         id_producto = self.obtener_id_producto()
         id_sabor = self.obtener_id_sabor()
 
-        # Verificar si el producto y sabor son válidos
-        if id_producto is None or id_sabor is None:
-            self.vista.etiqueta_dinamica.configure(text="Producto o sabor no válido", text_color="red")
+        if id_producto is None:
+            self.vista.etiqueta_dinamica.configure(text="Producto no válido", text_color="red")
             return
 
-        # Verificar disponibilidad en inventario
         cantidad_disponible, _ = obtener_cantidad_existente(id_producto, id_sabor)
         if cantidad_disponible < cantidad:
-            self.vista.etiqueta_dinamica.configure(text=f"Inventario insuficiente. Disponible: {cantidad_disponible}",
-                                                   text_color="red")
+            self.vista.etiqueta_dinamica.configure(
+                text=f"Inventario insuficiente. Disponible: {cantidad_disponible}", text_color="red"
+            )
             return
 
-        # Obtener precio del producto
         producto = next((prod for prod in obtener_productos_completos() if prod[0] == id_producto), None)
 
         if producto:
-            precio_unitario = producto[2]  # PrecioVenta es el tercer valor en la tupla
+            precio_unitario = producto[2]
         else:
             self.vista.etiqueta_dinamica.configure(text="Error al obtener precio", text_color="red")
             return
 
-        # Realizar la venta usando el modelo
         exito, mensaje, *_ = self.modelo.realizar_venta(
             id_producto, id_sabor, cantidad, precio_unitario, nombre_producto, nombre_sabor
         )
 
-        # Actualizar mensaje de la venta
         self.vista.etiqueta_dinamica.configure(text=mensaje, text_color="green" if exito else "red")
 
-        # Si la venta fue exitosa, limpiar los campos
         if exito:
             self.vista.entrada_cantidad.delete(0, "end")
             self.vista.combo_productos.set("Producto")
             self.vista.combo_sabor.set("Sabor")
-            self.vista.etiqueta_dinamica.configure(text="", text_color="white")  # Limpiar etiqueta dinámica
+            self.vista.combo_sabor.configure(state="disabled")
+            self.vista.etiqueta_dinamica.configure(text="", text_color="white")
