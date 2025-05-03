@@ -23,11 +23,11 @@ class Venta:
             return False, f"No hay suficiente inventario. Disponible: {cantidad_disponible}"
 
         # Descontar del inventario
-        descontar_producto(id_producto, id_sabor, cantidad)
+        descontar_producto(id_producto, id_sabor, cantidad,fecha)
 
         # Registrar en VentasDAO
         total = cantidad * precio_unitario
-        crear_venta(id_producto, id_sabor, cantidad, fecha, total)
+        crear_venta(id_producto, id_sabor, cantidad, fecha)
 
         # Registrar en FinanzasDAO
         descripcion = f"Venta de {cantidad} {nombre_producto} sabor {nombre_sabor}"

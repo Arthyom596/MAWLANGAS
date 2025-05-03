@@ -109,3 +109,12 @@ def obtener_productos_id_nombre():
     finally:
         conexion.close()
 
+def obtener_productos_completos():
+    conexion = conectar()
+    cursor = conexion.cursor()
+    cursor.execute("SELECT IDProducto, Nombre, PrecioVenta FROM Productos")
+    productos = cursor.fetchall()
+    conexion.close()
+    return productos
+
+

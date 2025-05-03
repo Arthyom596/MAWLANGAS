@@ -1,5 +1,5 @@
 from src.Modelo.Venta import Venta as ModeloVenta
-from src.DAO.ProductosDAO import obtener_productos_id_nombre
+from src.DAO.ProductosDAO import obtener_productos_id_nombre,obtener_productos_completos
 from src.DAO.SaboresDAO import obtener_sabores_por_producto, obtener_id_sabor
 from src.DAO.InventarioDAO import obtener_cantidad_existente
 
@@ -79,7 +79,8 @@ class ControladorVenta:
             return
 
         # Obtener precio del producto
-        producto = next((prod for prod in obtener_productos_id_nombre() if prod[0] == id_producto), None)
+        producto = next((prod for prod in obtener_productos_completos() if prod[0] == id_producto), None)
+
         if producto:
             precio_unitario = producto[2]  # PrecioVenta es el tercer valor en la tupla
         else:
@@ -87,6 +88,7 @@ class ControladorVenta:
             return
 
         # Realizar la venta usando el modelo
+
         exito, mensaje, *_ = self.modelo.realizar_venta(
             id_producto, id_sabor, cantidad, precio_unitario, nombre_producto, nombre_sabor
         )
