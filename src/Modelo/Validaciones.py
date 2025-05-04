@@ -33,33 +33,26 @@ No permite ingresar letras ni caracteres especiales  ni un numerp menor a 1 o ma
 Finalmente devuelve el numero en su estado float para ingresarlo en la base de datos
 """
 def validar_numero(numero):
-    numero = str(numero).strip()
+    numero = str(numero).strip() #Convierte el numero en un String para ser evaluado
 
-    if len(numero) == 0:
-        return False, "Error: Número vacío"
-    if len(numero) < 1 or len(numero) > 10:
+    if len(numero) < 1 or len(numero) > 10: #El numero debe ser
         return False, "Error: Número menor a 1 carácter o mayor a 10 caracteres"
     if not re.fullmatch(r"^[0-9]+(\.[0-9]{1,2})?$", numero):
         return False, "Error: Debe ser un número válido. Puede ser entero o con hasta dos decimales."
+    numero_convertido = float(numero) #Convierte el String de numero a un flotante
+    return True, round(numero_convertido, 2) #Redondea a 2 decimales y lo devuelve
 
-    try:
-        numero_convertido = float(numero)
-    except ValueError:
-        return False, "Error: No se pudo convertir el número."
-
-    return True, round(numero_convertido, 2)
-
-
-#Metodo que se movera a la logica de finanzas
+""""
+El metodo validar descripcion esta pensado para cualquier campo extenso delimitando su rango
+de al menos 10 y maximo 255 caracteres es decir 1 byte permitiendo uso de cualquier caracter
+"""
 # Validar descripción con longitud mínima y máxima
 def validar_descripcion(texto):
-    texto = str(texto).strip()
+    texto = str(texto).strip() #Se limpia el texto
 
-    if len(texto) == 0:
-        return False, "Error: Texto vacío"
-    if len(texto) < 10:
+    if len(texto) < 10: #El texto no puede tener menos de 10 caracteres
         return False, "Error: El texto debe tener al menos 10 caracteres"
-    if len(texto) > 255:
+    if len(texto) > 255: #eL texto no puede tener mas de 255 caracteres
         return False, "Error: El texto no debe superar los 255 caracteres"
     return True, texto
 
