@@ -2,9 +2,9 @@
 from src.Modelo.Producto import agregar_sabor, eliminar_ultimo_sabor, guardar_producto
 
 class ProductoControlador:
-    def __init__(self, vista):
-        self.vista = vista
-        self.sabores = []
+    def __init__(self, vista): #El constructor espera a ProductoVista como parametro
+        self.vista = vista #Se crea una instancia de ProductosVista
+        self.sabores = [] #Se crea una lista vacia para los sabores
 
     def agregar_sabor(self, sabor):
         self.sabores, mensaje = agregar_sabor(sabor, self.sabores)

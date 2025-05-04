@@ -10,39 +10,44 @@ class ProductoVista:
         self.app.geometry("800x750")
         self.app.title("Añadir Producto")
 
-        self.controlador = ProductoControlador(self)
+        self.controlador = ProductoControlador(self) #Se crea una instancia del controlador
 
+        #Se ajusta la venta con grid
         self.app.grid_columnconfigure((0, 1), weight=1)
         self.app.grid_rowconfigure((0, 1, 2, 3, 4, 5), weight=1)
 
-        self.titulo = ctk.CTkLabel(self.app, text="Registro de Producto",
-                                   font=("Arial", 28, "bold"), text_color="white")
+        self.titulo = ctk.CTkLabel(self.app, text="Registro de Producto",font=("Arial", 28, "bold"), text_color="white")
         self.titulo.grid(row=0, column=0, columnspan=2, pady=(30, 10))
 
+        #Se crea un contenedor para la informacion del producto
         self.frame_producto = ctk.CTkFrame(self.app, corner_radius=20)
         self.frame_producto.grid(row=1, column=0, columnspan=2, padx=40, pady=10, sticky="nsew")
         self.frame_producto.grid_columnconfigure(1, weight=1)
 
+        #Creacion de la etiqueta de producto y su entrada
         self.label_nombre = ctk.CTkLabel(self.frame_producto, text="Nombre del producto:", font=("Arial", 16))
         self.label_nombre.grid(row=0, column=0, padx=20, pady=(20, 10), sticky="w")
         self.entry_nombre = ctk.CTkEntry(self.frame_producto, placeholder_text="Ej. Malanga", font=("Arial", 14))
         self.entry_nombre.grid(row=0, column=1, padx=20, pady=(20, 10), sticky="ew")
 
+        #Creacion de la etiqueta de precio_compra y su entrada
         self.label_precio_compra = ctk.CTkLabel(self.frame_producto, text="Precio de compra ($):", font=("Arial", 16))
         self.label_precio_compra.grid(row=1, column=0, padx=20, pady=10, sticky="w")
         self.entry_precio_compra = ctk.CTkEntry(self.frame_producto, placeholder_text="Ej. 12", font=("Arial", 14))
         self.entry_precio_compra.grid(row=1, column=1, padx=20, pady=10, sticky="ew")
 
+        # Creacion de la etiqueta de precio_venta y su entrada
         self.label_precio_venta = ctk.CTkLabel(self.frame_producto, text="Precio de venta ($):", font=("Arial", 16))
         self.label_precio_venta.grid(row=2, column=0, padx=20, pady=(10, 20), sticky="w")
         self.entry_precio_venta = ctk.CTkEntry(self.frame_producto, placeholder_text="Ej. 18", font=("Arial", 14))
         self.entry_precio_venta.grid(row=2, column=1, padx=20, pady=(10, 20), sticky="ew")
 
-        self.usar_sabores = tk.BooleanVar(value=True)
-        self.checkbox_sabores = ctk.CTkCheckBox(self.app, text="¿Agregar sabores al producto?",
-                                                variable=self.usar_sabores, onvalue=True, offvalue=False,
-                                                font=("Arial", 16), command=self.mostrar_ocultar_sabores)
-        self.checkbox_sabores.grid(row=2, column=0, columnspan=2, pady=(0, 10))
+        # Usamos CTkSwitch en lugar de CheckBox y lo dejamos "prendido" por defecto
+        self.switch_sabores = ctk.CTkSwitch(self.app, text="¿Agregar sabores al producto?",
+                                            onvalue=True, offvalue=False,
+                                            font=("Arial", 16), command=self.mostrar_ocultar_sabores,
+                                            variable=tk.BooleanVar(value=True))  # Estado inicial "prendido"
+        self.switch_sabores.grid(row=2, column=0, columnspan=2, pady=(0, 10))
 
         self.titulo_sabores = ctk.CTkLabel(self.app, text="Sabores del Producto",
                                            font=("Arial", 24, "bold"), text_color="white")
@@ -87,7 +92,7 @@ class ProductoVista:
                 self.entry_nombre.get(),
                 self.entry_precio_compra.get(),
                 self.entry_precio_venta.get(),
-                self.usar_sabores.get()
+                self.switch_sabores.get()
             )
         )
         self.btn_guardar.grid(row=5, column=0, columnspan=2, pady=30, padx=100, sticky="ew")
@@ -95,7 +100,7 @@ class ProductoVista:
         self.actualizar_estado_boton(self.controlador.sabores)
 
     def mostrar_ocultar_sabores(self):
-        if self.usar_sabores.get():
+        if self.switch_sabores.get():
             self.titulo_sabores.grid()
             self.frame_sabores.grid()
         else:
@@ -110,7 +115,7 @@ class ProductoVista:
         texto = self.sabor_var.get().strip()
         self.btn_agregar_sabor.configure(state="normal" if texto else "disabled")
         self.btn_eliminar_sabor.configure(state="normal" if sabores else "disabled")
-        if self.usar_sabores.get() and not sabores:
+        if self.switch_sabores.get() and not sabores:
             self.btn_guardar.configure(state="disabled")
         else:
             self.btn_guardar.configure(state="normal")
