@@ -4,6 +4,22 @@ import customtkinter as ctk
 import tkinter as tk
 from src.Controlador.ProductoControlador import ProductoControlador
 
+"""
+Esta clase representa la interfaz gráfica del usuario para el registro de productos.
+
+Se encarga de construir la ventana principal, mostrando campos para ingresar el nombre del producto,
+su precio de compra y venta, así como la opción de añadir sabores adicionales mediante una sección
+dinámica (toggle) que puede activarse o desactivarse.
+
+La vista también contiene botones que permiten al usuario agregar o eliminar sabores y guardar el
+producto. A través del uso de etiquetas y cuadros de texto, muestra mensajes dinámicos para informar
+al usuario sobre el estado del formulario.
+
+Toda la interacción con los datos reales es delegada al controlador, manteniendo esta clase enfocada
+únicamente en la presentación y la respuesta a eventos visuales del usuario.
+"""
+
+
 class ProductoVista:
     def __init__(self, root):
         self.app = root

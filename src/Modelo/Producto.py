@@ -4,14 +4,16 @@ from src.DAO.ProductosDAO import crear_producto, obtener_ultimo_producto, buscar
 from src.DAO.SaboresDAO import crear_sabor
 
 """
-Esta clase se encarga de revisar y manejar todo lo relacionado con los productos. Aqui se revisan
-datos como el nombre, el precio de compra y el precio de venta, asegurando que tengan sentido
-(por ejemplo, que el precio de venta sea mayor que el de compra, o que no se repita el nombre).
+Esta clase se encarga de conectar la vista con el modelo. Recibe las acciones del usuario desde 
+la interfaz (vista) y decide qué hacer con ellas, usando las funciones del modelo para procesar 
+la información.
 
-Ademas, esta clase ayuda a guardar los productos junto con sus sabores. Solo si todo esta bien,
-se manda la informacion a la base de datos. Esto ayuda a tener un codigo ordenado y mas facil
-de entender y modificar.
+El controlador valida, actualiza y devuelve respuestas a la vista usando los metodos del modelo
+como mensajes o cambios en la interfaz. También manda a llamar la lógica 
+para agregar, eliminar o guardar sabores, asegurando que el 
+usuario vea siempre una interfaz actualizada y funcionando correctamente
 """
+
 
 #Este metodo espera recibir un sabor y la lista de la interfaz
 def agregar_sabor(sabor, sabores_lista):
@@ -36,7 +38,7 @@ def guardar_producto(nombre, precio_compra, precio_venta, sabores):
         return False, resultado_nombre #Retorno en caso de error al validar nombre
     #el resultado se limpia y se pone la primera letra mayuscula
     nombre_limpio = resultado_nombre.strip().capitalize()
-    #Si el producto ya existe retorna false y un mensaje de erro
+    #Si el producto ya existe retorna false y un mensaje de error
     if buscar_producto(nombre_limpio):
         return False, f"El producto {nombre_limpio} ya existe"
     #Se valida el precio de compra si es valido continua el flujo
