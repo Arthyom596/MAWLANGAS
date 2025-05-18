@@ -68,13 +68,13 @@ class Venta:
 
     def actualizar_sabores(self, event=None):
         producto_seleccionado = self.combo_productos.get()
-        print(f"[DEBUG] Producto seleccionado: {producto_seleccionado}")
+
 
         id_producto = self.controlador.obtener_id_producto()
         if id_producto:
             self.controlador.actualizar_sabores(id_producto)
-        else:
-            print("[DEBUG] Producto seleccionado no válido.")
+
+
 
     def toggle_sabor(self):
         if self.switch_sabor.get() == 1:

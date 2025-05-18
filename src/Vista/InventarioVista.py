@@ -73,14 +73,17 @@ class InventarioVista:
         self.etiqueta_mensaje = ctk.CTkLabel(self.app, text="", font=("Arial", 14))
         self.etiqueta_mensaje.grid(row=9, column=1, pady=10, sticky="n")
 
-    def toggle_sabor(self):
-        estado = self.switch_usar_sabor.get()
+    def habilitar_sabores(self, estado: bool):
         if estado:
             self.combo_sabores_agregar.grid()
             self.combo_sabores_mermar.grid()
         else:
             self.combo_sabores_agregar.grid_remove()
             self.combo_sabores_mermar.grid_remove()
+
+    def toggle_sabor(self):
+        estado = self.switch_usar_sabor.get()
+        self.habilitar_sabores(estado)
 
     def set_controlador(self, controlador):
         self.controlador = controlador
@@ -104,6 +107,22 @@ class InventarioVista:
 
     def mostrar_mensaje(self, texto: str, color="lightgreen"):
         self.etiqueta_mensaje.configure(text=texto, text_color=color)
+
+    def resetear_campos(self):
+        # Resetea combos a valores por defecto
+        self.combo_producto.set("Producto")
+        self.combo_sabores_agregar.set("Sabor")
+        self.combo_sabores_mermar.set("Sabor")
+
+        # Limpia las entradas de cantidad
+        self.entrada_cantidad_agregar.delete(0, "end")
+        self.entrada_cantidad_mermar.delete(0, "end")
+
+        # Resetea switch a activo (o como tú decidas)
+        self.switch_usar_sabor.select()
+        self.habilitar_sabores(True)
+
+
 
 
 if __name__ == "__main__":

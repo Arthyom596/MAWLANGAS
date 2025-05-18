@@ -1,14 +1,16 @@
 import customtkinter as ctk
 from PIL import Image
 from pathlib import Path
-from src.Modelo.Login import verificar_usuario
-from src.DAO.UsuariosDAO import buscar_usuario
+from src.Controlador.LoginControlador import LoginControlador
 
 class LoginVista:
     def __init__(self, parent):
         # Creamos manualmente el frame principal
         self.frame = ctk.CTkFrame(parent)
         self.frame.pack(fill="both", expand=True)
+
+        # Conectamos el controlador
+        self.controlador = LoginControlador(self)
 
         # Configuración del grid
         self.frame.grid_columnconfigure(0, weight=1)
@@ -70,7 +72,7 @@ class LoginVista:
         )
         self.login_button.grid(row=3, column=0, pady=(10, 0), padx=60)
 
-        # Botón de registro (ahora ya NO navega a otra ventana)
+        # Botón de registro
         self.register_button = ctk.CTkButton(
             self.contenedor_datos2,
             text="REGISTER",
@@ -83,31 +85,20 @@ class LoginVista:
         )
         self.register_button.grid(row=4, column=0, pady=10, padx=60)
 
-        # Etiqueta para mostrar mensajes dinámicos
+        # Etiqueta para mensajes
         self.etiqueta_dinamica = ctk.CTkLabel(self.contenedor_datos2, text="", text_color="black", font=("Arial", 14))
         self.etiqueta_dinamica.grid(row=5, column=0, padx=20, pady=5, sticky="ew")
 
     def login_usuario(self):
         usuario = self.user_entry.get()
         contrasena = self.password_entry.get()
+        self.controlador.login_usuario(usuario, contrasena)
 
-        usuario_encontrado = buscar_usuario(usuario)
-
-        if usuario_encontrado:
-            contrasena_almacenada = usuario_encontrado[2]
-
-            if verificar_usuario(usuario, contrasena):
-                print("Login exitoso")
-                self.etiqueta_dinamica.configure(text="Login exitoso", text_color="green")
-            else:
-                print("Contraseña incorrecta")
-                self.etiqueta_dinamica.configure(text="Contraseña incorrecta", text_color="red")
-        else:
-            print("Usuario no encontrado")
-            self.etiqueta_dinamica.configure(text="Usuario no encontrado", text_color="red")
+    def mostrar_mensaje(self, mensaje, color):
+        self.etiqueta_dinamica.configure(text=mensaje, text_color=color)
 
 
-# Inicialización para prueba
+
 if __name__ == "__main__":
     app = ctk.CTk()
     app.geometry("950x600")

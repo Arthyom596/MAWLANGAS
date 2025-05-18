@@ -140,4 +140,30 @@ def obtener_productos_consulta():
     finally:
         conexion.close()#Cierra la conexion
 
+def obtener_precio_compra(id_producto):
+    conexion = conectar()
+    if not conexion:
+        return None
+    try:
+        resultado = conexion.execute("""
+            SELECT PrecioCompra FROM Productos WHERE IDProducto = ?
+        """, (id_producto,)).fetchone()
+        return resultado[0] if resultado else None
+    finally:
+        conexion.close()
+
+def obtener_nombre_producto_por_id(id_producto):
+    conexion = conectar()
+    if not conexion:
+        return None
+    try:
+        resultado = conexion.execute("""
+            SELECT Nombre FROM Productos WHERE IDProducto = ?
+        """, (id_producto,)).fetchone()
+        return resultado[0] if resultado else None
+    finally:
+        conexion.close()
+
+
+
 

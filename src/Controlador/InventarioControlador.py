@@ -1,3 +1,4 @@
+# src/Controlador/InventarioControlador.py
 from src.Modelo.Inventario import Inventario
 
 class InventarioControlador:
@@ -16,56 +17,55 @@ class InventarioControlador:
         if id_producto is not None:
             sabores = Inventario.obtener_sabores(id_producto)
             self.vista.set_sabores(sabores)
+            self.vista.habilitar_sabores(bool(sabores))
 
     def agregar_producto(self):
         id_producto = self.obtener_id_producto()
         cantidad = self.obtener_cantidad(self.vista.entrada_cantidad_agregar.get())
-
-        # Validación del sabor solo si el switch está activado
         id_sabor = None
+
         if self.vista.switch_usar_sabor.get():
             nombre_sabor = self.vista.combo_sabores_agregar.get()
-            if nombre_sabor == "Sabor":
-                id_sabor = None
-
-            else:
-                id_sabor = self.vista.sabores_dict.get(nombre_sabor)
+            id_sabor = self.vista.sabores_dict.get(nombre_sabor)
+            if id_sabor is None:
+                self.vista.mostrar_mensaje("Error: Campos Invalidos", "red")
+                return
 
         if id_producto is None or cantidad is None:
             self.vista.mostrar_mensaje("Faltan datos", "red")
             return
 
         modelo = Inventario(id_producto, id_sabor, cantidad)
-        if modelo.actualizar():
-            self.vista.mostrar_mensaje("Producto agregado correctamente")
-        else:
-            if modelo.guardar():
-                self.vista.mostrar_mensaje("Producto registrado correctamente")
-            else:
-                self.vista.mostrar_mensaje("Error al guardar producto", "red")
+        ok, mensaje = modelo.actualizar()
+        if not ok:
+            ok, mensaje = modelo.guardar()
+
+        self.vista.mostrar_mensaje(mensaje, "green" if ok else "red")
+        if ok:
+            self.vista.resetear_campos()
 
     def mermar_producto(self):
         id_producto = self.obtener_id_producto()
         cantidad = self.obtener_cantidad(self.vista.entrada_cantidad_mermar.get())
-
-        # Validación del sabor solo si el switch está activado
         id_sabor = None
+
         if self.vista.switch_usar_sabor.get():
             nombre_sabor = self.vista.combo_sabores_mermar.get()
-            if nombre_sabor == "Sabor":
-                id_sabor = None
-            else:
-                id_sabor = self.vista.sabores_dict.get(nombre_sabor)
+            id_sabor = self.vista.sabores_dict.get(nombre_sabor)
+            if id_sabor is None:
+                self.vista.mostrar_mensaje("Error: Campos Invalidos", "red")
+                return
 
         if id_producto is None or cantidad is None:
             self.vista.mostrar_mensaje("Faltan datos", "red")
             return
 
         modelo = Inventario(id_producto, id_sabor, cantidad)
-        if modelo.mermar_cantidad():
-            self.vista.mostrar_mensaje("Producto mermado correctamente")
-        else:
-            self.vista.mostrar_mensaje("No se pudo mermar", "red")
+        ok, mensaje = modelo.mermar_cantidad()
+
+        self.vista.mostrar_mensaje(mensaje, "green" if ok else "red")
+        if ok:
+            self.vista.resetear_campos()
 
     def obtener_cantidad(self, entrada: str):
         try:

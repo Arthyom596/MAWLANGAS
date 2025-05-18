@@ -17,7 +17,7 @@ class Venta:
         cantidad = int(cantidad)
         fecha = obtener_fecha_exacta_actual()
 
-        # Si el id_sabor es None, asignar None (permitir NULL en la base de datos)
+        # Si el id_sabor es None, asignar None
         if id_sabor is None:
             id_sabor = None
 
@@ -34,7 +34,7 @@ class Venta:
         crear_venta(id_producto, id_sabor, cantidad, fecha)
 
         # Registrar en FinanzasDAO
-        descripcion = f"Venta de {cantidad} {nombre_producto} sabor {nombre_sabor if id_sabor else 'Sin sabor'}"
+        descripcion = f"Venta de {cantidad} {nombre_producto} {nombre_sabor if id_sabor else ''}"
         agregar_finanza(fecha, "Venta", total, descripcion)
 
         return True, "Venta registrada exitosamente"
