@@ -34,4 +34,6 @@ class ProductoControlador:
             self.vista.reiniciar_formulario()  # Reinicia el formulario
             self.vista.actualizar_textbox_sabores(self.sabores)  # Limpia el textbox
             self.vista.actualizar_estado_boton(self.sabores)  # Desactiva los botones si es necesario
-            self.vista.mostrar_mensaje(mensaje)
+        self.vista.mostrar_mensaje(mensaje)
+
+

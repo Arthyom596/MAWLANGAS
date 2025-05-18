@@ -23,7 +23,7 @@ Toda la interacción con los datos reales es delegada al controlador, manteniend
 class ProductoVista:
     def __init__(self, root):
         self.app = root
-        self.app.geometry("800x750")
+        self.app.geometry("800x650")
         self.app.title("Añadir Producto")
 
         self.controlador = ProductoControlador(self) #Se crea una instancia del controlador
@@ -164,7 +164,6 @@ class ProductoVista:
     correspondiente y lo insertara en la etiqueta vacia "" de etiqueta_dinamica
     """
     def mostrar_mensaje(self, texto):
-        print("LLL",texto)
         self.etiqueta_dinamica.configure(text=texto)
 
     #Limpia la entrada del sabor
