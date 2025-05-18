@@ -109,8 +109,7 @@ class ProductoVista:
         self.lista_sabores.insert("0.0", "Sabores añadidos:\n") #Se inicia en 0,0
 
         #Se crea una etiqueta para mostrar mensajes personalizados al usuario (Error,Exito)
-        self.etiqueta_dinamica = ctk.CTkLabel(self.frame_sabores, text="", font=("Arial", 14), text_color="white")
-        self.etiqueta_dinamica.grid(row=2, column=0, columnspan=3, padx=20, pady=10, sticky="ew")
+
 
         self.btn_guardar = ctk.CTkButton(
             self.app, text="Guardar Producto", font=("Arial", 16, "bold"),
@@ -122,7 +121,15 @@ class ProductoVista:
                 self.switch_sabores.get()
             )
         )
-        self.btn_guardar.grid(row=5, column=0, columnspan=2, pady=30, padx=100, sticky="ew")
+        self.btn_guardar.grid(row=6, column=0, columnspan=2, pady=30, padx=100, sticky="ew")
+
+        self.etiqueta_dinamica = ctk.CTkLabel(
+            self.app,
+            text="",
+            font=("Arial", 14),
+            text_color="white",
+        )
+        self.etiqueta_dinamica.grid(row=5, column=0, columnspan=3, padx=20, pady=10, sticky="ew")
 
         self.actualizar_estado_boton(self.controlador.sabores)
 
@@ -157,6 +164,7 @@ class ProductoVista:
     correspondiente y lo insertara en la etiqueta vacia "" de etiqueta_dinamica
     """
     def mostrar_mensaje(self, texto):
+        print("LLL",texto)
         self.etiqueta_dinamica.configure(text=texto)
 
     #Limpia la entrada del sabor

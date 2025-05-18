@@ -28,10 +28,10 @@ class ProductoControlador:
 
         exito, mensaje = guardar_producto(nombre, precio_compra, precio_venta,
                                           sabores_a_guardar)  # Guarda el producto con o sin sabores
-        self.vista.mostrar_mensaje(mensaje)  # Muestra el mensaje de confirmacion o error
 
         if exito:  # Si se guardo correctamente, limpia los contenedores
             self.sabores.clear()  # Vacía la lista de sabores
             self.vista.reiniciar_formulario()  # Reinicia el formulario
             self.vista.actualizar_textbox_sabores(self.sabores)  # Limpia el textbox
             self.vista.actualizar_estado_boton(self.sabores)  # Desactiva los botones si es necesario
+            self.vista.mostrar_mensaje(mensaje)
