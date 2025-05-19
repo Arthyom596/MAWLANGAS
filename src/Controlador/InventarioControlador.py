@@ -17,7 +17,18 @@ class InventarioControlador:
         if id_producto is not None:
             sabores = Inventario.obtener_sabores(id_producto)
             self.vista.set_sabores(sabores)
-            self.vista.habilitar_sabores(bool(sabores))
+
+            tiene_sabores = bool(sabores)
+            self.vista.habilitar_sabores(tiene_sabores)
+
+            # Cambiar estado del switch automáticamente
+            if tiene_sabores:
+                self.vista.switch_usar_sabor.configure(state="normal")  # Habilita el switch
+                self.vista.switch_usar_sabor.select()  # Activa el switch (encendido por defecto)
+            else:
+                self.vista.switch_usar_sabor.deselect()  # Apaga el switch
+                self.vista.switch_usar_sabor.configure(
+                    state="disabled")  # Deshabilita el switch para que no lo activen manualmente
 
     def agregar_producto(self):
         id_producto = self.obtener_id_producto()
