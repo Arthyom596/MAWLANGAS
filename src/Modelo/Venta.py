@@ -3,6 +3,7 @@ from src.DAO.VentasDAO import crear_venta
 from src.DAO.InventarioDAO import obtener_cantidad_existente, descontar_producto
 from src.DAO.FinanzaDAO import agregar_finanza
 from src.DAO.SaboresDAO import obtener_sabores_por_producto  # Necesario para validar si tiene sabores
+from src.DAO.ProductosDAO import obtener_precio_compra
 
 class Venta:
     def __init__(self):
@@ -39,9 +40,18 @@ class Venta:
         # Registrar en VentasDAO
         crear_venta(id_producto, id_sabor, cantidad, fecha)
 
-        # Registrar en FinanzasDAO
-        total = cantidad * precio_unitario
-        descripcion = f"Venta de {cantidad} {nombre_producto} {nombre_sabor if id_sabor else ''}"
-        agregar_finanza(fecha, "Venta", total, descripcion)
+        # Registrar en FinanzasDAO - Venta
+        total_venta = cantidad * precio_unitario
+        descripcion_venta = f"Venta de {cantidad} {nombre_producto} {nombre_sabor if id_sabor else ''}".strip()
+        agregar_finanza(fecha, "Venta", total_venta, descripcion_venta)
+
+        # Registrar en FinanzasDAO - Inversion
+        precio_compra_unitario = obtener_precio_compra(id_producto)
+        if precio_compra_unitario is None:
+            return False, "No se pudo obtener el precio de compra del producto."
+
+        costo_compra = precio_compra_unitario * cantidad
+        descripcion_inversion = f"Costo de inversión de {cantidad} {nombre_producto} {nombre_sabor if id_sabor else ''}".strip()
+        agregar_finanza(fecha, "Inversion", costo_compra, descripcion_inversion)
 
         return True, "Venta registrada exitosamente"

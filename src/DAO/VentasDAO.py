@@ -53,3 +53,6 @@ def obtener_ventas():
     ventas = cursor.fetchall()
     conexion.close()
     return ventas
+
+
+
