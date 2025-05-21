@@ -78,11 +78,12 @@ def eliminar_producto(id_producto):
     if not conexion:
         return
     try:
+        conexion.execute("PRAGMA foreign_keys = ON")
         conexion.execute("DELETE FROM Productos WHERE IDProducto = ?", (id_producto,))
-        #Ejecuta un DELETE que elimina un producto de la tabla Productos cuyo IDProducto coincide
         conexion.commit()
     finally:
         conexion.close()
+
 
 
 # Espera como parametro el nombre del producto que se desea buscar en la base de datos
