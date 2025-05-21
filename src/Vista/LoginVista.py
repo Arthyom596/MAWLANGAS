@@ -4,13 +4,14 @@ from pathlib import Path
 from src.Controlador.LoginControlador import LoginControlador
 
 class LoginVista:
-    def __init__(self, parent):
-        # Creamos manualmente el frame principal
+    def __init__(self, parent, controlador_maestro):
+        self.controlador_maestro = controlador_maestro
+
+        # Crear frame y configurar como antes
         self.frame = ctk.CTkFrame(parent)
         self.frame.pack(fill="both", expand=True)
 
-        # Conectamos el controlador
-        self.controlador = LoginControlador(self)
+        self.controlador = LoginControlador(self, self.controlador_maestro)
 
         # Configuración del grid
         self.frame.grid_columnconfigure(0, weight=1)
@@ -81,13 +82,17 @@ class LoginVista:
             hover_color="#e6e6e6",
             border_width=1,
             border_color="grey",
-            corner_radius=10
+            corner_radius=10,
+            command=self.ir_a_registro
         )
         self.register_button.grid(row=4, column=0, pady=10, padx=60)
 
         # Etiqueta para mensajes
         self.etiqueta_dinamica = ctk.CTkLabel(self.contenedor_datos2, text="", text_color="black", font=("Arial", 14))
         self.etiqueta_dinamica.grid(row=5, column=0, padx=20, pady=5, sticky="ew")
+
+    def ir_a_registro(self):
+        self.controlador_maestro.mostrar_registro()
 
     def login_usuario(self):
         usuario = self.user_entry.get()
@@ -99,11 +104,3 @@ class LoginVista:
 
 
 
-if __name__ == "__main__":
-    app = ctk.CTk()
-    app.geometry("950x600")
-    app.title("Login")
-
-    login = LoginVista(app)
-
-    app.mainloop()

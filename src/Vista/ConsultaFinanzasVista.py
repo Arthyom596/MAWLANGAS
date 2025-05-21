@@ -1,7 +1,7 @@
 import customtkinter as ctk
 from tkinter import ttk
 
-class FinanzasVista(ctk.CTk):
+class ConsultaFinanzasVista(ctk.CTk):
 
     def __init__(self, controlador):
         super().__init__()

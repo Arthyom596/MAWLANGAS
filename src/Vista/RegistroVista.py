@@ -1,14 +1,15 @@
-# src/Vista/RegistroVista.py
 import customtkinter as ctk
 from tkinter import messagebox
 from src.Controlador.RegistroControlador import registrar_usuario_controlador
 
 class Registro:
-    def __init__(self, parent):
+    def __init__(self, parent, controlador_maestro):
         self.parent = parent
+        self.controlador_maestro = controlador_maestro
         ctk.set_appearance_mode("dark")
 
         self.contenedor = ctk.CTkFrame(self.parent, fg_color="white", corner_radius=10)
+        self.frame = self.contenedor  # <--- Agrega esta línea
         self.contenedor.pack(expand=True, fill="both", padx=100, pady=40)
 
         # Solo la columna 1 (inputs) tendrá peso para expandirse
@@ -92,7 +93,9 @@ class Registro:
         self.boton_registrar.grid(row=10, column=1, padx=20, pady=10, sticky="ew")
 
         # Botón Cancelar
-        self.boton_cancelar = ctk.CTkButton(self.contenedor, text="Cancelar", corner_radius=10)
+        self.boton_cancelar = ctk.CTkButton(
+            self.contenedor, text="Cancelar", corner_radius=10, command=self.cancelar
+        )
         self.boton_cancelar.grid(row=10, column=0, pady=10, padx=10, sticky="ew")
 
     def enviar_codigo(self):
@@ -113,9 +116,5 @@ class Registro:
             self.etiqueta_dinamica.configure(text=mensaje, text_color="red")
             messagebox.showerror("Error", mensaje)
 
-if __name__ == "__main__":
-    root = ctk.CTk()
-    root.geometry("800x600")
-    root.title("Formulario de Registro")
-    app = Registro(root)
-    root.mainloop()
+    def cancelar(self):
+        self.controlador_maestro.mostrar_login()

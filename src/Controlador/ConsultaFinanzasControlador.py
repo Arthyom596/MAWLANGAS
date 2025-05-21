@@ -1,11 +1,11 @@
 from src.Modelo.ConsultaFinanzas import ConsultaFinanzas
-from src.Vista.FinanzasConsultaVista import FinanzasVista
+from src.Vista.ConsultaFinanzasVista import ConsultaFinanzasVista
 
 class FinanzasController:
 
     def __init__(self):
         self.modelo = ConsultaFinanzas()
-        self.vista = FinanzasVista(self)
+        self.vista = ConsultaFinanzasVista(self)
         self.vista.after(0, self.actualizar_datos)  # Actualizar al iniciar
         self.vista.mainloop()
 
