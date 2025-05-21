@@ -25,7 +25,7 @@ class LoginVista:
         self.contenedor_visual.grid_rowconfigure((0, 1), weight=1)
 
         # Imagen
-        ruta_imagen = Path(__file__).resolve().parent.parent.parent / "assets" / "gato_pistola.jpg"
+        ruta_imagen = Path(__file__).resolve().parent.parent.parent / "assets" / "Cat.png"
         imagen_gato = ctk.CTkImage(Image.open(ruta_imagen), size=(300, 300))
         self.imagen_label = ctk.CTkLabel(self.contenedor_visual, image=imagen_gato, text="")
         self.imagen_label.grid(row=0, column=0, pady=(60, 10))
