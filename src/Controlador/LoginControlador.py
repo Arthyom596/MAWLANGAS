@@ -11,6 +11,6 @@ class LoginControlador:
         if verificar_usuario(usuario, contrasena):
             self.vista.mostrar_mensaje("Login exitoso", "green")
             # Navegar a la vista principal luego de login
-            self.controlador_maestro.mostrar_main()
+            self.controlador_maestro.mostrar_menu_principal()
         else:
             self.vista.mostrar_mensaje("Usuario o contraseña incorrectos", "red")

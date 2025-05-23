@@ -1,7 +1,12 @@
 import customtkinter as ctk
+
+from src.Vista.FinanzaVista import FinanzasVista
 from src.Vista.LoginVista import LoginVista
 from src.Vista.RegistroVista import Registro
-from src.Vista.MainVista import MainVista
+from src.Vista.MenuPrincipalVista import MenuPrincipal
+from src.Vista.InventarioVista import InventarioVista
+from src.Vista.ProductoVista import ProductoVista
+from src.Vista.VentaVista import Venta
 
 class ControladorMaestro:
     def __init__(self):
@@ -10,7 +15,7 @@ class ControladorMaestro:
 
         self.app = ctk.CTk()
         self.app.geometry("800x600")
-        self.app.title("Aplicación")
+        self.app.title("Mawlangas ")
 
         self.vista_actual = None
 
@@ -28,11 +33,37 @@ class ControladorMaestro:
         self.registro_vista = Registro(self.app, self)
         self.vista_actual = self.registro_vista
 
-    def mostrar_main(self):
+    def mostrar_menu_principal(self):
         if self.vista_actual:
             self.vista_actual.frame.destroy()
-        self.main_vista = MainVista(self.app, self)
-        self.vista_actual = self.main_vista
+        self.menu_principal = MenuPrincipal(self.app, self)
+        self.vista_actual = self.menu_principal
+
+    def mostrar_inventario(self):
+        if self.vista_actual:
+            self.vista_actual.frame.destroy()
+        self.inventario_vista = InventarioVista(self.app, self)
+        self.vista_actual = self.inventario_vista
+
+    def mostrar_finanzas(self):
+        if self.vista_actual:
+            self.vista_actual.frame.destroy()
+        self.finanzas_vista = FinanzasVista(self.app, self)
+        self.vista_actual = self.finanzas_vista
+
+    def mostrar_productos(self):
+        if self.vista_actual:
+            self.vista_actual.frame.destroy()
+        self.app.geometry("800x650")
+        self.productos_vista = ProductoVista(self.app, self)
+        self.vista_actual = self.productos_vista
+
+    def mostrar_ventas(self):
+        if self.vista_actual:
+            self.vista_actual.frame.destroy()
+        self.ventas_vista = Venta(self.app, self)
+        self.vista_actual = self.ventas_vista
+
 
     def ejecutar(self):
         self.app.mainloop()

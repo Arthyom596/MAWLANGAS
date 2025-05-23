@@ -1,12 +1,12 @@
 import customtkinter as ctk
+from customtkinter import CTkFrame
+
 from src.Controlador.VentaControlador import ControladorVenta
 
 class Venta:
-    def __init__(self, root):
-        self.app = root
-        self.app.geometry("800x600")
-        self.app.title("Venta")
-
+    def __init__(self, parent,controlador_maestro):
+        self.app = CTkFrame(parent)
+        self.app.pack(fill="both", expand=True)
         for i in range(3):
             self.app.grid_columnconfigure(i, weight=1)
         for i in range(9):

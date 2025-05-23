@@ -3,11 +3,11 @@ from src.Controlador.FinanzaControlador import FinanzaControlador
 
 
 class FinanzasVista:
-    def __init__(self, root):
-        self.root = root
-        self.root.geometry("800x600")
-        self.root.title("Finanzas")
-        self.root.resizable(False, False)
+    def __init__(self,parent,controlador_maestro):
+        self.controlador_maestro = controlador_maestro
+        self.root=ctk.CTkFrame(parent)
+        self.root.pack(fill="both", expand=True)
+
 
         ctk.set_appearance_mode("dark")
 
@@ -71,6 +71,9 @@ class FinanzasVista:
 
 
 if __name__ == "__main__":
+    ctk.set_appearance_mode("dark")
     root = ctk.CTk()
-    app = FinanzasVista(root)
+    root.geometry("700x600")
+    root.title("Finanza Vista")
+    FinanzasVista(root, controlador_maestro=None)
     root.mainloop()

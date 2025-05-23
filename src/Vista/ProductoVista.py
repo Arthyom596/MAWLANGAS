@@ -1,7 +1,10 @@
-# src/Vista/ProductoVista.py
+
 
 import customtkinter as ctk
 import tkinter as tk
+
+from customtkinter import CTkFrame
+
 from src.Controlador.ProductoControlador import ProductoControlador
 
 """
@@ -21,10 +24,10 @@ Toda la interacción con los datos reales es delegada al controlador, manteniend
 
 
 class ProductoVista:
-    def __init__(self, root):
-        self.app = root
-        self.app.geometry("800x650")
-        self.app.title("Añadir Producto")
+    def __init__(self, parent,controlador_maestro):
+        self.controlador_maestro = controlador_maestro
+        self.app = CTkFrame(parent)
+        self.app.pack(fill="both",expand=True)
 
         self.controlador = ProductoControlador(self) #Se crea una instancia del controlador
 
@@ -192,6 +195,8 @@ class ProductoVista:
 
 if __name__ == "__main__":
     ctk.set_appearance_mode("dark")
-    app = ctk.CTk()
-    vista = ProductoVista(app)
-    app.mainloop()
+    root = ctk.CTk()
+    root.geometry("850x650")
+    root.title("Productos")
+    ProductoVista(root, controlador_maestro=None)
+    root.mainloop()
