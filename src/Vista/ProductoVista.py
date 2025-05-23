@@ -26,21 +26,21 @@ Toda la interacción con los datos reales es delegada al controlador, manteniend
 class ProductoVista:
     def __init__(self, parent,controlador_maestro):
         self.controlador_maestro = controlador_maestro
-        self.app = CTkFrame(parent)
-        self.app.pack(fill="both",expand=True)
+        self.frame = CTkFrame(parent)
+        self.frame.pack(fill="both", expand=True)
 
         self.controlador = ProductoControlador(self) #Se crea una instancia del controlador
 
         #Se ajusta la venta con grid
-        self.app.grid_columnconfigure((0, 1), weight=1)
-        self.app.grid_rowconfigure((0, 1, 2, 3, 4, 5), weight=1)
+        self.frame.grid_columnconfigure((0, 1), weight=1)
+        self.frame.grid_rowconfigure((0, 1, 2, 3, 4, 5), weight=1)
 
-        self.titulo = ctk.CTkLabel(self.app, text="Registro de Producto",font=("Arial", 28, "bold"),
+        self.titulo = ctk.CTkLabel(self.frame, text="Registro de Producto", font=("Arial", 28, "bold"),
                                    text_color="white")
         self.titulo.grid(row=0, column=0, columnspan=2, pady=(30, 10))
 
         #Se crea un contenedor para la informacion del producto
-        self.frame_producto = ctk.CTkFrame(self.app, corner_radius=20)
+        self.frame_producto = ctk.CTkFrame(self.frame, corner_radius=20)
         self.frame_producto.grid(row=1, column=0, columnspan=2, padx=40, pady=10, sticky="nsew")
         self.frame_producto.grid_columnconfigure(1, weight=1)
 
@@ -69,17 +69,17 @@ class ProductoVista:
         self.entry_precio_venta.grid(row=2, column=1, padx=20, pady=(10, 20), sticky="ew")
 
         # Creacion del Switch y lo dejamos "prendido" por defecto
-        self.switch_sabores =ctk.CTkSwitch(self.app, text="Agregar sabores al producto?", onvalue=True, offvalue=False,
+        self.switch_sabores =ctk.CTkSwitch(self.frame, text="Agregar sabores al producto?", onvalue=True, offvalue=False,
                                            font=("Arial",16), command=self.toggle_sabores, variable=tk.BooleanVar(value=True))
 
         self.switch_sabores.grid(row=2, column=0, columnspan=2, pady=(0, 10))
 
-        self.titulo_sabores = ctk.CTkLabel(self.app, text="Sabores del Producto",
+        self.titulo_sabores = ctk.CTkLabel(self.frame, text="Sabores del Producto",
                                            font=("Arial", 24, "bold"), text_color="white")
         self.titulo_sabores.grid(row=3, column=0, columnspan=2, pady=(10, 5))
 
          #Se crea el frame dinamico de sabores
-        self.frame_sabores = ctk.CTkFrame(self.app, corner_radius=20)
+        self.frame_sabores = ctk.CTkFrame(self.frame, corner_radius=20)
         self.frame_sabores.grid(row=4, column=0, columnspan=2, padx=40, pady=10, sticky="nsew")
         self.frame_sabores.grid_columnconfigure((0, 1, 2), weight=1)
         self.frame_sabores.grid_rowconfigure(1, weight=1)
@@ -115,7 +115,7 @@ class ProductoVista:
 
 
         self.btn_guardar = ctk.CTkButton(
-            self.app, text="Guardar Producto", font=("Arial", 16, "bold"),
+            self.frame, text="Guardar Producto", font=("Arial", 16, "bold"),
             fg_color="green", hover_color="#45A049", #Verde y verde oscuro
             command=lambda: self.controlador.guardar_producto(
                 self.entry_nombre.get(),
@@ -127,7 +127,7 @@ class ProductoVista:
         self.btn_guardar.grid(row=6, column=0, columnspan=2, pady=30, padx=100, sticky="ew")
 
         self.etiqueta_dinamica = ctk.CTkLabel(
-            self.app,
+            self.frame,
             text="",
             font=("Arial", 14),
             text_color="white",
