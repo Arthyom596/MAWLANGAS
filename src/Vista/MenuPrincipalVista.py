@@ -44,7 +44,8 @@ class MenuPrincipal:
 
         self.btn_consultas = ctk.CTkButton(self.frame, text="🔍 Consultas", font=("Arial", 18, "bold"),
                                            height=60, width=250, corner_radius=20,
-                                           fg_color="#3B8ED0", hover_color="#2F6BA8")
+                                           fg_color="#3B8ED0", hover_color="#2F6BA8",
+                                           command=self.controlador_maestro.mostrar_menu_consultas)
         self.btn_consultas.grid(row=3, column=1, padx=20, pady=15)
 
         self.etiqueta_version = ctk.CTkLabel(self.frame, text="Versión 10.0 • Desarrollado por Los Hombres del Progreso",

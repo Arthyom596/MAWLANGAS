@@ -7,6 +7,7 @@ from src.Vista.MenuPrincipalVista import MenuPrincipal
 from src.Vista.InventarioVista import InventarioVista
 from src.Vista.ProductoVista import ProductoVista
 from src.Vista.VentaVista import VentaVista
+from src.Vista.Consultas.ConsultasMenuVista import ConsultasMenuVista
 
 class ControladorMaestro:
     def __init__(self):
@@ -64,6 +65,13 @@ class ControladorMaestro:
         self.app.geometry("800x600")
         self.ventas_vista = VentaVista(self.app, self)
         self.vista_actual = self.ventas_vista
+
+    def mostrar_menu_consultas(self):
+        if self.vista_actual:
+            self.vista_actual.frame.destroy()
+        self.menu_consultas = ConsultasMenuVista(self.app, self)
+        self.vista_actual = self.menu_consultas
+
 
 
     def ejecutar(self):
