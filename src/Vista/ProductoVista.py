@@ -187,10 +187,19 @@ class ProductoVista:
         self.lista_sabores.configure(state="disabled")  # Apaga la textbox
 
 
+
+
+class ControladorMaestroFalso:
+    def mostrar_menu_principal(self):
+        print("Regresando al menú principal")
+
 if __name__ == "__main__":
     ctk.set_appearance_mode("dark")
     root = ctk.CTk()
     root.geometry("850x650")
     root.title("Productos")
-    ProductoVista(root, controlador_maestro=None)
+
+    dummy_maestro = ControladorMaestroFalso()
+    ProductoVista(root, controlador_maestro=dummy_maestro)
+
     root.mainloop()
