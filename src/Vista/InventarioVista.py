@@ -72,6 +72,9 @@ class InventarioVista:
         # Mensajes
         self.etiqueta_mensaje = ctk.CTkLabel(self.frame, text="", font=("Arial", 14))
         self.etiqueta_mensaje.grid(row=9, column=1, pady=10, sticky="n")
+        self.btn_regresar = ctk.CTkButton(self.frame, text="Cancelar", font=("Arial", 14, "bold"),
+                                          text_color="white", command=self.controlador_maestro.mostrar_menu_principal)
+        self.btn_regresar.grid(row=10, column=1, padx=20, pady=10, sticky="ew")
 
         # Controlador
         self.controlador = InventarioControlador(self)
@@ -128,3 +131,4 @@ if __name__ == "__main__":
     root.geometry("700x600")
     InventarioVista(root, controlador_maestro=None)
     root.mainloop()
+

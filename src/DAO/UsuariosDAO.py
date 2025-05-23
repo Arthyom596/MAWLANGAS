@@ -44,6 +44,7 @@ def crear_usuario(usuario, contrasena, nombre, apellido_p, apellido_m, correo):
         conexion.close()
 
 
+
 def obtener_usuarios():
     conexion = conectar()
     if not conexion:

@@ -54,7 +54,7 @@ class ControladorMaestro:
     def mostrar_productos(self):
         if self.vista_actual:
             self.vista_actual.frame.destroy()
-        self.app.geometry("800x650")
+        self.app.geometry("850x650")
         self.productos_vista = ProductoVista(self.app, self)
         self.vista_actual = self.productos_vista
 
