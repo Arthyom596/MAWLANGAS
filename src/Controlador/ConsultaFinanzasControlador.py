@@ -1,5 +1,5 @@
 from src.Modelo.ConsultaFinanzas import ConsultaFinanzas
-from src.Vista.ConsultaFinanzasVista import ConsultaFinanzasVista
+from src.Vista.Consultas.ConsultaFinanzasVista import ConsultaFinanzasVista
 
 class FinanzasController:
 

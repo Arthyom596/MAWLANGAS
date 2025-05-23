@@ -104,3 +104,17 @@ class LoginVista:
 
 
 
+
+class ControladorMaestroFalso:
+    pass
+
+if __name__ == "__main__":
+    ctk.set_appearance_mode("dark")
+    root = ctk.CTk()
+    root.geometry("850x650")
+    root.title("Productos")
+
+    falso_maestro = ControladorMaestroFalso()
+    LoginVista(root, controlador_maestro=falso_maestro)
+
+    root.mainloop()

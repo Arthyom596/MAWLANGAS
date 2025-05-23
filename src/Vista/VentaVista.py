@@ -82,3 +82,19 @@ class VentaVista:
             self.switch_sabor.deselect()
             self.switch_sabor.configure(state="disabled")
             self.toggle_sabor()
+
+
+class ControladorMaestroFalso:
+    def mostrar_menu_principal(self):
+        print("Regresando al menú principal")
+
+if __name__ == "__main__":
+    ctk.set_appearance_mode("dark")
+    root = ctk.CTk()
+    root.geometry("850x650")
+    root.title("Productos")
+
+    falso_maestro = ControladorMaestroFalso()
+    VentaVista(root, controlador_maestro=falso_maestro)
+
+    root.mainloop()

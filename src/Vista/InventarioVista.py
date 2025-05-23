@@ -125,10 +125,18 @@ class InventarioVista:
 
 
 
+
+class ControladorMaestroFalso:
+    def mostrar_menu_principal(self):
+        print("Regresando al menu")
+
 if __name__ == "__main__":
     ctk.set_appearance_mode("dark")
     root = ctk.CTk()
-    root.geometry("700x600")
-    InventarioVista(root, controlador_maestro=None)
-    root.mainloop()
+    root.geometry("850x650")
+    root.title("Productos")
 
+    falso_maestro = ControladorMaestroFalso()
+    InventarioVista(root, controlador_maestro=falso_maestro)
+
+    root.mainloop()

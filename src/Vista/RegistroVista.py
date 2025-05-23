@@ -118,3 +118,18 @@ class Registro:
 
     def cancelar(self):
         self.controlador_maestro.mostrar_login()
+
+class ControladorMaestroFalso:
+    def mostrar_login(self):
+        print("Regresando al login")
+
+if __name__ == "__main__":
+    ctk.set_appearance_mode("dark")
+    root = ctk.CTk()
+    root.geometry("850x650")
+    root.title("Productos")
+
+    falso_maestro = ControladorMaestroFalso()
+    Registro(root, controlador_maestro=falso_maestro)
+
+    root.mainloop()

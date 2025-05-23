@@ -1,6 +1,6 @@
 import customtkinter as ctk
 from src.Modelo.EliminarProducto import EliminarProducto
-from src.Vista.EliminarProductoVista import EliminarProductoVista
+from src.Vista.Eliminar.EliminarProductoVista import EliminarProductoVista
 
 class ProductoController:
     def __init__(self):

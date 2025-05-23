@@ -199,7 +199,7 @@ if __name__ == "__main__":
     root.geometry("850x650")
     root.title("Productos")
 
-    dummy_maestro = ControladorMaestroFalso()
-    ProductoVista(root, controlador_maestro=dummy_maestro)
+    falso_maestro = ControladorMaestroFalso()
+    ProductoVista(root, controlador_maestro=falso_maestro)
 
     root.mainloop()
