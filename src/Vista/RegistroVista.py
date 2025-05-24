@@ -6,10 +6,10 @@ class Registro:
     def __init__(self, parent, controlador_maestro):
         self.parent = parent
         self.controlador_maestro = controlador_maestro
-        ctk.set_appearance_mode("dark")
 
+        self.parent.configure(fg_color="black")
         self.contenedor = ctk.CTkFrame(self.parent, fg_color="white", corner_radius=10)
-        self.frame = self.contenedor  # <--- Agrega esta línea
+        self.frame = self.contenedor
         self.contenedor.pack(expand=True, fill="both", padx=100, pady=40)
 
         # Solo la columna 1 (inputs) tendrá peso para expandirse
@@ -124,7 +124,6 @@ class ControladorMaestroFalso:
         print("Regresando al login")
 
 if __name__ == "__main__":
-    ctk.set_appearance_mode("dark")
     root = ctk.CTk()
     root.geometry("850x650")
     root.title("Productos")

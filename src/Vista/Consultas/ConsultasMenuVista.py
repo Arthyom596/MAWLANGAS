@@ -56,7 +56,8 @@ class ConsultasMenuVista:
 
         self.botton_finanzas = ctk.CTkButton(
             self.frame_inferior, text="Finanzas", text_color="white", font=("Arial", 25, "bold"),
-            fg_color="limegreen", height=50, width=150, hover_color="green", corner_radius=100
+            fg_color="limegreen", height=50, width=150, hover_color="green", corner_radius=100,
+            command= self.controlador_maestro.consultar_finanzas
         )
         self.botton_finanzas.grid(row=1, column=0, sticky="nsew", padx=20, pady=10, columnspan=4)
 
@@ -86,7 +87,4 @@ class ConsultasMenuVista:
         self.botton_menu.grid(row=5, column=0, sticky="nsew", padx=20, pady=10, columnspan=4)
 
 
-if __name__ == "__main__":
-    app = ctk.CTk()
-    vista = ConsultasMenuVista(app)
-    app.mainloop()
+

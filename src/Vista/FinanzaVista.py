@@ -9,7 +9,6 @@ class FinanzasVista:
         self.frame.pack(fill="both", expand=True)
 
 
-        ctk.set_appearance_mode("dark")
 
         # Configuración de columnas y filas
         # Asignamos peso a las columnas que contienen los Entry, para que se expandan con la ventana
@@ -79,7 +78,6 @@ class ControladorMaestroFalso:
         print("Regresando al menu")
 
 if __name__ == "__main__":
-    ctk.set_appearance_mode("dark")
     root = ctk.CTk()
     root.geometry("850x650")
     root.title("Productos")

@@ -8,11 +8,10 @@ from src.Vista.InventarioVista import InventarioVista
 from src.Vista.ProductoVista import ProductoVista
 from src.Vista.VentaVista import VentaVista
 from src.Vista.Consultas.ConsultasMenuVista import ConsultasMenuVista
-
+from src.Vista.Consultas.ConsultaFinanzasVista import ConsultaFinanzas
 class ControladorMaestro:
     def __init__(self):
-        ctk.set_appearance_mode("dark")
-        ctk.set_default_color_theme("dark-blue")
+
 
         self.app = ctk.CTk()
         self.app.geometry("800x600")
@@ -71,6 +70,12 @@ class ControladorMaestro:
             self.vista_actual.frame.destroy()
         self.menu_consultas = ConsultasMenuVista(self.app, self)
         self.vista_actual = self.menu_consultas
+
+    def consultar_finanzas(self):
+         if self.vista_actual:
+             self.vista_actual.frame.destroy()
+         self.consulta_finanzas = ConsultaFinanzas(self.app, self)
+         self.vista_actual = self.consulta_finanzas
 
 
 

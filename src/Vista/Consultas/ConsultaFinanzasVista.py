@@ -1,27 +1,28 @@
 import customtkinter as ctk
 from tkinter import ttk
+
+from customtkinter import CTkFrame
+
 from src.DAO.FinanzaDAO import consultar_finanzas
 
-class ConsultaFinanzas(ctk.CTk):
+class ConsultaFinanzas:
 
-    def __init__(self):
-        super().__init__()
-
-        # Configuración de ventana
-        self.title("Consulta de Finanzas")
-        self.geometry("850x650")
+    def __init__(self,parent,controlador_maestro):
+        self.controlador_maestro=controlador_maestro
+        self.frame = CTkFrame(parent)
+        self.frame.pack(fill="both", expand=True)
 
         for col in range(4):
-            self.columnconfigure(col, weight=1)
+            self.frame.columnconfigure(col, weight=1)
         for row in range(6):
-            self.rowconfigure(row, weight=1)
+            self.frame.rowconfigure(row, weight=1)
 
         # Título principal
-        self.label_titulo = ctk.CTkLabel(self, text="Resumen de Finanzas", font=("Arial", 30, "bold"), text_color="black")
+        self.label_titulo = ctk.CTkLabel(self.frame, text="Resumen de Finanzas", font=("Arial", 30, "bold"), text_color="black")
         self.label_titulo.grid(row=0, column=1, columnspan=2, pady=10, sticky="n")
 
         # Frame contenedor de las tarjetas
-        self.frame_totales = ctk.CTkFrame(self)
+        self.frame_totales = ctk.CTkFrame(self.frame)
         self.frame_totales.grid(row=1, column=0, columnspan=4, padx=20, pady=10, sticky="ew")
 
         # Card ingresos
@@ -57,7 +58,7 @@ class ConsultaFinanzas(ctk.CTk):
         self.label_recuperado_valor.pack(pady=(0, 10))
 
         # Frame y tabla de detalles
-        self.frame_tabla = ctk.CTkFrame(self)
+        self.frame_tabla = ctk.CTkFrame(self.frame)
         self.frame_tabla.grid(row=2, column=0, columnspan=4, rowspan=3, padx=20, pady=10, sticky="nsew")
 
         style = ttk.Style()
@@ -77,7 +78,9 @@ class ConsultaFinanzas(ctk.CTk):
         self.tree_tabla.pack(fill="both", expand=True)
 
         # Botón regresar
-        self.boton_regresar = ctk.CTkButton(self, text="Menu Consultas", font=("Arial", 16, "bold"), width=200, height=40, corner_radius=20)
+        self.boton_regresar = ctk.CTkButton(self.frame, text="Menu Consultas", font=("Arial", 16, "bold"),
+                                            width=200, height=40, corner_radius=20,
+                                            command=self.controlador_maestro.mostrar_menu_consultas)
         self.boton_regresar.grid(row=5, column=1, columnspan=2, pady=10, sticky="ew")
 
         # Inicializar datos
@@ -121,6 +124,3 @@ class ConsultaFinanzas(ctk.CTk):
         self.label_recuperado_valor.configure(text=f"${recuperado:,.2f}")
 
 
-if __name__ == "__main__":
-    app = ConsultaFinanzas()
-    app.mainloop()

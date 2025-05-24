@@ -89,7 +89,7 @@ class ControladorMaestroFalso:
         print("Regresando al menú principal")
 
 if __name__ == "__main__":
-    ctk.set_appearance_mode("dark")
+    ctk.set_appearance_mode("ligth")
     root = ctk.CTk()
     root.geometry("850x650")
     root.title("Productos")
