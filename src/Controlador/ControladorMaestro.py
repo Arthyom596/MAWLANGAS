@@ -13,6 +13,7 @@ from src.Vista.Consultas.ConsultaInventarioVista import ConsultaInventarioVista
 from src.Vista.Consultas.ConsultaSaborVista import ConsultaSabor
 from src.Vista.Consultas.ConsultaUsuarioVista import ConsultaUsuario
 from src.Vista.Consultas.ConsultaProductoVista import ConsultaProducto
+from src.Vista.Consultas.ConsultaVentasVista import ConsultaVentas
 
 
 
@@ -102,6 +103,18 @@ class ControladorMaestro:
             self.vista_actual.frame.destroy()
         self.consulta_usuario = ConsultaUsuario(self.app, self)
         self.vista_actual = self.consulta_usuario
+
+    def consultar_sabores(self):
+        if self.vista_actual:
+            self.vista_actual.frame.destroy()
+        self.consulta_sabores = ConsultaSabor(self.app, self)
+        self.vista_actual = self.consulta_sabores
+
+    def consultar_ventas(self):
+        if self.vista_actual:
+            self.vista_actual.frame.destroy()
+        self.consulta_venta = ConsultaVentas(self.app, self)
+        self.vista_actual = self.consulta_venta
 
 
 

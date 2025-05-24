@@ -78,12 +78,14 @@ class ConsultasMenuVista:
 
         self.botton_sabores = ctk.CTkButton(
             self.frame_inferior, text="Sabores", text_color="white", font=("Arial", 25, "bold"),
-            fg_color="orange", height=50, width=150, hover_color="darkorange", corner_radius=100
+            fg_color="orange", height=50, width=150, hover_color="darkorange", corner_radius=100,
+            command=self.controlador_maestro.consultar_sabores
         )
         self.botton_sabores.grid(row=4, column=0, sticky="nsew", padx=20, pady=10, columnspan=4)
 
         self.botton_ventas = ctk.CTkButton(self.frame_inferior, text="Ventas", text_color="white", font=("Arial", 25, "bold"),
-                                           fg_color="pink", height=50, width=150, hover_color="#FFB6C1", corner_radius=100,)
+                                           fg_color="pink", height=50, width=150, hover_color="#FFB6C1", corner_radius=100,
+                                           command=self.controlador_maestro.consultar_ventas)
         self.botton_ventas.grid(row=5, column=0, sticky="nsew", padx=20, pady=10, columnspan=4)
 
         self.botton_menu = ctk.CTkButton(
