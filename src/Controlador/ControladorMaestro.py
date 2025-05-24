@@ -19,6 +19,7 @@ from src.Vista.Eliminar.EliminarProductoVista import EliminarProductoVista
 from src.Vista.Eliminar.EliminarUsuarioVista import EliminarUsuarioVista
 from src.Vista.Eliminar.EliminarSaborVista import EliminarSaborVista
 from src.Vista.Modificar.MenuPrincipalModificar import ModificarVista
+from src.Vista.Modificar.ModificarProductoVista import ModificarProductoVista
 
 
 
@@ -151,6 +152,11 @@ class ControladorMaestro:
         self.eliminar_sabor = EliminarSaborVista(self.app, self)
         self.vista_actual = self.eliminar_sabor
 
+    def modificar_productos(self):
+        if self.vista_actual:
+            self.vista_actual.frame.destroy()
+        self.modifica_producto = ModificarProductoVista(self.app, self)
+        self.vista_actual = self.modifica_producto
 
 
 
