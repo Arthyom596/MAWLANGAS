@@ -19,7 +19,8 @@ class EliminarVista:
         self.etiqueta_titulo.grid(row=0, column=1, pady=(40, 20), sticky="n")
 
         # Botón Productos
-        self.boton_productos = ctk.CTkButton(self.frame, text="Productos", width=200, height=50, font=("Arial", 16, "bold"))
+        self.boton_productos = ctk.CTkButton(self.frame, text="Productos", width=200, height=50,
+                                             font=("Arial", 16, "bold"),command=self.controlador_maestro.eliminar_productos)
         self.boton_productos.grid(row=1, column=1, pady=10)
 
         # Botón Sabores
