@@ -46,14 +46,29 @@ def crear_inventario(id_producto, id_sabor, cantidad, fecha_actualizacion):
         conexion.close()
 
 # Obtener inventarios
-def obtener_inventarios():
+def obtener_inventario_completo():
     conexion = conectar()
     if not conexion:
         return []
+
     try:
-        return conexion.execute("SELECT * FROM Inventario").fetchall()
+        cursor = conexion.cursor()
+        cursor.execute("""
+            SELECT 
+                i.IDInventario,
+                p.Nombre,  -- ← aquí se obtiene el nombre
+                s.NombreSabor,
+                i.Cantidad,
+                i.FechaActualizacion
+            FROM Inventario i
+            JOIN Productos p ON i.IDProducto = p.IDProducto
+            LEFT JOIN Sabores s ON i.IDSabor = s.IDSabor
+        """)
+        return cursor.fetchall()
     finally:
         conexion.close()
+
+
 
 # Actualizar inventario
 def actualizar_inventario(id_inventario, id_producto, id_sabor, cantidad, fecha_actualizacion):

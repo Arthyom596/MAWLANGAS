@@ -1,78 +1,126 @@
 import customtkinter as ctk
 from tkinter import ttk
+from src.DAO.FinanzaDAO import consultar_finanzas
 
-class ConsultaFinanzasVista(ctk.CTk):
+class ConsultaFinanzas(ctk.CTk):
 
-    def __init__(self, controlador):
+    def __init__(self):
         super().__init__()
 
-        self.controlador = controlador
-
+        # Configuración de ventana
         self.title("Consulta de Finanzas")
-        self.geometry("800x500")
-        ctk.set_appearance_mode("light")
-        ctk.set_default_color_theme("blue")
+        self.geometry("850x650")
 
-        # Título
-        titulo = ctk.CTkLabel(self, text="Resumen de Finanzas", font=ctk.CTkFont(size=24, weight="bold"))
-        titulo.pack(pady=20)
+        for col in range(4):
+            self.columnconfigure(col, weight=1)
+        for row in range(6):
+            self.rowconfigure(row, weight=1)
 
-        # Frame de totales
+        # Título principal
+        self.label_titulo = ctk.CTkLabel(self, text="Resumen de Finanzas", font=("Arial", 30, "bold"), text_color="black")
+        self.label_titulo.grid(row=0, column=1, columnspan=2, pady=10, sticky="n")
+
+        # Frame contenedor de las tarjetas
         self.frame_totales = ctk.CTkFrame(self)
-        self.frame_totales.pack(pady=10, padx=20, fill="x")
+        self.frame_totales.grid(row=1, column=0, columnspan=4, padx=20, pady=10, sticky="ew")
 
-        # Crear etiquetas de resumen
-        self.ingresos_label = self.crear_label(self.frame_totales, "Ingresos Totales", "$0.00", "#3b82f6")
-        self.gastos_label = self.crear_label(self.frame_totales, "Gastos Totales", "$0.00", "#ef4444")
-        self.ganancia_label = self.crear_label(self.frame_totales, "Ganancia Real", "$0.00", "#10b981")
-        self.recuperado_label = self.crear_label(self.frame_totales, "Inversión Recuperada", "$0.00", "#f59e0b")
+        # Card ingresos
+        self.frame_ingresos = ctk.CTkFrame(self.frame_totales, corner_radius=12, fg_color="#3b82f6")
+        self.frame_ingresos.pack(side="left", expand=True, fill="both", padx=10, pady=10)
+        self.label_ingresos_texto = ctk.CTkLabel(self.frame_ingresos, text="Ingresos Totales", font=("Arial", 16, "bold"), text_color="white")
+        self.label_ingresos_texto.pack(pady=(10, 0))
+        self.label_ingresos_valor = ctk.CTkLabel(self.frame_ingresos, text="$0.00", font=("Arial", 22, "bold"), text_color="white")
+        self.label_ingresos_valor.pack(pady=(0, 10))
 
-        # Frame de la tabla
-        self.tabla_frame = ctk.CTkFrame(self)
-        self.tabla_frame.pack(pady=10, fill="both", expand=True, padx=20)
+        # Card gastos
+        self.frame_gastos = ctk.CTkFrame(self.frame_totales, corner_radius=12, fg_color="#ef4444")
+        self.frame_gastos.pack(side="left", expand=True, fill="both", padx=10, pady=10)
+        self.label_gastos_texto = ctk.CTkLabel(self.frame_gastos, text="Gastos Totales", font=("Arial", 16, "bold"), text_color="white")
+        self.label_gastos_texto.pack(pady=(10, 0))
+        self.label_gastos_valor = ctk.CTkLabel(self.frame_gastos, text="$0.00", font=("Arial", 22, "bold"), text_color="white")
+        self.label_gastos_valor.pack(pady=(0, 10))
 
-        # Treeview
-        self.tabla = ttk.Treeview(self.tabla_frame, columns=("Tipo", "Monto", "Descripcion", "Fecha"), show="headings")
-        self.tabla.heading("Tipo", text="Tipo")
-        self.tabla.heading("Monto", text="Monto")
-        self.tabla.heading("Descripcion", text="Descripción")
-        self.tabla.heading("Fecha", text="Fecha")
+        # Card ganancia
+        self.frame_ganancia = ctk.CTkFrame(self.frame_totales, corner_radius=12, fg_color="#10b981")
+        self.frame_ganancia.pack(side="left", expand=True, fill="both", padx=10, pady=10)
+        self.label_ganancia_texto = ctk.CTkLabel(self.frame_ganancia, text="Ganancia Real", font=("Arial", 16, "bold"), text_color="white")
+        self.label_ganancia_texto.pack(pady=(10, 0))
+        self.label_ganancia_valor = ctk.CTkLabel(self.frame_ganancia, text="$0.00", font=("Arial", 22, "bold"), text_color="white")
+        self.label_ganancia_valor.pack(pady=(0, 10))
 
-        self.tabla.column("Tipo", anchor="center", width=100)
-        self.tabla.column("Monto", anchor="center", width=100)
-        self.tabla.column("Descripcion", anchor="w", width=300)
-        self.tabla.column("Fecha", anchor="center", width=100)
+        # Card recuperado
+        self.frame_recuperado = ctk.CTkFrame(self.frame_totales, corner_radius=12, fg_color="#f59e0b")
+        self.frame_recuperado.pack(side="left", expand=True, fill="both", padx=10, pady=10)
+        self.label_recuperado_texto = ctk.CTkLabel(self.frame_recuperado, text="Inversión Recuperada", font=("Arial", 16, "bold"), text_color="white")
+        self.label_recuperado_texto.pack(pady=(10, 0))
+        self.label_recuperado_valor = ctk.CTkLabel(self.frame_recuperado, text="$0.00", font=("Arial", 22, "bold"), text_color="white")
+        self.label_recuperado_valor.pack(pady=(0, 10))
 
-        self.tabla.pack(fill="both", expand=True)
+        # Frame y tabla de detalles
+        self.frame_tabla = ctk.CTkFrame(self)
+        self.frame_tabla.grid(row=2, column=0, columnspan=4, rowspan=3, padx=20, pady=10, sticky="nsew")
 
-        # Botón para actualizar datos
-        actualizar_btn = ctk.CTkButton(self, text="Actualizar datos", command=self.controlador.actualizar_datos)
-        actualizar_btn.pack(pady=10)
+        style = ttk.Style()
+        style.configure("Treeview.Heading", font=("Arial", 15, "bold"))
 
-    def crear_label(self, frame, texto, valor="$0.00", color="#3b82f6"):
-        container = ctk.CTkFrame(frame, corner_radius=12, fg_color=color)
-        container.pack(side="left", expand=True, fill="both", padx=10, pady=10)
+        self.tree_tabla = ttk.Treeview(self.frame_tabla, columns=("Tipo", "Monto", "Descripcion", "Fecha"), show="headings")
+        self.tree_tabla.heading("Tipo", text="Tipo")
+        self.tree_tabla.heading("Monto", text="Monto")
+        self.tree_tabla.heading("Descripcion", text="Descripción")
+        self.tree_tabla.heading("Fecha", text="Fecha")
 
-        label_texto = ctk.CTkLabel(container, text=texto, font=ctk.CTkFont(size=16, weight="bold"), text_color="white")
-        label_texto.pack(pady=(10, 0))
+        self.tree_tabla.column("Tipo", anchor="center", width=150)
+        self.tree_tabla.column("Monto", anchor="center", width=150)
+        self.tree_tabla.column("Descripcion", anchor="w", width=300)
+        self.tree_tabla.column("Fecha", anchor="center", width=150)
 
-        label_valor = ctk.CTkLabel(container, text=valor, font=ctk.CTkFont(size=22, weight="bold"), text_color="white")
-        label_valor.pack(pady=(0, 10))
+        self.tree_tabla.pack(fill="both", expand=True)
 
-        return label_valor
+        # Botón regresar
+        self.boton_regresar = ctk.CTkButton(self, text="Menu Consultas", font=("Arial", 16, "bold"), width=200, height=40, corner_radius=20)
+        self.boton_regresar.grid(row=5, column=1, columnspan=2, pady=10, sticky="ew")
+
+        # Inicializar datos
+        self.actualizar_datos()
+
+    def obtener_finanzas(self):
+        return consultar_finanzas()
+
+    def calcular_totales(self, datos):
+        ingresos = 0
+        gastos = 0
+
+        for fila in datos:
+            _, _, tipo, monto, _ = fila
+            if tipo.lower() == "venta":
+                ingresos += monto
+            elif tipo.lower() == "inversion":
+                gastos += monto
+
+        ganancia = ingresos - gastos
+        recuperado = gastos if ingresos >= gastos else ingresos
+
+        return ingresos, gastos, ganancia, recuperado
+
+    def actualizar_datos(self):
+        datos = self.obtener_finanzas()
+        ingresos, gastos, ganancia, recuperado = self.calcular_totales(datos)
+        self.mostrar_datos(datos, ingresos, gastos, ganancia, recuperado)
 
     def mostrar_datos(self, datos, ingresos, gastos, ganancia, recuperado):
-        # Limpiar tabla actual
-        for item in self.tabla.get_children():
-            self.tabla.delete(item)
+        for item in self.tree_tabla.get_children():
+            self.tree_tabla.delete(item)
 
-        # Insertar datos en tabla
         for fila in datos:
             _, fecha, tipo, monto, descripcion = fila
-            self.tabla.insert("", "end", values=(tipo, f"${monto:,.2f}", descripcion, fecha))
+            self.tree_tabla.insert("", "end", values=(tipo, f"${monto:,.2f}", descripcion, fecha))
 
-        # Actualizar etiquetas
-        self.ingresos_label.configure(text=f"${ingresos:,.2f}")
-        self.gastos_label.configure(text=f"${gastos:,.2f}")
-        self.ganancia_label.configure(text=f"${ganancia:,.2f}")
-        self.recuperado_label.configure(text=f"${recuperado:,.2f}")
+        self.label_ingresos_valor.configure(text=f"${ingresos:,.2f}")
+        self.label_gastos_valor.configure(text=f"${gastos:,.2f}")
+        self.label_ganancia_valor.configure(text=f"${ganancia:,.2f}")
+        self.label_recuperado_valor.configure(text=f"${recuperado:,.2f}")
+
+
+if __name__ == "__main__":
+    app = ConsultaFinanzas()
+    app.mainloop()

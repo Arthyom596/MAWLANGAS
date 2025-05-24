@@ -1,5 +1,6 @@
 import customtkinter as ctk
 from tkinter import ttk
+from src.DAO.InventarioDAO import obtener_inventario_completo  # Ajusta la ruta si es necesario
 
 class ConsultaInventarioVista:
     def __init__(self, root):
@@ -8,34 +9,48 @@ class ConsultaInventarioVista:
         self.app.title("Consultar Inventario")
         self.app.configure(fg_color="#7c82e8")
 
-        for col in (0, 1, 2, 3):
+        for col in range(4):
             self.app.columnconfigure(col, weight=1)
-
-        for row in (0, 1, 2, 3, 4, 5):
+        for row in range(7):
             self.app.rowconfigure(row, weight=1)
 
         self.consulta = ctk.CTkLabel(self.app, text="Consulta de Inventario", font=("Arial", 30, "bold"), text_color="black")
         self.consulta.grid(column=2, row=0, sticky="w", padx=80, pady=5)
 
         style = ttk.Style()
-        style.configure("Treeview.Heading", font=("Arial", 15, "bold"))
+        style.configure("Treeview.Heading", font=("Arial", 15, "bold"), anchor="center")
+        style.configure("Treeview", font=("Arial", 12), rowheight=28)
 
-        # --- Treeview ---
         self.tree = ttk.Treeview(self.app, columns=("ID", "Producto", "Sabor", "Cantidad", "Fecha"), show="headings")
+
         self.tree.heading("ID", text="ID")
         self.tree.heading("Producto", text="Producto")
         self.tree.heading("Sabor", text="Sabor")
         self.tree.heading("Cantidad", text="Cantidad")
-        self.tree.heading("Fecha", text="Fecha")  # Quité el espacio extra después de "Fecha"
+        self.tree.heading("Fecha", text="Fecha")
 
-        # Opcional: ancho de columnas
-        self.tree.column("ID", width=100)
-        self.tree.column("Producto", width=200)
-        self.tree.column("Sabor", width=100)
-        self.tree.column("Cantidad", width=60)
-        self.tree.column("Fecha", width=100)
+        self.tree.column("ID", width=80, anchor="center")
+        self.tree.column("Producto", width=200, anchor="center")
+        self.tree.column("Sabor", width=140, anchor="center")
+        self.tree.column("Cantidad", width=100, anchor="center")
+        self.tree.column("Fecha", width=160, anchor="center")
 
-        self.tree.grid(row=1, column=0, columnspan=4, rowspan=5, padx=20, pady=20, sticky="nsew")
+        self.tree.grid(row=1, column=0, columnspan=4, rowspan=4, padx=20, pady=20, sticky="nsew")
+
+        self.boton_regresar = ctk.CTkButton(self.app, text="Regresar al Menu", font=("Arial", 16, "bold"), width=200,
+                                            height=40, corner_radius=20,fg_color="RED")
+        self.boton_regresar.grid(row=6, column=1, columnspan=2, pady=10, sticky="ew")
+
+        self.cargar_datos()
+
+    def cargar_datos(self):
+        for fila in self.tree.get_children():
+            self.tree.delete(fila)
+
+        inventario = obtener_inventario_completo()
+        for fila in inventario:
+            valores_limpios = [str(dato) if dato is not None else "N/A" for dato in fila]
+            self.tree.insert("", "end", values=valores_limpios)
 
 if __name__ == "__main__":
     app = ctk.CTk()
