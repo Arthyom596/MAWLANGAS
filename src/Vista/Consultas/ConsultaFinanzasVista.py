@@ -80,7 +80,8 @@ class ConsultaFinanzas:
         # Botón regresar
         self.boton_regresar = ctk.CTkButton(self.frame, text="Menu Consultas", font=("Arial", 16, "bold"),
                                             width=200, height=40, corner_radius=20,
-                                            command=self.controlador_maestro.mostrar_menu_consultas)
+                                            command=self.controlador_maestro.mostrar_menu_consultas,
+                                            hover_color="darkred")
         self.boton_regresar.grid(row=5, column=1, columnspan=2, pady=10, sticky="ew")
 
         # Inicializar datos

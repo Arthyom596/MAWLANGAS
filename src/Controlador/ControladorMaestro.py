@@ -97,6 +97,12 @@ class ControladorMaestro:
         self.consulta_producto = ConsultaProducto(self.app, self)
         self.vista_actual = self.consulta_producto
 
+    def consultar_usuarios(self):
+        if self.vista_actual:
+            self.vista_actual.frame.destroy()
+        self.consulta_usuario = ConsultaUsuario(self.app, self)
+        self.vista_actual = self.consulta_usuario
+
 
 
     def ejecutar(self):

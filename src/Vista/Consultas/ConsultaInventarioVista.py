@@ -43,7 +43,8 @@ class ConsultaInventarioVista:
 
         self.boton_regresar = ctk.CTkButton(self.frame, text="Regresar al Menu", font=("Arial", 16, "bold"), width=200,
                                             height=40, corner_radius=20, fg_color="RED",
-                                            command=self.controlador_maestro.mostrar_menu_consultas
+                                            command=self.controlador_maestro.mostrar_menu_consultas,
+                                            hover_color="darkred"
                                             )
         self.boton_regresar.grid(row=6, column=1, columnspan=2, pady=10, sticky="ew")
 

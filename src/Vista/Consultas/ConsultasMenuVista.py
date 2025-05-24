@@ -71,7 +71,8 @@ class ConsultasMenuVista:
 
         self.botton_usuarios = ctk.CTkButton(
             self.frame_inferior, text="Usuarios", text_color="white", font=("Arial", 25, "bold"),
-            fg_color="purple", height=50, width=150, hover_color="indigo", corner_radius=100
+            fg_color="purple", height=50, width=150, hover_color="indigo", corner_radius=100,
+            command=self.controlador_maestro.consultar_usuarios
         )
         self.botton_usuarios.grid(row=3, column=0, sticky="nsew", padx=20, pady=10, columnspan=4)
 
