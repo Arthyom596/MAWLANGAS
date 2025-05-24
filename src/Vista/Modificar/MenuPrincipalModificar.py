@@ -24,7 +24,8 @@ class ModificarVista:
         self.boton_productos.grid(row=1, column=1, pady=10)
 
         # Botón Sabores
-        self.boton_sabores = ctk.CTkButton(self.frame, text="Sabores", width=200, height=50, font=("Arial", 16, "bold"))
+        self.boton_sabores = ctk.CTkButton(self.frame, text="Sabores", width=200, height=50,
+                                           font=("Arial", 16, "bold"),command=self.controlador_maestro.modificar_sabores)
         self.boton_sabores.grid(row=2, column=1, pady=10)
 
         # Botón Usuarios
