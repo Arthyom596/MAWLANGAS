@@ -34,12 +34,14 @@ class MenuPrincipal:
 
         self.btn_modificar = ctk.CTkButton(self.frame, text="✏️ Modificar", font=("Arial", 18, "bold"),
                                            height=60, width=250, corner_radius=20,
-                                           fg_color="#3B8ED0", hover_color="#2F6BA8")
+                                           fg_color="#3B8ED0", hover_color="#2F6BA8",
+                                           command=self.controlador_maestro.menu_modificar)
         self.btn_modificar.grid(row=2, column=1, padx=20, pady=15)
 
         self.btn_eliminar = ctk.CTkButton(self.frame, text="🗑️ Eliminar Elementos", font=("Arial", 18, "bold"),
                                           height=60, width=250, corner_radius=20,
-                                          fg_color="#FF4C4C", hover_color="#CC3C3C")
+                                          fg_color="#FF4C4C", hover_color="#CC3C3C",
+                                          command=self.controlador_maestro.menu_eliminar)
         self.btn_eliminar.grid(row=2, column=2, padx=20, pady=15)
 
         self.btn_consultas = ctk.CTkButton(self.frame, text="🔍 Consultas", font=("Arial", 18, "bold"),
