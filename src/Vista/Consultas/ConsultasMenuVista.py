@@ -50,7 +50,8 @@ class ConsultasMenuVista:
 
         self.botton_inventario = ctk.CTkButton(
             self.frame_inferior, text="Inventario", text_color="white", font=("Arial", 25, "bold"),
-            fg_color="blue", height=50, width=150, hover_color="darkblue", corner_radius=100
+            fg_color="blue", height=50, width=150, hover_color="darkblue", corner_radius=100,
+            command=self.controlador_maestro.consultar_inventario
         )
         self.botton_inventario.grid(row=0, column=0, sticky="nsew", padx=20, pady=10, columnspan=4)
 
@@ -63,7 +64,8 @@ class ConsultasMenuVista:
 
         self.botton_productos = ctk.CTkButton(
             self.frame_inferior, text="Productos", text_color="white", font=("Arial", 25, "bold"),
-            fg_color="yellow", height=50, width=150, hover_color="goldenrod", corner_radius=100
+            fg_color="yellow", height=50, width=150, hover_color="goldenrod", corner_radius=100,
+            command=self.controlador_maestro.consultar_producto
         )
         self.botton_productos.grid(row=2, column=0, sticky="nsew", padx=20, pady=10, columnspan=4)
 
@@ -79,12 +81,16 @@ class ConsultasMenuVista:
         )
         self.botton_sabores.grid(row=4, column=0, sticky="nsew", padx=20, pady=10, columnspan=4)
 
+        self.botton_ventas = ctk.CTkButton(self.frame_inferior, text="Ventas", text_color="white", font=("Arial", 25, "bold"),
+                                           fg_color="pink", height=50, width=150, hover_color="#FFB6C1", corner_radius=100,)
+        self.botton_ventas.grid(row=5, column=0, sticky="nsew", padx=20, pady=10, columnspan=4)
+
         self.botton_menu = ctk.CTkButton(
             self.frame_inferior, text="Menu Principal", text_color="white", font=("Arial", 25, "bold"),
             fg_color="red", height=50, width=150, hover_color="darkred", corner_radius=100,
             command=self.controlador_maestro.mostrar_menu_principal
         )
-        self.botton_menu.grid(row=5, column=0, sticky="nsew", padx=20, pady=10, columnspan=4)
+        self.botton_menu.grid(row=6, column=0, sticky="nsew", padx=20, pady=10, columnspan=4)
 
 
 

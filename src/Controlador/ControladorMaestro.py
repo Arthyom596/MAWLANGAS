@@ -9,6 +9,14 @@ from src.Vista.ProductoVista import ProductoVista
 from src.Vista.VentaVista import VentaVista
 from src.Vista.Consultas.ConsultasMenuVista import ConsultasMenuVista
 from src.Vista.Consultas.ConsultaFinanzasVista import ConsultaFinanzas
+from src.Vista.Consultas.ConsultaInventarioVista import ConsultaInventarioVista
+from src.Vista.Consultas.ConsultaSaborVista import ConsultaSabor
+from src.Vista.Consultas.ConsultaUsuarioVista import ConsultaUsuario
+from src.Vista.Consultas.ConsultaProductoVista import ConsultaProducto
+
+
+
+
 class ControladorMaestro:
     def __init__(self):
 
@@ -76,6 +84,18 @@ class ControladorMaestro:
              self.vista_actual.frame.destroy()
          self.consulta_finanzas = ConsultaFinanzas(self.app, self)
          self.vista_actual = self.consulta_finanzas
+
+    def consultar_inventario(self):
+        if self.vista_actual:
+            self.vista_actual.frame.destroy()
+        self.consulta_inventario = ConsultaInventarioVista(self.app, self)
+        self.vista_actual = self.consulta_inventario
+
+    def consultar_producto(self):
+        if self.vista_actual:
+            self.vista_actual.frame.destroy()
+        self.consulta_producto = ConsultaProducto(self.app, self)
+        self.vista_actual = self.consulta_producto
 
 
 
