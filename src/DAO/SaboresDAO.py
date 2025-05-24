@@ -124,5 +124,19 @@ def obtener_nombre_sabor_por_id(id_sabor):
     finally:
         conexion.close()
 
+def obtener_sabores_con_nombre_producto():
+    conexion = conectar()
+    if not conexion:
+        return []
+    try:
+        return conexion.execute("""
+            SELECT s.IDSabor, p.Nombre, s.NombreSabor
+            FROM Sabores s
+            JOIN Productos p ON s.IDProducto = p.IDProducto
+        """).fetchall()
+    finally:
+        conexion.close()
+
+
 
 
