@@ -19,7 +19,7 @@ def validar_texto(texto):
     texto = str(texto).strip()
 
     if len(texto) == 0: #Compara la longitud si es igual a 0 retorna False
-        return False, "Error: Texto vacío"
+        return False, "Error: Texto vacio"
     if len(texto) > 50: #Compara la longitud si es mayor a 50 retorna False
         return False, "Error: Texto mayor a 50 caracteres"
     if not re.fullmatch(r"^[A-Za-zÑñ]+$", texto): #Si el texto no es una letra valida retorna False
@@ -35,8 +35,8 @@ Finalmente devuelve el numero en su estado float para ingresarlo en la base de d
 def validar_numero(numero):
     numero = str(numero).strip() #Convierte el numero en un String para ser evaluado
 
-    if len(numero) < 1 or len(numero) > 10: #El numero debe ser
-        return False, "Error: Número menor a 1 carácter o mayor a 10 caracteres"
+    if len(numero) < 1 or len(numero) > 8: #El numero debe ser
+        return False, "Error: Número menor a 1 carácter o mayor a 8 caracteres"
     if not re.fullmatch(r"^[0-9]+(\.[0-9]{1,2})?$", numero):
         return False, "Error: Debe ser un número válido. Puede ser entero o con hasta dos decimales."
     numero_convertido = float(numero) #Convierte el String de numero a un flotante
