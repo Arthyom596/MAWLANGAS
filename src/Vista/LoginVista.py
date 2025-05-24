@@ -7,11 +7,13 @@ class LoginVista:
     def __init__(self, parent, controlador_maestro):
         self.controlador_maestro = controlador_maestro
 
-        self.parent.configure(fg_color="black")
+
+
 
         # Crear frame y configurar como antes
         self.frame = ctk.CTkFrame(parent)
         self.frame.pack(fill="both", expand=True)
+        self.frame.configure(fg_color="black")
 
         self.controlador = LoginControlador(self, self.controlador_maestro)
 
@@ -108,7 +110,10 @@ class LoginVista:
 
 
 class ControladorMaestroFalso:
-    pass
+    def mostrar_menu_principal(self):
+        print("menu principal")
+    def mostrar_registro(self):
+        print("registro")
 
 if __name__ == "__main__":
     root = ctk.CTk()

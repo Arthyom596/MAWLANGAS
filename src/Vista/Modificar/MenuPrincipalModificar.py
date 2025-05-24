@@ -28,7 +28,9 @@ class ModificarVista:
         self.boton_sabores.grid(row=2, column=1, pady=10)
 
         # Botón Usuarios
-        self.boton_usuarios = ctk.CTkButton(self.frame, text="Usuarios", width=200, height=50, font=("Arial", 16, "bold"))
+        self.boton_usuarios = ctk.CTkButton(self.frame, text="Usuarios", width=200, height=50,
+                                            font=("Arial", 16, "bold"),
+                                            command=self.controlador_maestro.modificar_usuarios)
         self.boton_usuarios.grid(row=3, column=1, pady=10)
 
         # Botón cancelar / regresar
