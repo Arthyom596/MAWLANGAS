@@ -34,8 +34,8 @@ class ControladorMaestro:
         self.app.title("Mawlangas ")
 
         self.vista_actual = None
-
-        self.mostrar_menu_principal()
+        self.mostrar_login()
+        #self.mostrar_menu_principal()
 
     def mostrar_login(self):
         if self.vista_actual:
@@ -70,7 +70,7 @@ class ControladorMaestro:
     def mostrar_productos(self):
         if self.vista_actual:
             self.vista_actual.frame.destroy()
-        self.app.geometry("850x650")
+        self.app.geometry("850x600")
         self.productos_vista = ProductoVista(self.app, self)
         self.vista_actual = self.productos_vista
 

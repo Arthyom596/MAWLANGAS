@@ -38,7 +38,7 @@ def validar_numero(numero):
     if len(numero) < 1 or len(numero) > 8: #El numero debe ser
         return False, "Error: Número menor a 1 carácter o mayor a 8 caracteres"
     if not re.fullmatch(r"^[0-9]+(\.[0-9]{1,2})?$", numero):
-        return False, "Error: Debe ser un número válido. Puede ser entero o con hasta dos decimales."
+        return False, "Error: Debe ser un número valido."
     numero_convertido = float(numero) #Convierte el String de numero a un flotante
     return True, round(numero_convertido, 2) #Redondea a 2 decimales y lo devuelve
 

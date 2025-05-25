@@ -35,11 +35,21 @@ class InventarioControlador:
         cantidad = self.obtener_cantidad(self.vista.entrada_cantidad_agregar.get())
         id_sabor = None
 
+        # Obtener sabores actuales para validar
+        sabores = Inventario.obtener_sabores(id_producto)
+        tiene_sabores = bool(sabores)
+
+        # Validación: si el producto tiene sabores, pero el switch está desactivado (no usar sabor), bloquear
+        if tiene_sabores and not self.vista.switch_usar_sabor.get():
+            self.vista.mostrar_mensaje("Debe seleccionar un sabor para este producto.", "red")
+            return
+
+        # Si el switch está activo, obtener el sabor seleccionado
         if self.vista.switch_usar_sabor.get():
             nombre_sabor = self.vista.combo_sabores_agregar.get()
             id_sabor = self.vista.sabores_dict.get(nombre_sabor)
             if id_sabor is None:
-                self.vista.mostrar_mensaje("Error: Campos Invalidos", "red")
+                self.vista.mostrar_mensaje("Error: Seleccione un sabor válido.", "red")
                 return
 
         if id_producto is None or cantidad is None:
@@ -60,11 +70,21 @@ class InventarioControlador:
         cantidad = self.obtener_cantidad(self.vista.entrada_cantidad_mermar.get())
         id_sabor = None
 
+        # Obtener sabores actuales para validar
+        sabores = Inventario.obtener_sabores(id_producto)
+        tiene_sabores = bool(sabores)
+
+        # Validación: si el producto tiene sabores, pero el switch está desactivado, bloquear
+        if tiene_sabores and not self.vista.switch_usar_sabor.get():
+            self.vista.mostrar_mensaje("Debe seleccionar un sabor para este producto.", "red")
+            return
+
+        # Si el switch está activo, obtener sabor seleccionado
         if self.vista.switch_usar_sabor.get():
             nombre_sabor = self.vista.combo_sabores_mermar.get()
             id_sabor = self.vista.sabores_dict.get(nombre_sabor)
             if id_sabor is None:
-                self.vista.mostrar_mensaje("Error: Campos Invalidos", "red")
+                self.vista.mostrar_mensaje("Error: Campos inválidos", "red")
                 return
 
         if id_producto is None or cantidad is None:

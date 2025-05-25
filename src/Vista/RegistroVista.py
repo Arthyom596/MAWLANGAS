@@ -117,6 +117,11 @@ class Registro:
         self.actualizar_tiempo()
 
     def actualizar_tiempo(self):
+        # Verificar si el widget aún existe antes de intentar configurarlo
+        if not self.etiqueta_dinamica.winfo_exists():
+            print("El widget etiqueta_dinamica ya no existe. Cancelando la cuenta regresiva.")
+            return
+
         if self.tiempo_restante > 0:
             self.etiqueta_dinamica.configure(
                 text=f"Puedes reenviar el código en {self.tiempo_restante} segundos",

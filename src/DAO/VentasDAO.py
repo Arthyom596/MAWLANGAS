@@ -19,7 +19,7 @@ def conectar():
             IDSabor INTEGER,  -- Aquí se eliminó NOT NULL
             CantidadVendida INTEGER NOT NULL,
             Fecha TEXT NOT NULL,
-            FOREIGN KEY (IDProducto) REFERENCES Productos(IDProducto) ON DELETE CASCADE,
+            FOREIGN KEY (IDProducto) REFERENCES Productos(IDProducto)  ON DELETE CASCADE ,
             FOREIGN KEY (IDSabor) REFERENCES Sabores(IDSabor) ON DELETE CASCADE
         );
         """)
