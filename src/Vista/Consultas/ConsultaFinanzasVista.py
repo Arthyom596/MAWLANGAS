@@ -81,7 +81,8 @@ class ConsultaFinanzas:
         self.boton_regresar = ctk.CTkButton(self.frame, text="Menu Consultas", font=("Arial", 16, "bold"),
                                             width=200, height=40, corner_radius=20,
                                             command=self.controlador_maestro.mostrar_menu_consultas,
-                                            hover_color="darkred")
+                                            hover_color="darkred",
+                                            fg_color="red")
         self.boton_regresar.grid(row=5, column=1, columnspan=2, pady=10, sticky="ew")
 
         # Inicializar datos
@@ -96,9 +97,10 @@ class ConsultaFinanzas:
 
         for fila in datos:
             _, _, tipo, monto, _ = fila
-            if tipo.lower() == "venta":
+            tipo = tipo.lower()
+            if tipo in ["venta", "ingreso"]:
                 ingresos += monto
-            elif tipo.lower() == "inversion":
+            elif tipo in ["inversion", "gasto", "merma"]:
                 gastos += monto
 
         ganancia = ingresos - gastos

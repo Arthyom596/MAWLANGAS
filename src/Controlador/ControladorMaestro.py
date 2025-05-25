@@ -174,7 +174,4 @@ class ControladorMaestro:
     def ejecutar(self):
         self.app.mainloop()
 
-if __name__ == "__main__":
-    controlador = ControladorMaestro()
-    controlador.ejecutar()
 
