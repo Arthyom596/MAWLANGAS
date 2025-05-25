@@ -47,27 +47,29 @@ def enviar_otp(destinatario):
 def verificar_otp(destinatario, otp_ingresado):
     datos = otp_almacen.get(destinatario)
     if not datos:
-        print("Error, no se encontro el correo asociado")
-        return False
+
+        return False, "Correo no encontrado o OTP no enviado"
 
     otp_generado = datos["otp"]
     tiempo_envio = datos["fecha_envio"]
 
     if time.time() - tiempo_envio > 300:
-        print("otp expirado")
+
         del otp_almacen[destinatario]
-        return False
-    if otp_generado == otp_ingresado:
-        print("Registro exitoso")
+        return False, "OTP expirado. Por favor, solicite un nuevo código."
+
+    # Convertimos ambos a str para comparar sin problema
+    if str(otp_generado) == str(otp_ingresado):
+
         del otp_almacen[destinatario]
-        return True
+        return True, "OTP verificado correctamente"
     else:
-        print("otp incorrecto")
-        return False
+
+        return False, "OTP incorrecto, verifique su código"
+
 
 
 def manejar_otp(correo, otp_ingresado=None):
-    print(f"Correo recibido: {correo}")  # Verifica el valor de correo
     if correo not in otp_almacen:
         enviar_otp(correo)
     else:

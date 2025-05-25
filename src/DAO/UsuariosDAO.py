@@ -20,7 +20,7 @@ def conectar():
                 Nombre TEXT NOT NULL,
                 ApellidoPaterno TEXT NOT NULL,
                 ApellidoMaterno TEXT,
-                Correo TEXT NOT NULL
+                Correo UNIQUE NOT NULL
             );
         """)
         conexion.commit()
@@ -40,8 +40,17 @@ def crear_usuario(usuario, contrasena, nombre, apellido_p, apellido_m, correo):
             VALUES (?, ?, ?, ?, ?, ?)
         """, (usuario, contrasena, nombre, apellido_p, apellido_m, correo))
         conexion.commit()
+    except sqlite3.IntegrityError as e:
+
+        if "Usuario" in str(e):
+            raise ValueError("El nombre de usuario ya está registrado.")
+        elif "Correo" in str(e):
+            raise ValueError("El correo electrónico ya está registrado.")
+        else:
+            raise
     finally:
         conexion.close()
+
 
 
 

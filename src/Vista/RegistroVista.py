@@ -2,6 +2,7 @@ import customtkinter as ctk
 from tkinter import messagebox
 from src.Controlador.RegistroControlador import registrar_usuario_controlador
 
+
 class Registro:
     def __init__(self, parent, controlador_maestro):
         self.parent = parent
@@ -47,14 +48,16 @@ class Registro:
         self.campos["nombre"] = nombre_entry
 
         # Apellido Paterno
-        apellido_p_label = ctk.CTkLabel(self.contenedor, text="Apellido Paterno", text_color="black", font=("Arial", 14))
+        apellido_p_label = ctk.CTkLabel(self.contenedor, text="Apellido Paterno", text_color="black",
+                                        font=("Arial", 14))
         apellido_p_label.grid(row=4, column=0, padx=20, pady=5, sticky="w")
         apellido_p_entry = ctk.CTkEntry(self.contenedor, border_width=1, corner_radius=10, width=300)
         apellido_p_entry.grid(row=4, column=1, padx=20, pady=5, sticky="ew")
         self.campos["apellido_p"] = apellido_p_entry
 
         # Apellido Materno
-        apellido_m_label = ctk.CTkLabel(self.contenedor, text="Apellido Materno", text_color="black", font=("Arial", 14))
+        apellido_m_label = ctk.CTkLabel(self.contenedor, text="Apellido Materno", text_color="black",
+                                        font=("Arial", 14))
         apellido_m_label.grid(row=5, column=0, padx=20, pady=5, sticky="w")
         apellido_m_entry = ctk.CTkEntry(self.contenedor, border_width=1, corner_radius=10, width=300)
         apellido_m_entry.grid(row=5, column=1, padx=20, pady=5, sticky="ew")
@@ -74,7 +77,7 @@ class Registro:
         otp_entry.grid(row=7, column=1, padx=20, pady=5, sticky="ew")
         self.campos["otp"] = otp_entry
 
-        # Etiqueta dinámica
+        # Etiqueta dinámica para cuenta regresiva y mensajes
         self.etiqueta_dinamica = ctk.CTkLabel(
             self.contenedor, text="", text_color="black", font=("Arial", 14)
         )
@@ -84,7 +87,7 @@ class Registro:
         self.boton_enviar_codigo = ctk.CTkButton(
             self.contenedor, text="Enviar código", corner_radius=10, command=self.enviar_codigo
         )
-        self.boton_enviar_codigo.grid(row=8, column=1, pady=10, padx=10, sticky="ew")
+        self.boton_enviar_codigo.grid(row=9, column=1, pady=10, padx=10, sticky="ew")
 
         # Botón registrar
         self.boton_registrar = ctk.CTkButton(
@@ -101,7 +104,29 @@ class Registro:
     def enviar_codigo(self):
         from src.Modelo.Otp import manejar_otp
         correo = self.campos["correo"].get()
+        if correo.strip() == "":
+            self.etiqueta_dinamica.configure(text="Por favor, ingresa un correo válido.", text_color="red")
+            return
+
+        # Enviar el OTP
         manejar_otp(correo)
+
+        # Deshabilitar botón y comenzar cuenta regresiva
+        self.boton_enviar_codigo.configure(state="disabled")
+        self.tiempo_restante = 60
+        self.actualizar_tiempo()
+
+    def actualizar_tiempo(self):
+        if self.tiempo_restante > 0:
+            self.etiqueta_dinamica.configure(
+                text=f"Puedes reenviar el código en {self.tiempo_restante} segundos",
+                text_color="black"
+            )
+            self.tiempo_restante -= 1
+            self.parent.after(1000, self.actualizar_tiempo)
+        else:
+            self.etiqueta_dinamica.configure(text="")
+            self.boton_enviar_codigo.configure(state="normal")
 
     def registrar(self):
         datos = {clave: campo.get() for clave, campo in self.campos.items()}
@@ -119,9 +144,11 @@ class Registro:
     def cancelar(self):
         self.controlador_maestro.mostrar_login()
 
+
 class ControladorMaestroFalso:
     def mostrar_login(self):
         print("Regresando al login")
+
 
 if __name__ == "__main__":
     root = ctk.CTk()
