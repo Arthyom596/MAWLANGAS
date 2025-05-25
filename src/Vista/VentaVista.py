@@ -19,9 +19,11 @@ class VentaVista:
         self.etiqueta_seleccion = ctk.CTkLabel(self.frame, text="Seleccione su producto", font=("Arial", 16, "bold"))
         self.etiqueta_seleccion.grid(row=1, column=1, pady=(0, 5), sticky="n")
 
-        self.combo_productos = ctk.CTkComboBox(self.frame, values=[], width=200)
-        self.combo_productos.set("Producto")
+        # Aquí asignamos el command para que llame a actualizar_sabores con el producto seleccionado
+        self.combo_productos = ctk.CTkComboBox(self.frame, values=[], width=200,
+                                               command=self.controlador_actualizar_sabores)
         self.combo_productos.grid(row=2, column=1, pady=(0, 20), sticky="n")
+        self.combo_productos.set("Producto")
 
         self.etiqueta_cantidad = ctk.CTkLabel(self.frame, text="Cantidad", font=("Arial", 16, "bold"))
         self.etiqueta_cantidad.grid(row=3, column=1, pady=(10, 5), sticky="n")
@@ -36,7 +38,6 @@ class VentaVista:
         self.etiqueta_sabor.grid(row=6, column=1, pady=(10, 5), sticky="n")
 
         self.combo_sabor = ctk.CTkComboBox(self.frame, values=[], width=200)
-        self.combo_sabor.set("Sabor")
         self.combo_sabor.grid(row=7, column=1, pady=(0, 20), sticky="n")
 
         self.etiqueta_dinamica = ctk.CTkLabel(self.frame, text="", font=("Arial", 16, "bold"))
@@ -51,8 +52,11 @@ class VentaVista:
                                             command=self.controlador_maestro.mostrar_menu_principal)
         self.boton_cancelar.grid(row=10, column=1, pady=10, sticky="n")
 
-        # Vincular controlador
         self.controlador = ControladorVenta(self)
+
+    def controlador_actualizar_sabores(self, producto_seleccionado):
+        # Este método sólo llama al método del controlador para mantener separación de capas
+        self.controlador.actualizar_sabores(producto_seleccionado)
 
     def obtener_frame(self):
         return self.frame
@@ -69,10 +73,8 @@ class VentaVista:
         self.combo_productos.configure(values=productos)
 
     def cargar_sabores(self, sabores):
-        self.combo_sabor.set("")
-        self.combo_sabor.configure(values=[])
         self.combo_sabor.configure(values=sabores)
-        self.combo_sabor.set("Sabor")
+        print("Sabores cargados:", sabores)
 
         if sabores:
             self.switch_sabor.configure(state="normal")
@@ -88,8 +90,9 @@ class ControladorMaestroFalso:
     def mostrar_menu_principal(self):
         print("Regresando al menú principal")
 
+
 if __name__ == "__main__":
-    ctk.set_appearance_mode("ligth")
+    ctk.set_appearance_mode("light")  # corregido: era "ligth"
     root = ctk.CTk()
     root.geometry("850x650")
     root.title("Productos")
