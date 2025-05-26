@@ -7,9 +7,6 @@ class LoginVista:
     def __init__(self, parent, controlador_maestro):
         self.controlador_maestro = controlador_maestro
 
-
-
-
         # Crear frame y configurar como antes
         self.frame = ctk.CTkFrame(parent)
         self.frame.pack(fill="both", expand=True)

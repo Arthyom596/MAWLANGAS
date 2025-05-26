@@ -34,8 +34,8 @@ class ControladorMaestro:
         self.app.title("Mawlangas ")
 
         self.vista_actual = None
-        self.mostrar_login()
-        #self.mostrar_menu_principal()
+        #self.mostrar_login()
+        self.mostrar_menu_principal()
 
     def mostrar_login(self):
         if self.vista_actual:
