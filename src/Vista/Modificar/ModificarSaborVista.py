@@ -9,7 +9,6 @@ class ModificarSaborVista:
         self.sabores = obtener_sabores_con_nombre_producto()
         self.id_sabor_actual = None
 
-        # Frame principal
         self.frame = ctk.CTkFrame(parent)
         self.frame.pack(fill="both", expand=True)
 
@@ -17,15 +16,20 @@ class ModificarSaborVista:
         self.frame.grid_columnconfigure(1, weight=0)
         self.frame.grid_rowconfigure(4, weight=1)
 
-        # Título
+        self.frame_superior = ctk.CTkFrame(self.frame, height=50, fg_color="#1c67f3", bg_color="#1c67f3")
+        self.frame_superior.grid(row=0, column=0, sticky="new", columnspan=4, rowspan=1)
+
+        self.frame_superior.grid_columnconfigure((0, 3), weight=1)
+        self.frame_superior.grid_columnconfigure(1, weight=0)
+        self.frame_superior.grid_rowconfigure(4, weight=1)
+
         self.label_titulo = ctk.CTkLabel(
-            self.frame,
-            text="Modificar Sabor",
-            font=ctk.CTkFont(size=24, weight="bold")
+            self.frame_superior,
+            text="Modificar Sabor",text_color="white",
+            font=ctk.CTkFont(size=30, weight="bold")
         )
         self.label_titulo.grid(row=0, column=1, pady=(10, 20), sticky="ew")
 
-        # ComboBox de sabores con nombre de producto
         self.combo_sabor = ctk.CTkComboBox(
             self.frame,
             state="readonly",
@@ -33,7 +37,7 @@ class ModificarSaborVista:
             values=[f"{id_sabor} - {nombre_producto} - {nombre_sabor}" for id_sabor, nombre_producto, nombre_sabor in
                     self.sabores]
         )
-        self.combo_sabor.grid(row=1, column=1, pady=(0, 10))
+        self.combo_sabor.grid(row=1, column=1, pady=(20, 10))
         self.combo_sabor.bind("<<ComboboxSelected>>", self.on_cambio_seleccion)
 
         # Botón Buscar
@@ -41,11 +45,10 @@ class ModificarSaborVista:
             self.frame,
             text="Buscar",
             command=self.buscar_sabor,
-            width=120
+            width=120,corner_radius=50,fg_color="#3abd0d",hover_color="#51ef1a",font=("Arial", 20,"bold"),
         )
         self.boton_buscar.grid(row=2, column=1, pady=(0, 20))
 
-        # Label de resultados
         self.label_resultado = ctk.CTkLabel(
             self.frame,
             text="",
@@ -53,7 +56,6 @@ class ModificarSaborVista:
         )
         self.label_resultado.grid(row=3, column=1, columnspan=2, pady=(5, 10), sticky="ew")
 
-        # Frame de edición (creado pero inicialmente oculto)
         self.frame_edicion = ctk.CTkScrollableFrame(
             self.frame,
             label_text="Editar Sabor"
@@ -61,7 +63,6 @@ class ModificarSaborVista:
         self.frame_edicion.grid(row=4, column=0, columnspan=4, sticky="nsew", padx=10, pady=10)
         self.frame_edicion.grid_remove()
 
-        # Etiqueta para mostrar el nombre del producto
         self.label_producto_texto = ctk.CTkLabel(
             self.frame_edicion,
             text="Producto asociado:",
@@ -94,7 +95,6 @@ class ModificarSaborVista:
         )
         self.entry_nombre_sabor.grid(row=1, column=1, padx=(5, 10), pady=(5, 10), sticky="w")
 
-        # Botón guardar cambios (inicialmente deshabilitado)
         self.boton_guardar = ctk.CTkButton(
             self.frame_edicion,
             text="Guardar cambios",
@@ -108,7 +108,7 @@ class ModificarSaborVista:
             self.frame,
             text="Volver al menú",
             command=self.controlador_maestro.menu_modificar,
-            width=150
+            width=150,fg_color="#c20f0c",hover_color="#f60d09",
         )
         self.boton_volver.grid(row=5, column=1, pady=(10, 20))
 

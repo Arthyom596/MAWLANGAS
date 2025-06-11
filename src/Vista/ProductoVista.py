@@ -7,8 +7,9 @@ class ProductoVista:
     def __init__(self, parent, controlador_maestro):
         self.controlador_maestro = controlador_maestro
         self.frame = CTkFrame(parent, width=800, height=600)
-        self.frame.pack(fill="both", expand=False)
-        self.frame.pack_propagate(False)
+        self.frame.pack(fill="both", expand=True)
+        self.frame.pack_propagate(True)
+        self.frame.configure(fg_color="#ea9346",bg_color="#ea9346")
 
         self.controlador = ProductoControlador(self)
 
@@ -20,7 +21,7 @@ class ProductoVista:
         self.titulo.grid(row=0, column=0, columnspan=2, pady=(10, 5))
 
         # Frame producto
-        self.frame_producto = ctk.CTkFrame(self.frame, corner_radius=12)
+        self.frame_producto = ctk.CTkFrame(self.frame, corner_radius=12,fg_color="#ce6406")
         self.frame_producto.grid(row=1, column=0, columnspan=2, padx=15, pady=5, sticky="nsew")
         self.frame_producto.grid_columnconfigure(1, weight=1)
 
@@ -46,12 +47,10 @@ class ProductoVista:
         )
         self.switch_sabores.grid(row=2, column=0, columnspan=2, pady=4)
 
-        # Título sabores
         self.titulo_sabores = ctk.CTkLabel(self.frame, text="Sabores del Producto", font=("Arial", 18, "bold"))
         self.titulo_sabores.grid(row=3, column=0, columnspan=2, pady=(4, 0))
 
-        # Frame sabores
-        self.frame_sabores = ctk.CTkFrame(self.frame, corner_radius=12)
+        self.frame_sabores = ctk.CTkFrame(self.frame, corner_radius=12,fg_color="#ce6406")
         self.frame_sabores.grid(row=4, column=0, columnspan=2, padx=15, pady=5, sticky="nsew")
         self.frame_sabores.grid_columnconfigure((0, 1, 2), weight=1)
 
@@ -61,12 +60,13 @@ class ProductoVista:
         self.entry_sabor = ctk.CTkEntry(self.frame_sabores, textvariable=self.sabor_var, placeholder_text="Ej. Takis", font=("Arial", 12))
         self.entry_sabor.grid(row=0, column=0, padx=5, pady=8, sticky="ew")
 
-        self.btn_agregar_sabor = ctk.CTkButton(self.frame_sabores, text="Añadir", font=("Arial", 12),
-                                               command=lambda: self.controlador.agregar_sabor(self.entry_sabor.get().strip()))
+        self.btn_agregar_sabor = ctk.CTkButton(self.frame_sabores, text="Añadir", font=("Arial", 15,"bold"),
+                                               command=lambda: self.controlador.agregar_sabor(self.entry_sabor.get().strip()),corner_radius=20,
+                                               fg_color="#2b8d04",hover_color="#3abb06")
         self.btn_agregar_sabor.grid(row=0, column=1, padx=5, pady=8)
 
-        self.btn_eliminar_sabor = ctk.CTkButton(self.frame_sabores, text="Eliminar último", font=("Arial", 12),
-                                                fg_color="#D32F2F", hover_color="#B71C1C", command=self.controlador.eliminar_sabor)
+        self.btn_eliminar_sabor = ctk.CTkButton(self.frame_sabores, text="Eliminar último", font=("Arial", 15,"bold"),
+                                                fg_color="#D32F2F", hover_color="#B71C1C", command=self.controlador.eliminar_sabor,corner_radius=20)
         self.btn_eliminar_sabor.grid(row=0, column=2, padx=5, pady=8)
 
         self.lista_sabores = ctk.CTkTextbox(self.frame_sabores, height=80, font=("Arial", 12))

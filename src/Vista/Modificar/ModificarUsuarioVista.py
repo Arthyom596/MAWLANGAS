@@ -19,7 +19,6 @@ class ModificarUsuarioVista:
         self.entries = {}
         self.usuario_actual = None
 
-        # Frame principal
         self.frame = ctk.CTkFrame(parent)
         self.frame.pack(fill="both", expand=True)
 
@@ -27,11 +26,17 @@ class ModificarUsuarioVista:
         self.frame.grid_columnconfigure(1, weight=0)
         self.frame.grid_rowconfigure(4, weight=1)
 
-        # Título
+        self.frame_superior = ctk.CTkFrame(self.frame, height=50, fg_color="#1c67f3", bg_color="#1c67f3")
+        self.frame_superior.grid(row=0, column=0, sticky="new", columnspan=4, rowspan=1)
+
+        self.frame_superior.grid_columnconfigure((0, 3), weight=1)
+        self.frame_superior.grid_columnconfigure(1, weight=0)
+        self.frame_superior.grid_rowconfigure(4, weight=1)
+
         self.label_titulo = ctk.CTkLabel(
             self.frame,
-            text="Modificar Usuario",
-            font=ctk.CTkFont(size=24, weight="bold")
+            text="Modificar Usuario",text_color="white",bg_color="#1c67f3",
+            font=ctk.CTkFont(size=30, weight="bold")
         )
         self.label_titulo.grid(row=0, column=1, pady=(10, 20), sticky="ew")
 
@@ -48,7 +53,7 @@ class ModificarUsuarioVista:
         # Botón Buscar
         self.boton_buscar = ctk.CTkButton(
             self.frame,
-            text="Buscar",
+            text="Buscar",text_color="white",font=("Arial",20,"bold"),fg_color="#29ba12",hover_color="#36ec1a",
             command=self.buscar_usuario,
             width=120
         )
@@ -98,7 +103,7 @@ class ModificarUsuarioVista:
             self.frame,
             text="Volver al menú",
             command=self.controlador_maestro.menu_modificar,
-            width=150
+            width=150,text_color="white",fg_color="#c81f1f",hover_color="red",
         )
         self.boton_volver.grid(row=5, column=1, pady=(10, 20))
 
@@ -188,7 +193,7 @@ class ModificarUsuarioVista:
                 cambios.get("ApMat", self.entries["ApMat"].get()),
                 cambios.get("Correo", self.entries["Correo"].get())
             )
-            self.label_resultado.configure(text="Cambios guardados correctamente.")
+            self.label_resultado.configure(text="Cambios guardados correctamente.",fg_color="#29ba12",hover_color="#36ec1a")
             self.boton_guardar.configure(state="disabled")
         else:
             self.label_resultado.configure(text="No hay cambios para guardar.")

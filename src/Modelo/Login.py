@@ -18,5 +18,5 @@ def verificar_usuario( usuario, contrasena):
             # Si el usuario es encontrado, se compara la contraseña
             contrasena_almacenada = usuario_encontrado[2]  # Suponiendo que el hash de la contraseña está en el tercer campo
             if verificar_contraseña(contrasena, contrasena_almacenada):  # Ahora se usa `self`
-                return True
-        return False
+                return usuario_encontrado
+        return None

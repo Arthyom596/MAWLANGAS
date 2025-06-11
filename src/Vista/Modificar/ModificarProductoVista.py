@@ -19,18 +19,26 @@ class ModificarProductoVista:
         # Frame principal
         self.frame = ctk.CTkFrame(parent)
         self.frame.pack(fill="both", expand=True)
+        self.frame.configure(fg_color="white")
+
+        self.frame_superior = ctk.CTkFrame(self.frame, height=50, fg_color="#1c67f3", bg_color="#1c67f3")
+        self.frame_superior.grid(row=0, column=0, sticky="new", columnspan=4,rowspan=1)
 
         self.frame.grid_columnconfigure((0, 3), weight=1)
         self.frame.grid_columnconfigure(1, weight=0)
         self.frame.grid_rowconfigure(4, weight=1)
 
+        self.frame_superior.grid_columnconfigure((0, 3), weight=1)
+        self.frame_superior.grid_columnconfigure(1, weight=1)
+        self.frame_superior.grid_rowconfigure(4, weight=1)
+
         # Título
         self.label_titulo = ctk.CTkLabel(
-            self.frame,
+            self.frame_superior,
             text="Modificar Producto",
-            font=ctk.CTkFont(size=24, weight="bold")
+            font=ctk.CTkFont(size=30, weight="bold"),text_color="white"
         )
-        self.label_titulo.grid(row=0, column=1, pady=(10, 20), sticky="ew")
+        self.label_titulo.grid(row=1, column=1, pady=(10, 20), sticky="ew")
 
         # ComboBox de productos
         self.combo_producto = ctk.CTkComboBox(
@@ -39,7 +47,7 @@ class ModificarProductoVista:
             width=400,
             values=[f"{id} - {nombre}" for id, nombre in self.productos]
         )
-        self.combo_producto.grid(row=1, column=1, pady=(0, 10))
+        self.combo_producto.grid(row=2, column=1, pady=(50, 10))
         self.combo_producto.bind("<<ComboboxSelected>>", self.on_cambio_seleccion)
 
         # Botón Buscar
@@ -47,9 +55,9 @@ class ModificarProductoVista:
             self.frame,
             text="Buscar",
             command=self.buscar_producto,
-            width=120
+            width=120,font=("Arial", 20, "bold"),fg_color="#17bd15",hover_color="#07eb05",corner_radius=50,
         )
-        self.boton_buscar.grid(row=2, column=1, pady=(0, 20))
+        self.boton_buscar.grid(row=3, column=1, pady=(0, 20))
 
         # Label de resultados
         self.label_resultado = ctk.CTkLabel(
@@ -57,14 +65,14 @@ class ModificarProductoVista:
             text="",
             font=ctk.CTkFont(size=14)
         )
-        self.label_resultado.grid(row=3, column=1, columnspan=2, pady=(5, 10), sticky="ew")
+        self.label_resultado.grid(row=4, column=1, columnspan=2, pady=(5, 10), sticky="ew")
 
         # Frame de edición (creado pero inicialmente oculto)
         self.frame_edicion = ctk.CTkScrollableFrame(
             self.frame,
             label_text="Editar campos"
         )
-        self.frame_edicion.grid(row=4, column=0, columnspan=4, sticky="nsew", padx=10, pady=10)
+        self.frame_edicion.grid(row=5, column=0, columnspan=4, sticky="nsew", padx=10, pady=10)
         self.frame_edicion.grid_remove()
 
         # Entradas y checkboxes para campos editables
@@ -85,17 +93,17 @@ class ModificarProductoVista:
         self.boton_guardar = ctk.CTkButton(
             self.frame_edicion,
             text="Guardar cambios",
-            command=self.guardar_cambios,
+            command=self.guardar_cambios, fg_color="#17bd15",hover_color="#07eb05",font=("Arial", 20, "bold")
         )
-        self.boton_guardar.pack(pady=10)
+        self.boton_guardar.pack(pady=10,padx=50)
         self.boton_guardar.configure(state="disabled")
         self.boton_volver = ctk.CTkButton(
             self.frame,
             text="Volver al menu",
-            command=self.controlador_maestro.menu_modificar,
+            command=self.controlador_maestro.menu_modificar,font=("Arial", 20, "bold"),corner_radius=50,hover_color="#fc0303",fg_color="#b80404",
             width=150
         )
-        self.boton_volver.grid(row=5, column=1, pady=(10, 20))
+        self.boton_volver.grid(row=7, column=1, pady=(10, 20))
 
     def on_cambio_seleccion(self, _):
         self.label_resultado.configure(text="")

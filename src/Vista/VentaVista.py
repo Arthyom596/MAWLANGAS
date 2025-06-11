@@ -7,19 +7,28 @@ class VentaVista:
         self.controlador_maestro = controlador_maestro
         self.frame = CTkFrame(parent)
         self.frame.pack(fill="both", expand=True)
+        self.frame.configure(fg_color="white")
 
         for i in range(3):
             self.frame.grid_columnconfigure(i, weight=1)
         for i in range(10):
             self.frame.grid_rowconfigure(i, weight=1)
 
-        self.etiqueta_titulo = ctk.CTkLabel(self.frame, text="Venta", font=("Arial", 36, "bold"), text_color="white")
-        self.etiqueta_titulo.grid(row=0, column=1, pady=20, sticky="ew")
+        self.frame_superior = ctk.CTkFrame(self.frame, height=50, fg_color="#027a7a", bg_color="#027a7a")
+        self.frame_superior.grid(row=0, column=0, sticky="new", columnspan=4)
+
+        self.frame_derecho = ctk.CTkFrame(self.frame, width=80, fg_color="#027a7a", bg_color="#027a7a")
+        self.frame_derecho.grid(row=0,column=11, sticky="ns",rowspan=12)
+
+        self.frame_izquierda = ctk.CTkFrame(self.frame, width=80, fg_color="#027a7a", bg_color="#027a7a")
+        self.frame_izquierda.grid(row=0, column=0, sticky="nws", rowspan=12)
+
+        self.etiqueta_titulo = ctk.CTkLabel(self.frame_superior, text="Venta", font=("Arial", 36, "bold"), text_color="white")
+        self.etiqueta_titulo.grid(row=0, column=2,padx=350,pady=20)
 
         self.etiqueta_seleccion = ctk.CTkLabel(self.frame, text="Seleccione su producto", font=("Arial", 16, "bold"))
-        self.etiqueta_seleccion.grid(row=1, column=1, pady=(0, 5), sticky="n")
+        self.etiqueta_seleccion.grid(row=1, column=1, sticky="n")
 
-        # Aquí asignamos el command para que llame a actualizar_sabores con el producto seleccionado
         self.combo_productos = ctk.CTkComboBox(self.frame, values=[], width=200,
                                                command=self.controlador_actualizar_sabores)
         self.combo_productos.grid(row=2, column=1, pady=(0, 20), sticky="n")
@@ -31,7 +40,7 @@ class VentaVista:
         self.entrada_cantidad = ctk.CTkEntry(self.frame, placeholder_text="Ingrese la cantidad", width=200)
         self.entrada_cantidad.grid(row=4, column=1, pady=(0, 20), sticky="n")
 
-        self.switch_sabor = ctk.CTkSwitch(self.frame, text="¿Requiere sabor?", command=self.toggle_sabor)
+        self.switch_sabor = ctk.CTkSwitch(self.frame, text="¿Requiere sabor?", command=self.toggle_sabor,progress_color="#009610")
         self.switch_sabor.grid(row=5, column=1, pady=(0, 10), sticky="n")
 
         self.etiqueta_sabor = ctk.CTkLabel(self.frame, text="Seleccione el sabor", font=("Arial", 16, "bold"))
@@ -51,6 +60,9 @@ class VentaVista:
                                             fg_color="#D32F2F", hover_color="#B71C1C", width=150,
                                             command=self.controlador_maestro.mostrar_menu_principal)
         self.boton_cancelar.grid(row=10, column=1, pady=10, sticky="n")
+
+        self.frame_inferior = ctk.CTkFrame(self.frame, height=80, fg_color="#027a7a", bg_color="#027a7a")
+        self.frame_inferior.grid(row=11, column=0, sticky="sew", columnspan=4)
 
         self.controlador = ControladorVenta(self)
 

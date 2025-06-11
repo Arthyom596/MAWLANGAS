@@ -22,7 +22,7 @@ from src.Vista.Modificar.MenuPrincipalModificar import ModificarVista
 from src.Vista.Modificar.ModificarProductoVista import ModificarProductoVista
 from src.Vista.Modificar.ModificarUsuarioVista import ModificarUsuarioVista
 from src.Vista.Modificar.ModificarSaborVista import ModificarSaborVista
-
+from src.Modelo.Sesion import Sesion
 
 
 class ControladorMaestro:
@@ -34,8 +34,8 @@ class ControladorMaestro:
         self.app.title("Mawlangas ")
 
         self.vista_actual = None
-        #self.mostrar_login()
-        self.mostrar_menu_principal()
+        self.mostrar_login()
+        #self.mostrar_menu_principal()
 
     def mostrar_login(self):
         if self.vista_actual:
@@ -54,6 +54,9 @@ class ControladorMaestro:
             self.vista_actual.frame.destroy()
         self.menu_principal = MenuPrincipal(self.app, self)
         self.vista_actual = self.menu_principal
+        usuario_activo = Sesion.obtener_usuario()
+        nombre = usuario_activo.get("nombre", "Usuario")
+        self.menu_principal.actualizar_bienvenida(f"{nombre}")
 
     def mostrar_inventario(self):
         if self.vista_actual:
