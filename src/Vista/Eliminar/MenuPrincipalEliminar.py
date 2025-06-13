@@ -21,17 +21,17 @@ class EliminarVista:
         # Botón Productos
         self.boton_productos = ctk.CTkButton(self.frame, text="Productos", width=200, height=50,
                                              font=("Arial", 16, "bold"),command=self.controlador_maestro.eliminar_productos)
-        self.boton_productos.grid(row=1, column=1, pady=10)
+        self.boton_productos.grid(row=1, column=0, pady=10)
 
         # Botón Sabores
         self.boton_sabores = ctk.CTkButton(self.frame, text="Sabores", width=200, height=50,
                                            font=("Arial", 16, "bold"),command=self.controlador_maestro.eliminar_sabores)
-        self.boton_sabores.grid(row=2, column=1, pady=10)
+        self.boton_sabores.grid(row=1, column=1, pady=10)
 
         # Botón Usuarios
         self.boton_usuarios = ctk.CTkButton(self.frame, text="Usuarios", width=200, height=50,
                                             font=("Arial", 16, "bold"),command=self.controlador_maestro.eliminar_usuarios)
-        self.boton_usuarios.grid(row=3, column=1, pady=10)
+        self.boton_usuarios.grid(row=1, column=2, pady=10)
 
         # Botón cancelar / regresar
         self.boton_cancelar = ctk.CTkButton(self.frame, text="Cancelar", font=("Arial", 14, "bold"),

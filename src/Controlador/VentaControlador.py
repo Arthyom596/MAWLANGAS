@@ -1,3 +1,4 @@
+from src.Modelo.Sesion import Sesion
 from src.Modelo.Venta import Venta as ModeloVenta
 from src.DAO.ProductosDAO import obtener_productos_id_nombre, obtener_productos_completos
 from src.DAO.SaboresDAO import obtener_sabores_por_producto, obtener_id_sabor
@@ -7,6 +8,8 @@ class ControladorVenta:
     def __init__(self, vista):
         self.vista = vista
         self.modelo = ModeloVenta()
+
+        self.usuario=Sesion.obtener_usuario()
 
         # Configurar evento de selección en combo productos para actualizar sabores
         self.vista.combo_productos.bind("<<ComboboxSelected>>", self.actualizar_sabores)
@@ -102,7 +105,7 @@ class ControladorVenta:
             return
 
         exito, resultado = self.modelo.realizar_venta(
-            id_producto, id_sabor, cantidad_str, precio_unitario, nombre_producto, nombre_sabor
+            id_producto, id_sabor, cantidad_str, precio_unitario, nombre_producto, nombre_sabor,self.usuario
         )
 
         self.vista.etiqueta_dinamica.configure(

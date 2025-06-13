@@ -2,10 +2,7 @@
 <project version="4">
   <component name="DdlMappings">
     <mapping uuid="9fe01ff3-8f91-4fbf-88c0-9ed0bbed7cba" name="Mawlangas.db">
-      <data-sources db="125081a4-d4be-401d-b982-be2aecdd14be" />
-    </mapping>
-    <mapping uuid="2303f892-a3c7-4482-a2f5-a4a1e23bb663" name="identifier.sqlite Mapping">
-      <data-sources db="7ef20504-b6bf-4661-8925-1006fcd74584" />
+      <data-sources db="279e82b1-6de0-4d1b-ac9e-af53e6d83064" />
     </mapping>
   </component>
 </project>

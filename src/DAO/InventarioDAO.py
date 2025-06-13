@@ -18,6 +18,7 @@ def conectar():
             IDSabor INTEGER,  -- PERMITE NULL
             Cantidad INTEGER NOT NULL,
             FechaActualizacion TEXT NOT NULL,
+            Usuario TEXT NOT NULL,
             FOREIGN KEY(IDProducto) REFERENCES Productos(IDProducto) ON DELETE CASCADE,
             FOREIGN KEY(IDSabor) REFERENCES Sabores(IDSabor) ON DELETE CASCADE
         );
@@ -29,22 +30,21 @@ def conectar():
         return None
 
 # Crear inventario
-def crear_inventario(id_producto, id_sabor, cantidad, fecha_actualizacion):
+def crear_inventario(id_producto, id_sabor, cantidad, fecha_actualizacion, usuario):
     conexion = conectar()
     if not conexion:
         return
     try:
         conexion.execute("""
-            INSERT INTO Inventario (IDProducto, IDSabor, Cantidad, FechaActualizacion)
-            VALUES (?, ?, ?, ?)
-        """, (id_producto, id_sabor, cantidad, fecha_actualizacion))
+            INSERT INTO Inventario (IDProducto, IDSabor, Cantidad, FechaActualizacion, Usuario)
+            VALUES (?, ?, ?, ?, ?)
+        """, (id_producto, id_sabor, cantidad, fecha_actualizacion, usuario))
         conexion.commit()
         print("Inventario creado correctamente.")
     except sqlite3.IntegrityError:
         print("Error: No se pudo crear el inventario (posible clave duplicada o conflicto).")
     finally:
         conexion.close()
-
 # Obtener inventarios
 def obtener_inventario_completo():
     conexion = conectar()
@@ -56,10 +56,11 @@ def obtener_inventario_completo():
         cursor.execute("""
             SELECT 
                 i.IDInventario,
-                p.Nombre,  -- ← aquí se obtiene el nombre
-                s.NombreSabor,
+                p.Nombre,           -- Nombre del producto
+                s.NombreSabor,      -- Nombre del sabor (puede ser NULL)
                 i.Cantidad,
-                i.FechaActualizacion
+                i.FechaActualizacion,
+                i.Usuario           -- ← Aquí se obtiene el usuario
             FROM Inventario i
             JOIN Productos p ON i.IDProducto = p.IDProducto
             LEFT JOIN Sabores s ON i.IDSabor = s.IDSabor
@@ -70,20 +71,22 @@ def obtener_inventario_completo():
 
 
 
+
 # Actualizar inventario
-def actualizar_inventario(id_inventario, id_producto, id_sabor, cantidad, fecha_actualizacion):
+def actualizar_inventario(id_inventario, id_producto, id_sabor, cantidad, fecha_actualizacion, usuario):
     conexion = conectar()
     if not conexion:
         return
     try:
         conexion.execute("""
             UPDATE Inventario
-            SET IDProducto = ?, IDSabor = ?, Cantidad = ?, FechaActualizacion = ?
+            SET IDProducto = ?, IDSabor = ?, Cantidad = ?, FechaActualizacion = ?, Usuario = ?
             WHERE IDInventario = ?
-        """, (id_producto, id_sabor, cantidad, fecha_actualizacion, id_inventario))
+        """, (id_producto, id_sabor, cantidad, fecha_actualizacion, usuario, id_inventario))
         conexion.commit()
     finally:
         conexion.close()
+
 
 # Eliminar inventario
 def eliminar_inventario(id_inventario):
@@ -122,7 +125,8 @@ def obtener_cantidad_existente(id_producto, id_sabor):
         conexion.close()
 
 # Descontar producto del inventario
-def descontar_producto(id_producto, id_sabor, cantidad_a_descontar, fecha_actualizacion):
+# Descontar producto del inventario
+def descontar_producto(id_producto, id_sabor, cantidad_a_descontar, fecha_actualizacion, usuario):
     conexion = conectar()
     if not conexion:
         return False
@@ -141,9 +145,10 @@ def descontar_producto(id_producto, id_sabor, cantidad_a_descontar, fecha_actual
 
         conexion.execute("""
             UPDATE Inventario
-            SET Cantidad = ?, FechaActualizacion = ?
+            SET Cantidad = ?, FechaActualizacion = ?, Usuario = ?
             WHERE IDInventario = ?
-        """, (nueva_cantidad, fecha_actualizacion, id_inventario))
+        """, (nueva_cantidad, fecha_actualizacion, usuario, id_inventario))
+
         conexion.commit()
         print("Inventario actualizado correctamente.")
         return True
@@ -152,4 +157,5 @@ def descontar_producto(id_producto, id_sabor, cantidad_a_descontar, fecha_actual
         return False
     finally:
         conexion.close()
+
 

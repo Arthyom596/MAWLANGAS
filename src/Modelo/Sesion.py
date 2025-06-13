@@ -14,6 +14,8 @@ class Sesion:
 
     @classmethod
     def obtener_usuario(cls):
+        if isinstance(cls.usuario_activo, dict):
+            return cls.usuario_activo.get("usuario", "")
         return cls.usuario_activo
 
 

@@ -65,7 +65,7 @@ class FinanzasVista:
         self.entrada_concepto_ingreso = ctk.CTkEntry(self.frame, placeholder_text="Escriba el concepto")
         self.entrada_concepto_ingreso.grid(row=5, column=2, columnspan=2, padx=10, pady=(5, 10), sticky="ew")  # Se expande
 
-        self.etiqueta_dinamica = ctk.CTkLabel(self.frame, text="", font=("Arial", 14), text_color="white")
+        self.etiqueta_dinamica = ctk.CTkLabel(self.frame, text="", font=("Arial", 14), text_color="Black")
         self.etiqueta_dinamica.grid(row=6, column=2, padx=20, pady=10, sticky="ew")
 
         self.btn_regresar=ctk.CTkButton(self.frame, text="Cancelar", font=("Arial", 14, "bold"),fg_color="#be1010",

@@ -14,8 +14,7 @@ class LoginControlador:
             id_usuario = resultado[0]
             nombre = resultado[1]
             self.vista.mostrar_mensaje("Login exitoso", "green")
-            Sesion.set_usuario_activo({"id": id_usuario, "nombre": nombre})
-            print(Sesion.obtener_usuario())
+            Sesion.set_usuario_activo(nombre)  # Guarda solo el string
             # Navegar a la vista principal luego de login
             self.controlador_maestro.mostrar_menu_principal()
         else:

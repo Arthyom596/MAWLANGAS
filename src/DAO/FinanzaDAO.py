@@ -7,6 +7,8 @@ ruta_db = os.path.join(proyecto_base, 'BaseDatos')
 os.makedirs(ruta_db, exist_ok=True)
 nombre_bd = os.path.join(ruta_db, 'Mawlangas.db')
 
+
+
 def conectar():
     try:
         conexion = sqlite3.connect(nombre_bd)
@@ -15,10 +17,12 @@ def conectar():
         conexion.execute("""
         CREATE TABLE IF NOT EXISTS Finanzas(
             IDFinanza INTEGER PRIMARY KEY AUTOINCREMENT,
-            Fecha TEXT NOT NULL,
             Tipo TEXT NOT NULL,
             Monto REAL NOT NULL,
-            Descripcion TEXT NOT NULL
+            Descripcion TEXT NOT NULL,
+            Fecha TEXT NOT NULL,
+            Usuario TEXT NOT NULL
+            
         );
         """)
         conexion.commit()
@@ -28,14 +32,14 @@ def conectar():
         return None
 
 # Agregar una finanza
-def agregar_finanza(fecha, tipo, monto, descripcion):
+def agregar_finanza(tipo, monto, descripcion,fecha, usuario):
     conexion = conectar()
     cursor = conexion.cursor()
     try:
         cursor.execute("""
-            INSERT INTO Finanzas(Fecha, Tipo, Monto, Descripcion)
-            VALUES(?, ?, ?, ?)
-        """, (fecha, tipo, monto, descripcion))
+            INSERT INTO Finanzas(Tipo, Monto, Descripcion,Fecha,Usuario)
+            VALUES(?, ?, ?, ?, ?)
+        """, (tipo, monto, descripcion,fecha,usuario))
         conexion.commit()
         print("Finanza registrada correctamente.")
     except sqlite3.IntegrityError:
@@ -51,6 +55,9 @@ def consultar_finanzas():
     finanzas = cursor.fetchall()
     conexion.close()
     return finanzas
+
+conectar()
+
 
 
 

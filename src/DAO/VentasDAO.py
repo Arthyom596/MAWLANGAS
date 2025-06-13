@@ -19,6 +19,7 @@ def conectar():
             IDSabor INTEGER,  -- Aquí se eliminó NOT NULL
             CantidadVendida INTEGER NOT NULL,
             Fecha TEXT NOT NULL,
+            Usuario TEXT NOT NULL,
             FOREIGN KEY (IDProducto) REFERENCES Productos(IDProducto)  ON DELETE CASCADE ,
             FOREIGN KEY (IDSabor) REFERENCES Sabores(IDSabor) ON DELETE CASCADE
         );
@@ -30,14 +31,14 @@ def conectar():
         return None
 
 # Crear una venta
-def crear_venta(id_producto, id_sabor, cantidad_vendida, fecha):
+def crear_venta(id_producto, id_sabor, cantidad_vendida, fecha, usuario):
     conexion = conectar()
     cursor = conexion.cursor()
     try:
         cursor.execute("""
-            INSERT INTO Ventas(IDProducto, IDSabor, CantidadVendida, Fecha)
-            VALUES (?, ?, ?, ?)
-        """, (id_producto, id_sabor if id_sabor is not None else None, cantidad_vendida, fecha))
+            INSERT INTO Ventas(IDProducto, IDSabor, CantidadVendida, Fecha, Usuario)
+            VALUES (?, ?, ?, ?,?)
+        """, (id_producto, id_sabor if id_sabor is not None else None, cantidad_vendida, fecha,usuario))
         conexion.commit()
         print("Venta registrada correctamente.")
     except sqlite3.IntegrityError:
@@ -49,10 +50,22 @@ def crear_venta(id_producto, id_sabor, cantidad_vendida, fecha):
 def obtener_ventas():
     conexion = conectar()
     cursor = conexion.cursor()
-    cursor.execute("SELECT * FROM Ventas")
+    cursor.execute("""
+        SELECT 
+            v.IDVenta,
+            v.IDProducto,
+            p.Nombre,
+            v.IDSabor,
+            s.NombreSabor,
+            v.CantidadVendida,
+            v.Fecha,
+            v.Usuario
+        FROM Ventas v
+        LEFT JOIN Productos p ON v.IDProducto = p.IDProducto
+        LEFT JOIN Sabores s ON v.IDSabor = s.IDSabor
+    """)
     ventas = cursor.fetchall()
     conexion.close()
     return ventas
-
 
 

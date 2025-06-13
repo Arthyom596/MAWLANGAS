@@ -4,6 +4,7 @@ from src.DAO.ProductosDAO import obtener_productos_id_nombre,obtener_precio_comp
 from src.DAO.SaboresDAO import obtener_sabores_por_producto,obtener_nombre_sabor_por_id
 from src.Modelo.Finanza import agregar_finanza
 from src.Modelo.Validaciones import validar_numero, obtener_fecha_exacta_actual
+from src.Modelo.Sesion import Sesion
 
 class Inventario:
     def __init__(self, id_producto, id_sabor, cantidad):
@@ -11,13 +12,14 @@ class Inventario:
         self.id_sabor = id_sabor
         self.cantidad = cantidad
         self.fecha = obtener_fecha_exacta_actual()
+        self.usuario=Sesion.obtener_usuario()
 
     def guardar(self):
         valido, mensaje = validar_numero(self.cantidad)
         if not valido:
             return False, mensaje
 
-        crear_inventario(self.id_producto, self.id_sabor, self.cantidad, self.fecha)
+        crear_inventario(self.id_producto, self.id_sabor, self.cantidad, self.fecha,self.usuario)
         return True, "Producto registrado correctamente"
 
     def actualizar(self):
@@ -29,7 +31,7 @@ class Inventario:
         nueva_cantidad = cantidad_existente + self.cantidad
 
         if id_inventario:
-            actualizar_inventario(id_inventario, self.id_producto, self.id_sabor, nueva_cantidad, self.fecha)
+            actualizar_inventario(id_inventario, self.id_producto, self.id_sabor, nueva_cantidad, self.fecha,self.usuario)
             return True, "Producto agregado correctamente"
         else:
             return False, "El inventario no existe para este producto y sabor."
@@ -51,7 +53,7 @@ class Inventario:
 
         # Actualizar inventario
         nueva_cantidad = cantidad_existente - self.cantidad
-        actualizar_inventario(id_inventario, self.id_producto, self.id_sabor, nueva_cantidad, self.fecha)
+        actualizar_inventario(id_inventario, self.id_producto, self.id_sabor, nueva_cantidad, self.fecha,self.usuario)
 
         # Registrar en finanzas
         precio_unitario = obtener_precio_compra(self.id_producto)
@@ -73,7 +75,7 @@ class Inventario:
 
         # Generar descripción de la merma
         descripcion = f"Merma de {self.cantidad} {nombre_producto} {nombre_sabor or ''}".strip()
-        agregar_finanza(fecha, "Merma", perdida, descripcion)
+        agregar_finanza( "Merma", perdida, descripcion,fecha,self.usuario)
 
         return True, "Producto mermado correctamente"
 

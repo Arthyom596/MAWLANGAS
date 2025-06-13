@@ -22,6 +22,7 @@ from src.Vista.Modificar.MenuPrincipalModificar import ModificarVista
 from src.Vista.Modificar.ModificarProductoVista import ModificarProductoVista
 from src.Vista.Modificar.ModificarUsuarioVista import ModificarUsuarioVista
 from src.Vista.Modificar.ModificarSaborVista import ModificarSaborVista
+from src.Vista.Clientes.MenuCliente import MenuCliente
 from src.Modelo.Sesion import Sesion
 
 
@@ -30,7 +31,7 @@ class ControladorMaestro:
 
 
         self.app = ctk.CTk()
-        self.app.geometry("800x600")
+        self.app.geometry("900x600")
         self.app.title("Mawlangas ")
 
         self.vista_actual = None
@@ -55,7 +56,7 @@ class ControladorMaestro:
         self.menu_principal = MenuPrincipal(self.app, self)
         self.vista_actual = self.menu_principal
         usuario_activo = Sesion.obtener_usuario()
-        nombre = usuario_activo.get("nombre", "Usuario")
+        nombre = usuario_activo if usuario_activo else "Usuario"
         self.menu_principal.actualizar_bienvenida(f"{nombre}")
 
     def mostrar_inventario(self):
@@ -173,6 +174,24 @@ class ControladorMaestro:
             self.vista_actual.frame.destroy()
         self.modifica_sabor = ModificarSaborVista(self.app, self)
         self.vista_actual = self.modifica_sabor
+
+    def menu_clientes(self):
+        if self.vista_actual:
+            self.vista_actual.frame.destroy()
+        self.menu_clientes = MenuCliente(self.app, self)
+        self.vista_actual = self.menu_clientes
+
+
+
+
+
+
+
+
+
+
+
+
 
     def ejecutar(self):
         self.app.mainloop()

@@ -1,14 +1,12 @@
 import customtkinter as ctk
 from tkinter import ttk
-
 from customtkinter import CTkFrame
-
 from src.DAO.FinanzaDAO import consultar_finanzas
 
 class ConsultaFinanzas:
 
-    def __init__(self,parent,controlador_maestro):
-        self.controlador_maestro=controlador_maestro
+    def __init__(self, parent, controlador_maestro):
+        self.controlador_maestro = controlador_maestro
         self.frame = CTkFrame(parent)
         self.frame.pack(fill="both", expand=True)
 
@@ -64,16 +62,22 @@ class ConsultaFinanzas:
         style = ttk.Style()
         style.configure("Treeview.Heading", font=("Arial", 15, "bold"))
 
-        self.tree_tabla = ttk.Treeview(self.frame_tabla, columns=("Tipo", "Monto", "Descripcion", "Fecha"), show="headings")
+        self.tree_tabla = ttk.Treeview(
+            self.frame_tabla,
+            columns=("Tipo", "Monto", "Descripcion", "Fecha", "Usuario"),
+            show="headings"
+        )
         self.tree_tabla.heading("Tipo", text="Tipo")
         self.tree_tabla.heading("Monto", text="Monto")
         self.tree_tabla.heading("Descripcion", text="Descripción")
         self.tree_tabla.heading("Fecha", text="Fecha")
+        self.tree_tabla.heading("Usuario", text="Usuario")
 
-        self.tree_tabla.column("Tipo", anchor="center", width=150)
-        self.tree_tabla.column("Monto", anchor="center", width=150)
-        self.tree_tabla.column("Descripcion", anchor="w", width=300)
-        self.tree_tabla.column("Fecha", anchor="center", width=150)
+        self.tree_tabla.column("Tipo", anchor="center", width=100)
+        self.tree_tabla.column("Monto", anchor="center", width=100)
+        self.tree_tabla.column("Descripcion", anchor="w", width=400)
+        self.tree_tabla.column("Fecha", anchor="center", width=100)
+        self.tree_tabla.column("Usuario", anchor="center", width=120)
 
         self.tree_tabla.pack(fill="both", expand=True)
 
@@ -96,7 +100,7 @@ class ConsultaFinanzas:
         gastos = 0
 
         for fila in datos:
-            _, _, tipo, monto, _ = fila
+            _, tipo, monto, descripcion, fecha, usuario = fila
             tipo = tipo.lower()
             if tipo in ["venta", "ingreso"]:
                 ingresos += monto
@@ -118,12 +122,10 @@ class ConsultaFinanzas:
             self.tree_tabla.delete(item)
 
         for fila in datos:
-            _, fecha, tipo, monto, descripcion = fila
-            self.tree_tabla.insert("", "end", values=(tipo, f"${monto:,.2f}", descripcion, fecha))
+            _, tipo, monto, descripcion, fecha, usuario = fila
+            self.tree_tabla.insert("", "end", values=(tipo, f"${monto:,.2f}", descripcion, fecha, usuario))
 
         self.label_ingresos_valor.configure(text=f"${ingresos:,.2f}")
         self.label_gastos_valor.configure(text=f"${gastos:,.2f}")
         self.label_ganancia_valor.configure(text=f"${ganancia:,.2f}")
         self.label_recuperado_valor.configure(text=f"${recuperado:,.2f}")
-
-
