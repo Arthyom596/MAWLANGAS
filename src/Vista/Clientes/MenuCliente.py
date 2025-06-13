@@ -21,17 +21,24 @@ class MenuCliente:
 
         # Botón Productos
         self.agregar_cliente = ctk.CTkButton(self.frame, text="Agregar Cliente", width=200, height=50,
-                                             font=("Arial", 16, "bold"))
+                                             font=("Arial", 16, "bold"),corner_radius=50,fg_color="#c483d2",
+                                             text_color="white",hover_color="#c445e0")
         self.agregar_cliente.grid(row=1, column=0, pady=10)
 
         # Botón Sabores
         self.btn_consultar_cliente = ctk.CTkButton(self.frame, text="Consultar Clientes ", width=200, height=50,
-                                                   font=("Arial", 16, "bold"))
+                                                   font=("Arial", 16, "bold"),corner_radius=50,
+                                                   fg_color="#c483d2",
+                                                   text_color="white",hover_color="#c445e0"
+                                                   )
         self.btn_consultar_cliente.grid(row=1, column=1, pady=10)
 
         # Botón Usuarios
         self.btn_mapa = ctk.CTkButton(self.frame, text="Mapa de Clientes", width=200, height=50,
-                                      font=("Arial", 16, "bold"))
+                                      font=("Arial", 16, "bold"),corner_radius=50,
+                                      fg_color="#c483d2",
+                                      text_color="white",hover_color="#c445e0"
+                                      )
         self.btn_mapa.grid(row=1, column=2, pady=10)
 
         ruta_imagen = Path (__file__).resolve().parent.parent.parent.parent / "assets"

@@ -8,8 +8,7 @@ class VentaVista:
         self.frame = CTkFrame(parent, fg_color="white")
         self.frame.pack(fill="both", expand=True)
 
-        parent.geometry("900x600")
-        parent.minsize(900, 600)
+
 
         # Configurar grilla con una columna centrada
         self.frame.grid_columnconfigure(0, weight=1)

@@ -34,6 +34,7 @@ class ControladorMaestro:
         self.app.geometry("900x600")
         self.app.title("Mawlangas ")
         self.app.resizable(False, False)
+        self.app.minsize(900, 600)
 
         self.vista_actual = None
         self.mostrar_login()

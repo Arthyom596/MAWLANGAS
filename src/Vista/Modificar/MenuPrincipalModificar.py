@@ -6,90 +6,60 @@ class ModificarVista:
     def __init__(self, parent, controlador_maestro):
         self.controlador_maestro = controlador_maestro
 
-        self.frame = ctk.CTkFrame(parent)
+
+
+        # Frame exterior naranja
+        self.frame = ctk.CTkFrame(parent, fg_color="#a8ad14")
         self.frame.pack(fill="both", expand=True)
-        self.frame.configure(fg_color="white")
 
-        for i in range(3):
-            self.frame.grid_columnconfigure(i, weight=1)
-        for i in range(7):
-            self.frame.grid_rowconfigure(i, weight=1)
 
-        self.frame_superior = ctk.CTkFrame(self.frame, height=70, fg_color="#a8ad14", bg_color="#a8ad14")
-        self.frame_superior.grid(row=0, column=0, sticky="new", columnspan=4)
+        # Frame interior blanco que contendrá toda la interfaz
+        self.frame_interior = ctk.CTkFrame(self.frame, fg_color="white", corner_radius=15)
+        self.frame_interior.place(relx=0.5, rely=0.5, anchor="center", relwidth=0.9, relheight=0.9)
 
-        self.frame_derecho = ctk.CTkFrame(self.frame, width=80, fg_color="#a8ad14", bg_color="#a8ad14")
-        self.frame_derecho.grid(row=0, column=11, sticky="ns", rowspan=12)
+        # Configuración de grilla interior (2 columnas, 5 filas)
+        for i in range(2):
+            self.frame_interior.grid_columnconfigure(i, weight=1)
+        for i in range(5):
+            self.frame_interior.grid_rowconfigure(i, weight=1)
 
-        self.frame_izquierda = ctk.CTkFrame(self.frame, width=80, fg_color="#a8ad14", bg_color="#a8ad14")
-        self.frame_izquierda.grid(row=0, column=0, sticky="nws", rowspan=12)
+        # Título centrado
+        self.etiqueta_titulo = ctk.CTkLabel(self.frame_interior, text="Menú Modificar",
+                                            font=("Arial", 28, "bold"))
+        self.etiqueta_titulo.grid(row=0, column=0, sticky="nsew", padx=10, pady=(20, 10))
 
-        self.frame_inferior = ctk.CTkFrame(self.frame, height=80, fg_color="#a8ad14", bg_color="#a8ad14")
-        self.frame_inferior.grid(row=11, column=0, sticky="sew", columnspan=4)
-
-        self.etiqueta_titulo = ctk.CTkLabel(self.frame, text="Menú Modificar", font=("Arial", 28, "bold"))
-        self.etiqueta_titulo.grid(row=0, column=1, pady=(90, 20), sticky="n")
-
-        self.boton_productos = ctk.CTkButton(self.frame, text="Productos", width=200, height=50,fg_color="#054ac2",hover_color="#186afa",
-                                             font=("Arial", 16, "bold"),corner_radius=50,command=self.controlador_maestro.modificar_productos)
-        self.boton_productos.grid(row=1, column=2, pady=10)
-
-        self.boton_sabores = ctk.CTkButton(self.frame, text="Sabores", width=200, height=50,fg_color="#054ac2",hover_color="#186afa",
-                                           font=("Arial", 16, "bold"),corner_radius=50,command=self.controlador_maestro.modificar_sabores)
-        self.boton_sabores.grid(row=2, column=2, pady=10)
-
-        self.boton_usuarios = ctk.CTkButton(self.frame, text="Usuarios", width=200, height=50,
-                                            font=("Arial", 16, "bold"),corner_radius=50,fg_color="#054ac2",hover_color="#186afa",
-                                            command=self.controlador_maestro.modificar_usuarios)
-        self.boton_usuarios.grid(row=3, column=2, pady=10)
-
+        # Imagen centrada debajo del título
         ruta_imagen = Path(__file__).resolve().parent.parent.parent.parent / "assets" / "modificar.png"
-        imagen_gato_pequeno = ctk.CTkImage(Image.open(ruta_imagen), size=(320, 320))
+        imagen_modificar = ctk.CTkImage(Image.open(ruta_imagen), size=(280, 280))
+        self.label_modificar = ctk.CTkLabel(self.frame_interior, image=imagen_modificar, text="")
+        self.label_modificar.grid(row=1, column=0, rowspan=3, sticky="nsew", padx=10, pady=10)
 
-        self.label_imagen1 = ctk.CTkLabel(self.frame, image=imagen_gato_pequeno, text="")
-        self.label_imagen1.place(x=100,y=180)
+        # Botones en columna derecha
+        self.boton_productos = ctk.CTkButton(self.frame_interior, text="Productos", width=200, height=50,
+                                             fg_color="#054ac2", hover_color="#186afa",
+                                             font=("Arial", 16, "bold"), corner_radius=50,
+                                             command=self.controlador_maestro.modificar_productos)
+        self.boton_productos.grid(row=1, column=1, pady=5, sticky="n")
 
-        # Botón cancelar / regresar
-        self.boton_cancelar = ctk.CTkButton(self.frame, text="Cancelar", font=("Arial", 14, "bold"),width=210,height=40,fg_color="#b81717",hover_color="#e70c0c",
-                                            text_color="white",corner_radius=50, command=self.controlador_maestro.mostrar_menu_principal)
-        self.boton_cancelar.grid(row=5, column=2, pady=20,padx=10)
+        self.boton_sabores = ctk.CTkButton(self.frame_interior, text="Sabores", width=200, height=50,
+                                           fg_color="#054ac2", hover_color="#186afa",
+                                           font=("Arial", 16, "bold"), corner_radius=50,
+                                           command=self.controlador_maestro.modificar_sabores)
+        self.boton_sabores.grid(row=2, column=1, pady=5, sticky="n")
+
+        self.boton_usuarios = ctk.CTkButton(self.frame_interior, text="Usuarios", width=200, height=50,
+                                            fg_color="#054ac2", hover_color="#186afa",
+                                            font=("Arial", 16, "bold"), corner_radius=50,
+                                            command=self.controlador_maestro.modificar_usuarios)
+        self.boton_usuarios.grid(row=3, column=1, pady=5, sticky="n")
+
+        self.boton_cancelar = ctk.CTkButton(self.frame_interior, text="Cancelar", font=("Arial", 14, "bold"),
+                                            width=210, height=40, fg_color="#b81717", hover_color="#e70c0c",
+                                            text_color="white", corner_radius=50,
+                                            command=self.controlador_maestro.mostrar_menu_principal)
+        self.boton_cancelar.grid(row=4, column=1, pady=10, sticky="n")
 
     def set_controlador(self, controlador):
         self.boton_productos.configure(command=controlador.modificar_producto)
         self.boton_sabores.configure(command=controlador.modificar_sabor)
         self.boton_usuarios.configure(command=controlador.modificar_usuario)
-
-
-
-
-
-# Clase de prueba para simular el controlador maestro
-class ControladorMaestroFalso:
-    def mostrar_menu_principal(self):
-        print("Volver al menú principal")
-
-
-
-class ControladorModificarFalso:
-    def modificar_producto(self):
-        print("Producto modificado")
-
-    def modificar_sabor(self):
-        print("Sabor modificado")
-
-    def modificar_usuario(self):
-        print("Usuario modificado")
-
-
-if __name__ == "__main__":
-    root = ctk.CTk()
-    root.geometry("850x650")
-    root.title("Modificar")
-
-    controlador_maestro = ControladorMaestroFalso()
-    vista = ModificarVista(root, controlador_maestro=controlador_maestro)
-
-    controlador_modificar = ControladorModificarFalso()
-    vista.set_controlador(controlador_modificar)
-
-    root.mainloop()

@@ -60,33 +60,73 @@ class ConsultasMenuVista:
         for row in range(7):
             self.frame_inferior.rowconfigure(row, weight=1)
 
-        botones_info = [
-            ("Inventario", "blue", self.controlador_maestro.consultar_inventario),
-            ("Finanzas", "limegreen", self.controlador_maestro.consultar_finanzas),
-            ("Productos", "yellow", self.controlador_maestro.consultar_producto),
-            ("Usuarios", "purple", self.controlador_maestro.consultar_usuarios),
-            ("Sabores", "orange", self.controlador_maestro.consultar_sabores),
-            ("Ventas", "pink", self.controlador_maestro.consultar_ventas),
-            ("Menu Principal", "red", self.controlador_maestro.mostrar_menu_principal)
-        ]
+        # Botones con texto negro manualmente
+        self.boton_inventario = ctk.CTkButton(
+            self.frame_inferior, text="Inventario", text_color="black",
+            font=("Arial", 25, "bold"),
+            fg_color="blue", height=50, width=150,
+            hover_color="#00008B",
+            corner_radius=100,
+            command=self.controlador_maestro.consultar_inventario
+        )
+        self.boton_inventario.grid(row=0, column=0, sticky="nsew", padx=20, pady=10, columnspan=4)
 
-        hover_colors = {
-            "blue": "#00008B",       # dark blue
-            "limegreen": "#228B22",  # forest green
-            "yellow": "goldenrod",   # goldenrod para amarillo
-            "purple": "#4B0082",     # índigo
-            "orange": "#FF8C00",     # dark orange
-            "pink": "#C71585",       # medium violet red
-            "red": "#8B0000"         # dark red
-        }
+        self.boton_finanzas = ctk.CTkButton(
+            self.frame_inferior, text="Finanzas", text_color="black",
+            font=("Arial", 25, "bold"),
+            fg_color="limegreen", height=50, width=150,
+            hover_color="#228B22",
+            corner_radius=100,
+            command=self.controlador_maestro.consultar_finanzas
+        )
+        self.boton_finanzas.grid(row=1, column=0, sticky="nsew", padx=20, pady=10, columnspan=4)
 
-        for i, (texto, color, cmd) in enumerate(botones_info):
-            boton = ctk.CTkButton(
-                self.frame_inferior, text=texto, text_color="white",
-                font=("Arial", 25, "bold"),
-                fg_color=color, height=50, width=150,
-                hover_color=hover_colors.get(color, color),
-                corner_radius=100,
-                command=cmd
-            )
-            boton.grid(row=i, column=0, sticky="nsew", padx=20, pady=10, columnspan=4)
+        self.boton_productos = ctk.CTkButton(
+            self.frame_inferior, text="Productos", text_color="black",
+            font=("Arial", 25, "bold"),
+            fg_color="yellow", height=50, width=150,
+            hover_color="goldenrod",
+            corner_radius=100,
+            command=self.controlador_maestro.consultar_producto
+        )
+        self.boton_productos.grid(row=2, column=0, sticky="nsew", padx=20, pady=10, columnspan=4)
+
+        self.boton_usuarios = ctk.CTkButton(
+            self.frame_inferior, text="Usuarios", text_color="black",
+            font=("Arial", 25, "bold"),
+            fg_color="purple", height=50, width=150,
+            hover_color="#4B0082",
+            corner_radius=100,
+            command=self.controlador_maestro.consultar_usuarios
+        )
+        self.boton_usuarios.grid(row=3, column=0, sticky="nsew", padx=20, pady=10, columnspan=4)
+
+        self.boton_sabores = ctk.CTkButton(
+            self.frame_inferior, text="Sabores", text_color="black",
+            font=("Arial", 25, "bold"),
+            fg_color="orange", height=50, width=150,
+            hover_color="#FF8C00",
+            corner_radius=100,
+            command=self.controlador_maestro.consultar_sabores
+        )
+        self.boton_sabores.grid(row=4, column=0, sticky="nsew", padx=20, pady=10, columnspan=4)
+
+        self.boton_ventas = ctk.CTkButton(
+            self.frame_inferior, text="Ventas", text_color="black",
+            font=("Arial", 25, "bold"),
+            fg_color="pink", height=50, width=150,
+            hover_color="#C71585",
+            corner_radius=100,
+            command=self.controlador_maestro.consultar_ventas
+        )
+        self.boton_ventas.grid(row=5, column=0, sticky="nsew", padx=20, pady=10, columnspan=4)
+
+        self.boton_menu_principal = ctk.CTkButton(
+            self.frame_inferior, text="Menu Principal", text_color="black",
+            font=("Arial", 25, "bold"),
+            fg_color="red", height=50, width=150,
+            hover_color="#8B0000",
+            corner_radius=100,
+            command=self.controlador_maestro.mostrar_menu_principal
+        )
+        self.boton_menu_principal.grid(row=6, column=0, sticky="nsew", padx=20, pady=10, columnspan=4)
