@@ -34,7 +34,7 @@ class ConsultaVentas:
 
         self.tree.heading("NombreProducto", text="Producto")
         self.tree.heading("NombreSabor", text="Sabor")
-        self.tree.heading("CantidadVendida", text="Cantidad Vendida")
+        self.tree.heading("CantidadVendida", text="Cantidad")
         self.tree.heading("Fecha", text="Fecha")
         self.tree.heading("Usuario", text="Usuario")
 

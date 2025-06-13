@@ -23,7 +23,7 @@ class MenuPrincipal:
         self.frame.grid_columnconfigure((0, 1, 2), weight=1)
         self.frame.grid_rowconfigure((0, 1, 2, 3, 4, 5), weight=1)
 
-        self.titulo = ctk.CTkLabel(self.frame, text="Menú Principal", font=("Helvetica", 35, "bold"), text_color="white",bg_color="#0b104b")
+        self.titulo = ctk.CTkLabel(self.frame, text="Menú Principal", font=("Helvetica", 30, "bold"), text_color="white",bg_color="#0b104b")
         self.titulo.grid(row=0, column=1, padx=15, pady=10, sticky="ew")
 
 
@@ -65,7 +65,7 @@ class MenuPrincipal:
 
         self.btn_clientes = ctk.CTkButton(self.frame, text="👥 Clientes", font=("Arial", 18, "bold"),
                                           height=60, width=250, corner_radius=50, text_color="#ffffff",
-                                          fg_color="#2c40bf", hover_color="#001bff",command=self.controlador_maestro.menu_clientes)
+                                          fg_color="#2c40bf", hover_color="#001bff",command=self.controlador_maestro.menu_cliente)
 
         self.btn_clientes.grid(row=3, column=0, padx=20, pady=15)
 
@@ -91,7 +91,7 @@ class MenuPrincipal:
         self.frame_inferior.grid_columnconfigure(2, weight=1)
 
         self.etiqueta_bienvenido = ctk.CTkLabel(self.frame_inferior, text="Bienvenido {}",
-                                                font=("Helvetica", 35,"bold"), text_color="white")
+                                                font=("Helvetica", 30,"bold"), text_color="white")
         self.etiqueta_bienvenido.grid(row=0, column=2, padx=10, pady=10, sticky="w")
 
         self.etiqueta_bienvenido.grid(row=0, column=0, columnspan=3, pady=10, sticky="n")

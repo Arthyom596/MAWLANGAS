@@ -33,6 +33,7 @@ class ControladorMaestro:
         self.app = ctk.CTk()
         self.app.geometry("900x600")
         self.app.title("Mawlangas ")
+        self.app.resizable(False, False)
 
         self.vista_actual = None
         self.mostrar_login()
@@ -175,7 +176,7 @@ class ControladorMaestro:
         self.modifica_sabor = ModificarSaborVista(self.app, self)
         self.vista_actual = self.modifica_sabor
 
-    def menu_clientes(self):
+    def menu_cliente(self):
         if self.vista_actual:
             self.vista_actual.frame.destroy()
         self.menu_clientes = MenuCliente(self.app, self)

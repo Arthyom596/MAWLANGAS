@@ -1,73 +1,69 @@
 import customtkinter as ctk
 from customtkinter import CTkFrame
-from src.Controlador.VentaControlador import ControladorVenta  # Ajusta la ruta si es diferente
+from src.Controlador.VentaControlador import ControladorVenta
 
 class VentaVista:
     def __init__(self, parent, controlador_maestro):
         self.controlador_maestro = controlador_maestro
-        self.frame = CTkFrame(parent)
+        self.frame = CTkFrame(parent, fg_color="white")
         self.frame.pack(fill="both", expand=True)
-        self.frame.configure(fg_color="white")
 
-        for i in range(3):
-            self.frame.grid_columnconfigure(i, weight=1)
-        for i in range(10):
+        parent.geometry("900x600")
+        parent.minsize(900, 600)
+
+        # Configurar grilla con una columna centrada
+        self.frame.grid_columnconfigure(0, weight=1)
+        for i in range(9):
             self.frame.grid_rowconfigure(i, weight=1)
 
-        self.frame_superior = ctk.CTkFrame(self.frame, height=50, fg_color="#027a7a", bg_color="#027a7a")
-        self.frame_superior.grid(row=0, column=0, sticky="new", columnspan=4)
-
-        self.frame_derecho = ctk.CTkFrame(self.frame, width=80, fg_color="#027a7a", bg_color="#027a7a")
-        self.frame_derecho.grid(row=0,column=11, sticky="ns",rowspan=12)
-
-        self.frame_izquierda = ctk.CTkFrame(self.frame, width=80, fg_color="#027a7a", bg_color="#027a7a")
-        self.frame_izquierda.grid(row=0, column=0, sticky="nws", rowspan=12)
-
-        self.etiqueta_titulo = ctk.CTkLabel(self.frame_superior, text="Venta", font=("Arial", 36, "bold"), text_color="white")
-        self.etiqueta_titulo.grid(row=0, column=2,padx=350,pady=20)
-
-        self.etiqueta_seleccion = ctk.CTkLabel(self.frame, text="Seleccione su producto", font=("Arial", 16, "bold"))
-        self.etiqueta_seleccion.grid(row=1, column=1, sticky="n")
-
-        self.combo_productos = ctk.CTkComboBox(self.frame, values=[], width=200,
-                                               command=self.controlador_actualizar_sabores)
-        self.combo_productos.grid(row=2, column=1, pady=(0, 20), sticky="n")
-        self.combo_productos.set("Producto")
-
-        self.etiqueta_cantidad = ctk.CTkLabel(self.frame, text="Cantidad", font=("Arial", 16, "bold"))
-        self.etiqueta_cantidad.grid(row=3, column=1, pady=(10, 5), sticky="n")
-
-        self.entrada_cantidad = ctk.CTkEntry(self.frame, placeholder_text="Ingrese la cantidad", width=200)
-        self.entrada_cantidad.grid(row=4, column=1, pady=(0, 20), sticky="n")
-
-        self.switch_sabor = ctk.CTkSwitch(self.frame, text="¿Requiere sabor?", command=self.toggle_sabor,progress_color="#009610")
-        self.switch_sabor.grid(row=5, column=1, pady=(0, 10), sticky="n")
-
-        self.etiqueta_sabor = ctk.CTkLabel(self.frame, text="Seleccione el sabor", font=("Arial", 16, "bold"))
-        self.etiqueta_sabor.grid(row=6, column=1, pady=(10, 5), sticky="n")
-
-        self.combo_sabor = ctk.CTkComboBox(self.frame, values=[], width=200)
-        self.combo_sabor.grid(row=7, column=1, pady=(0, 20), sticky="n")
-
-        self.etiqueta_dinamica = ctk.CTkLabel(self.frame, text="", font=("Arial", 16, "bold"))
-        self.etiqueta_dinamica.grid(row=8, column=1)
-
-        self.boton_venta = ctk.CTkButton(self.frame, text="Vender", font=("Arial", 18, "bold"),
-                                         fg_color="green", text_color="white", width=150)
-        self.boton_venta.grid(row=9, column=1, pady=10, sticky="n")
-
-        self.boton_cancelar = ctk.CTkButton(self.frame, text="Cancelar", font=("Arial", 16, "bold"),
-                                            fg_color="#D32F2F", hover_color="#B71C1C", width=150,
-                                            command=self.controlador_maestro.mostrar_menu_principal)
-        self.boton_cancelar.grid(row=10, column=1, pady=10, sticky="n")
-
-        self.frame_inferior = ctk.CTkFrame(self.frame, height=80, fg_color="#027a7a", bg_color="#027a7a")
-        self.frame_inferior.grid(row=11, column=0, sticky="sew", columnspan=4)
-
+        self._crear_contenido()
         self.controlador = ControladorVenta(self)
 
+    def _crear_contenido(self):
+        col = 0
+
+        ctk.CTkLabel(self.frame, text="Venta", font=("Arial", 36, "bold"), text_color="#027a7a")\
+            .grid(row=0, column=col)
+
+        ctk.CTkLabel(self.frame, text="Seleccione su producto", font=("Arial", 16, "bold"))\
+            .grid(row=1, column=col)
+
+        self.combo_productos = ctk.CTkComboBox(self.frame, values=[], width=220,
+                                               command=self.controlador_actualizar_sabores)
+        self.combo_productos.grid(row=2, column=col)
+        self.combo_productos.set("Producto")
+
+        ctk.CTkLabel(self.frame, text="Cantidad", font=("Arial", 16, "bold"))\
+            .grid(row=3, column=col)
+
+        self.entrada_cantidad = ctk.CTkEntry(self.frame, placeholder_text="Ingrese la cantidad", width=220)
+        self.entrada_cantidad.grid(row=4, column=col)
+
+        self.switch_sabor = ctk.CTkSwitch(self.frame, text="¿Requiere sabor?",
+                                          command=self.toggle_sabor, progress_color="#009610")
+        self.switch_sabor.grid(row=5, column=col)
+
+        self.etiqueta_sabor = ctk.CTkLabel(self.frame, text="Seleccione el sabor", font=("Arial", 16, "bold"))
+        self.etiqueta_sabor.grid(row=6, column=col)
+
+        self.combo_sabor = ctk.CTkComboBox(self.frame, values=[], width=220)
+        self.combo_sabor.grid(row=7, column=col)
+
+        self.etiqueta_dinamica = ctk.CTkLabel(self.frame, text="", font=("Arial", 16, "bold"))
+        self.etiqueta_dinamica.grid(row=8, column=col)
+
+        botones_frame = ctk.CTkFrame(self.frame, fg_color="transparent")
+        botones_frame.grid(row=9, column=col, pady=10)
+        self.boton_venta = ctk.CTkButton(botones_frame, text="Vender", font=("Arial", 18, "bold"),
+                                         fg_color="green", text_color="white", width=150)
+        self.boton_venta.pack(side="left", padx=10)
+
+        self.boton_cancelar = ctk.CTkButton(botones_frame, text="Cancelar", font=("Arial", 16, "bold"),
+                                            fg_color="#D32F2F", hover_color="#B71C1C", width=150,
+                                            command=self.controlador_maestro.mostrar_menu_principal)
+        self.boton_cancelar.pack(side="right", padx=10)
+
     def controlador_actualizar_sabores(self, producto_seleccionado):
-        # Este método sólo llama al método del controlador para mantener separación de capas
         self.controlador.actualizar_sabores(producto_seleccionado)
 
     def obtener_frame(self):
@@ -86,8 +82,6 @@ class VentaVista:
 
     def cargar_sabores(self, sabores):
         self.combo_sabor.configure(values=sabores)
-        print("Sabores cargados:", sabores)
-
         if sabores:
             self.switch_sabor.configure(state="normal")
             self.switch_sabor.select()
@@ -96,20 +90,3 @@ class VentaVista:
             self.switch_sabor.deselect()
             self.switch_sabor.configure(state="disabled")
             self.toggle_sabor()
-
-
-class ControladorMaestroFalso:
-    def mostrar_menu_principal(self):
-        print("Regresando al menú principal")
-
-
-if __name__ == "__main__":
-    ctk.set_appearance_mode("light")  # corregido: era "ligth"
-    root = ctk.CTk()
-    root.geometry("850x650")
-    root.title("Productos")
-
-    falso_maestro = ControladorMaestroFalso()
-    VentaVista(root, controlador_maestro=falso_maestro)
-
-    root.mainloop()
